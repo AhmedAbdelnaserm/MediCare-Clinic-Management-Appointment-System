@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/Application/" />
+  <Folder Name="/Application/Backend/">
+    <Project Path="Application/Backend/MediCare.Application.BackEnd.Dto/MediCare.Application.BackEnd.Dto.csproj" />
+    <Project Path="Application/Backend/MediCare.Application.BackEnd/MediCare.Application.BackEnd.csproj" />
+    <Project Path="Application/Backend/MediCare.Application.IBackEnd/MediCare.IApplication.BackEnd.csproj" />
+  </Folder>
+  <Folder Name="/Application/Frotend/" />
+  <Folder Name="/Application/Identity/">
+    <Project Path="Application/Identity/MediCare.Application.Identity.Dto/MediCare.Application.Identity.Dto.csproj" />
+    <Project Path="Application/Identity/MediCare.Application.Identity/MediCare.Application.Identity.csproj" />
+    <Project Path="Application/Identity/MediCare.IApplication.Identity/MediCare.IApplication.Identity.csproj" />
+  </Folder>
+  <Folder Name="/Common/">
+    <Project Path="Common/MediCare.Common/MediCare.Common.csproj" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="Core/MediCare.Core.Entity/MediCare.Core.Entity.csproj" />
+    <Project Path="Core/MediCare.Core.IRepository/MediCare.Core.IRepository.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/MediCare.Infrastructure.EFCoreMigrationExecution/MediCare.Infrastructure.EFCoreMigrationExecution.csproj" />
+    <Project Path="Infrastructure/MediCare.Infrastructure.Repository/MediCare.Infrastructure.Repository.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/" />
+  <Folder Name="/Presentation/Shared/">
+    <Project Path="Presentation/Shared/MediCare.Presentation.Shared/MediCare.Presentation.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/Web/" />
+  <Folder Name="/Presentation/Web/Backend/">
+    <Project Path="Presentation/Web/Backend/MediCare.Presentation.Web.BackEnd.Api/MediCare.Presentation.Web.BackEnd.Api.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/Web/Frontend/" />
+  <Folder Name="/Presentation/Web/Identity/">
+    <Project Path="Presentation/Web/Identity/MediCare.Presentation.Web.Identity.Api/MediCare.Presentation.Web.Identity.Api.csproj" />
+  </Folder>
+</Solution>
