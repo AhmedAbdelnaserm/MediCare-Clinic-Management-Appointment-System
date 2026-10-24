@@ -1,0 +1,30 @@
+[
+  {
+    "Key": "EmailOrUserNameAlreadyExist",
+    "LocalizedValue": {
+      "en": "Email Or User Name Already Exist",
+      "ar": "الايميل او الاسم موجود مسبقا"
+    }
+  },
+  {
+    "Key": "EmailOrPasswordIsIncorrect",
+    "LocalizedValue": {
+      "en": "Email Or Password Is Incorrect",
+      "ar": "الاسم او كلمة المرور غير صحيحه "
+    }
+  },
+  {
+    "Key": "RegisterSuccessfully",
+    "LocalizedValue": {
+      "en": "Register Successfully",
+      "ar": "تم التسجيل بنجاح"
+    }
+  },
+  {
+    "Key": "LoginSuccessfully",
+    "LocalizedValue": {
+      "en": "Login Successfully",
+      "ar": "تم الدخول بنجاح"
+    }
+  }
+]

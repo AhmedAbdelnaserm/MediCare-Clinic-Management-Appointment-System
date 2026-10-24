@@ -1,0 +1,38 @@
+﻿[
+   {
+    "Key": "GeneralError",
+    "LocalizedValue": {
+      "en": "An error has occurred please try again",
+      "ar": "حدث خطأ ، يرجى المحاولة مرة أخرى"
+    }
+  },
+  {
+    "Key": "GeneralSuccess",
+    "LocalizedValue": {
+      "en": "Success",
+      "ar": "تم بنجاح"
+    }
+  },
+  {
+    "Key": "InvalidRequest",
+    "LocalizedValue": {
+      "en": "Invalid Request",
+      "ar": "Invalid Request"
+    }
+  },
+  {
+    "Key": "NoDataFound",
+    "LocalizedValue": {
+      "en": "No data found",
+      "ar": "لا يوجد بيانات"
+    }
+  },
+  {
+    "Key": "DataRequired",
+    "LocalizedValue": {
+      "en": "Data is required",
+      "ar": "البيانات مطلوب"
+    }
+  }
+ 
+]
