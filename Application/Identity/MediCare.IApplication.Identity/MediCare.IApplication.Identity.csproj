@@ -8,7 +8,11 @@
 
   <ItemGroup>
     <Folder Include="IAppService\" />
-    <Folder Include="Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\MediCare.Common\MediCare.Common.csproj" />
+    <ProjectReference Include="..\MediCare.Application.Identity.Dto\MediCare.Application.Identity.Dto.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Localization\" />
-    <Folder Include="Configuration\" />
+    <ProjectReference Include="..\..\..\Core\MediCare.Core.IRepository\MediCare.Core.IRepository.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\MediCare.Infrastructure.Repository\MediCare.Infrastructure.Repository.csproj" />
   </ItemGroup>
 
 </Project>

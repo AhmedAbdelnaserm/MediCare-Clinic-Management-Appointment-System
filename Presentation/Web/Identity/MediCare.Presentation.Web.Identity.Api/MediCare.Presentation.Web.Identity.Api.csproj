@@ -7,12 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Configuration\" />
+    <ProjectReference Include="..\..\..\..\Application\Identity\MediCare.Application.Identity\MediCare.Application.Identity.csproj" />
+    <ProjectReference Include="..\..\..\..\Application\Identity\MediCare.IApplication.Identity\MediCare.IApplication.Identity.csproj" />
+    <ProjectReference Include="..\..\..\Shared\MediCare.Presentation.Shared\MediCare.Presentation.Shared.csproj" />
   </ItemGroup>
 
 </Project>
