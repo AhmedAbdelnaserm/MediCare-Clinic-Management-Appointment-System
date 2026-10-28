@@ -11,7 +11,7 @@
         string InvalidData { get; }
         #endregion
 
-        #region Tarabezty Identity
+        #region MediCare Identity
         string EmailOrUserNameAlreadyExist { get; }
         string EmailOrPasswordIsIncorrect { get; }
         string RegisterSuccessfully { get; }
