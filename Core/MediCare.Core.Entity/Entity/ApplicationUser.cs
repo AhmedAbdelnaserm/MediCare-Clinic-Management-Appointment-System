@@ -6,6 +6,5 @@ namespace MediCare.Core.Entity.Entity
     {
         public string Address { get; set; }
         public string? ContactNumber { get; set; }
-        public string? DiningPreference { get; set; }
     }
 }

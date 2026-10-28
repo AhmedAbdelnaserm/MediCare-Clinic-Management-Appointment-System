@@ -20,7 +20,7 @@
         public string InvalidData => Reader.GetKeyValue("InvalidData", "Invalid Data");
         #endregion
 
-        #region Tarabezty Identity
+        #region MediCare Identity
         public string EmailOrUserNameAlreadyExist => Reader.GetKeyValue("EmailOrUserNameAlreadyExist", "Email Or User Name Already Exist");
         public string EmailOrPasswordIsIncorrect => Reader.GetKeyValue("EmailOrPasswordIsIncorrect", "Email Or Password Is Incorrect");
         public string RegisterSuccessfully => Reader.GetKeyValue("RegisterSuccessfully", "Register Successfully");
