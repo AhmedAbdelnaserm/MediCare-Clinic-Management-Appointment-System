@@ -8,18 +8,14 @@ namespace MediCare.Core.Entity.Entity
 {
     public class MedicalRecord
     {
-        [Key]
-        public int Id { get; set; }
+        public int MedicalRecordId { get; set; }
 
-        [ForeignKey("Appointment")]
         public int AppointmentId { get; set; }
         public virtual Appointment Appointment { get; set; }
 
-        [ForeignKey("Patient")]
         public int PatientId { get; set; }
         public virtual Patient Patient { get; set; }
 
-        [ForeignKey("Doctor")]
         public int DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
 

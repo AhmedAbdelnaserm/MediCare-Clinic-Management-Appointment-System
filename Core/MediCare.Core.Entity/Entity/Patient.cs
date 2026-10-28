@@ -9,10 +9,8 @@ namespace MediCare.Core.Entity.Entity
 {
     public class Patient
     {
-        [Key]
-        public int Id { get; set; }
+        public int PatientId { get; set; }
 
-        [ForeignKey("User")]
         public string? UserId { get; set; } 
         public virtual ApplicationUser User { get; set; }
         [Required]

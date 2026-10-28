@@ -8,10 +8,8 @@ namespace MediCare.Core.Entity.Entity
 {
     public class ScheduleException
     {
-        [Key]
-        public int Id { get; set; }
+        public int ScheduleExceptionId { get; set; }
 
-        [ForeignKey("ClinicDoctor")]
         public int ClinicDoctorId { get; set; }
         public virtual ClinicDoctor ClinicDoctor { get; set; }
         public DateTime Date { get; set; }

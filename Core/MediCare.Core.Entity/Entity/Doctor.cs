@@ -1,18 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using MediCare.Common.Enum;
 namespace MediCare.Core.Entity.Entity
 {
     public class Doctor
     {
-        [Key]
-        public int Id { get; set; }
+        public int DoctorId { get; set; }
 
-        [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
-        [ForeignKey("Specialization")]
         public int SpecializationId { get; set; }
         public virtual Specialization Specialization { get; set; }
         [Required]
@@ -29,13 +26,8 @@ namespace MediCare.Core.Entity.Entity
 
         public int ConsultationDurationMinutes { get; set; }
 
-        public ApprovalStatus ApprovalStatus { get; set; }
+        public ApprovalStatusEnum ApprovalStatus { get; set; }
     }
 
-    public enum ApprovalStatus
-    {
-        Pending,
-        Approved,
-        Rejected
-    }
+
 }
