@@ -4,8 +4,9 @@ namespace MediCare.Core.Entity.Entity
 {
     public class ApplicationUser : IdentityUser
     {
-        public string Address { get; set; }
-        public string? ContactNumber { get; set; }
-        public string? DiningPreference { get; set; }
+        public string? FullName { get; set; }
+
+        public Patient? Patient { get; set; }
+        public Doctor? Doctor { get; set; }
     }
 }
