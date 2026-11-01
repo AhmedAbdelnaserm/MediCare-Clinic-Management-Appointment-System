@@ -14,7 +14,9 @@ namespace MediCare.Core.Entity.Base
         [Required]
         public DateTime CreationTime { get; set; }
         public DateTime LastModificationTime { get; set; }
-        public int CreatorUserId { get; set; }
-        public int LastModifierUserId { get; set; }
+
+        // IdentityUser default ID is string.
+        public string? CreatorUserId { get; set; }
+        public string? LastModifierUserId { get; set; }
     }
 }
