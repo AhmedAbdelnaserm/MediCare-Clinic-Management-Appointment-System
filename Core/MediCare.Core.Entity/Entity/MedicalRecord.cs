@@ -19,8 +19,6 @@ public class MedicalRecord : BaseEntity
     public string Diagnosis { get; set; } = string.Empty;
     public string? TreatmentNotes { get; set; }
 
-    public DateTime? UpdatedAtUtc { get; set; }
-
     public ICollection<Prescription> Prescriptions { get; set; }
         = new List<Prescription>();
 }

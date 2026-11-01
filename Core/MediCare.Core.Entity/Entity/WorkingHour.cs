@@ -10,6 +10,6 @@ public class WorkingHour : BaseEntity
     public ClinicDoctor ClinicDoctor { get; set; } = null!;
 
     public DayOfWeek DayOfWeek { get; set; }
-    public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set; }
+    public TimeOnly StartTime { get; set; } 
+    public TimeOnly EndTime { get; set; } 
 }

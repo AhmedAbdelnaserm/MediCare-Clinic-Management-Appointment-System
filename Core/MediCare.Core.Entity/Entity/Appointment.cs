@@ -12,7 +12,7 @@ public class Appointment : BaseEntity
     public int SlotId { get; set; }
     public Slot Slot { get; set; } = null!;
 
-    public string? BookedByUserId { get; set; }
+    public string? BookedByUserId { get; set; } //=> BY admin or patient
     public ApplicationUser? BookedByUser { get; set; }
 
     // Snapshot of the booked appointment time.

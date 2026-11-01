@@ -14,8 +14,6 @@ public class Doctor : BaseEntity
 
     public decimal ConsultationFee { get; set; }
 
-    //public DoctorApprovalStatus ApprovalStatus { get; set; }
-    //    = DoctorApprovalStatus.Pending;
 
     public ICollection<ClinicDoctor> ClinicDoctors { get; set; }
         = new List<ClinicDoctor>();

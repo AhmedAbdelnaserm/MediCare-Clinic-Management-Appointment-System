@@ -9,10 +9,8 @@ public class Patient : BaseEntity
     public string? UserId { get; set; }
     public ApplicationUser? User { get; set; }
 
-    public string FullName { get; set; } = string.Empty;
-    public string PhoneNumber { get; set; } = string.Empty;
     public DateOnly? DateOfBirth { get; set; }
-    public string? Gender { get; set; }
+    public string? GenderId { get; set; }
     public string? MedicalHistory { get; set; }
     public string? Allergies { get; set; }
 

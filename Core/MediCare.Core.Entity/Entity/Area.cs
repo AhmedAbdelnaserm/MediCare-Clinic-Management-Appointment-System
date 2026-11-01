@@ -6,5 +6,8 @@ namespace MediCare.Core.Entity.Entity
     {
         public int AreaId { get; set; }
         public int CityId { get; set; }
+        public ICollection<Clinic> Clinics { get; set; }
+            = new List<Clinic>();
+
     }
 }
