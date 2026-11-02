@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppService\" />
-    <Folder Include="Base\" />
-    <Folder Include="Localization\" />
-    <Folder Include="Mapping\" />
     <Folder Include="Setting\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\MediCare.Core.Entity\MediCare.Core.Entity.csproj" />
+    <ProjectReference Include="..\..\..\Core\MediCare.Core.IRepository\MediCare.Core.IRepository.csproj" />
+    <ProjectReference Include="..\MediCare.Application.IBackEnd\MediCare.IApplication.BackEnd.csproj" />
   </ItemGroup>
 
 </Project>

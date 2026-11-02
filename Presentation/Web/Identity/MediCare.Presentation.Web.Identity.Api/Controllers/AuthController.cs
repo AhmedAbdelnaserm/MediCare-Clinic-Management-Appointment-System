@@ -15,20 +15,15 @@ namespace MediCare.Presentation.Web.Identity.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto request)
+        public async Task<IActionResult> Register(RegisterDto request)
         {
-            if (!ModelState.IsValid)
-                return Ok(ModelState);
-            var response = await AuthService.UserRegister(request);
-            return Ok(response);
+            return Ok(await AuthService.UserRegister(request));
         }
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto request)
+        public async Task<IActionResult> Login(LoginDto request)
         {
-            if (!ModelState.IsValid)
-                return Ok(ModelState);
-            var response = await AuthService.UserLogin(request);
-            return Ok(response);
+            return Ok(await AuthService.UserLogin(request));
         }
     }
 }

@@ -1,0 +1,520 @@
+﻿[
+  {
+    "Key": "GeneralError",
+    "LocalizedValue": {
+      "en": "An error has occurred please try again",
+      "ar": "حدث خطأ ، يرجى المحاولة مرة أخرى"
+    }
+  },
+  {
+    "Key": "GeneralSuccess",
+    "LocalizedValue": {
+      "en": "Success",
+      "ar": "تم بنجاح"
+    }
+  },
+  {
+    "Key": "InvalidRequest",
+    "LocalizedValue": {
+      "en": "Invalid Request",
+      "ar": "Invalid Request"
+    }
+  },
+  {
+    "Key": "NoDataFound",
+    "LocalizedValue": {
+      "en": "No data found",
+      "ar": "لا يوجد بيانات"
+    }
+  },
+  {
+    "Key": "FileDoesntHaseExtension",
+    "LocalizedValue": {
+      "en": "File dosnt hase extension",
+      "ar": "الملف ليس له امتداد"
+    }
+  },
+  {
+    "Key": "InvalidFileType",
+    "LocalizedValue": {
+      "en": "Invalid file type",
+      "ar": "نوع الملف غير صالح"
+    }
+  },
+  {
+    "Key": "FileUploadedSuccessfully",
+    "LocalizedValue": {
+      "en": "File uploaded successfully",
+      "ar": "تم رفع الملف بنجاح"
+    }
+  },
+  {
+    "Key": "FileRequired",
+    "LocalizedValue": {
+      "en": "File is required",
+      "ar": "الملف مطلوب"
+    }
+  },
+  {
+    "Key": "FileNameRequired",
+    "LocalizedValue": {
+      "en": "File Name is required",
+      "ar": "اسم الملف مطلوب"
+    }
+  },
+  {
+    "Key": "FileSecretKeyRequired",
+    "LocalizedValue": {
+      "en": "File Secret Key is required",
+      "ar": "شفرة الملف السرية مطلوبه"
+    }
+  },
+  {
+    "Key": "UserAgentExist",
+    "LocalizedValue": {
+      "en": "User Agent is exist",
+      "ar": "مسئول الفرع موجود"
+    }
+  },
+  {
+    "Key": "UserNotFound",
+    "LocalizedValue": {
+      "en": "User was not found",
+      "ar": "المستخدم غير موجود"
+    }
+  },
+  {
+    "Key": "UserPatientUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "User Patient Updated Successfully",
+      "ar": "تم تحديث بيانات المريض"
+    }
+  },
+  {
+    "Key": "FirstNameRequired",
+    "LocalizedValue": {
+      "en": "First name is required",
+      "ar": "الاسم الاول مطلوب"
+    }
+  },
+  {
+    "Key": "LastNameRequired",
+    "LocalizedValue": {
+      "en": "Last name is required",
+      "ar": "الاسم الاخير مطلوب"
+    }
+  },
+  {
+    "Key": "PhoneNumberRequired",
+    "LocalizedValue": {
+      "en": "Phone number is required",
+      "ar": "رقم الهاتف مطلوب"
+    }
+  },
+  {
+    "Key": "GenderRequired",
+    "LocalizedValue": {
+      "en": "Gender is required",
+      "ar": "الجنس مطلوب"
+    }
+  },
+  {
+    "Key": "DateOfBirthRequired",
+    "LocalizedValue": {
+      "en": "Date of birth is required",
+      "ar": "تاريخ الميلاد مطلوب"
+    }
+  },
+  {
+    "Key": "PatientUploadedReportSuccessfully",
+    "LocalizedValue": {
+      "en": "Patient Uploaded Report Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportDeletedSuccessfully",
+    "LocalizedValue": {
+      "en": "Report Deleted Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ContentValueIsAlreadyExist",
+    "LocalizedValue": {
+      "en": "Content is already exist",
+      "ar": "المحتوي موجود بالفعل"
+    }
+  },
+  {
+    "Key": "ContentUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Content Updated Successfully",
+      "ar": "تم تعديل المحتوي بنجاح"
+    }
+  },
+  {
+    "Key": "BranchUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Branch Updated Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchCreatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Branch Created Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchDeletedSuccessfully",
+    "LocalizedValue": {
+      "en": "Branch Deleted Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchNameExists",
+    "LocalizedValue": {
+      "en": "Branch Name Exists",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchDoesNotExist",
+    "LocalizedValue": {
+      "en": "Branch Does Not Exist",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchNameRequired",
+    "LocalizedValue": {
+      "en": "Branch Name Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "LocationRequired",
+    "LocalizedValue": {
+      "en": "Branch Location Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchRequired",
+    "LocalizedValue": {
+      "en": "Branch Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BranchLocationExists",
+    "LocalizedValue": {
+      "en": "Branch Location Exists",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ChannelDoesNotExist",
+    "LocalizedValue": {
+      "en": "Channel Does Not Exist",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotDeletedSuccessfully",
+    "LocalizedValue": {
+      "en": "Slot Deleted Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Slot Updated Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ChannelNameExists",
+    "LocalizedValue": {
+      "en": "Channel Name Exists",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotTimeTooClose",
+    "LocalizedValue": {
+      "en": "Slot times must be at least 2 hours apart",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotRequired",
+    "LocalizedValue": {
+      "en": "Slot Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotIsNotAvailable",
+    "LocalizedValue": {
+      "en": "Slot Is Not Available",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotIsNotRelatedToBranch",
+    "LocalizedValue": {
+      "en": "Slot is not related to this branch",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotAlreadyExist",
+    "LocalizedValue": {
+      "en": "Slot Already Exists ",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "PackageRequired",
+    "LocalizedValue": {
+      "en": "Package Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "PackageNotAvailable",
+    "LocalizedValue": {
+      "en": "Package is not available",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BookingCreatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Booking Created Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BookingDeletedSuccessfully",
+    "LocalizedValue": {
+      "en": "Booking Deleted Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SlotTimeRequired",
+    "LocalizedValue": {
+      "en": "Slot Time is Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidSectionIdentifier",
+    "LocalizedValue": {
+      "en": "Invalid Section Identifier",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidSubsectionIdentifier",
+    "LocalizedValue": {
+      "en": "Invalid Subsection Identifier",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportCreatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Report Created Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BookingRequired",
+    "LocalizedValue": {
+      "en": "Booking Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "BookingDoesNotExist",
+    "LocalizedValue": {
+      "en": "Booking does not exist",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SectionsRequired",
+    "LocalizedValue": {
+      "en": "At least one section required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SectionNameRequired",
+    "LocalizedValue": {
+      "en": "Section Name Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidReportSectionType",
+    "LocalizedValue": {
+      "en": "Invalid Report Section Type",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ImagesNotAllowedInSection",
+    "LocalizedValue": {
+      "en": "Uploading Images Is Not Allowed In This Section",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "MaleBreastSubsectionNotAllowed",
+    "LocalizedValue": {
+      "en": "A Male Patient Cannot Have Breast Subsection",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "MaleUterusAndOvariesSubsectionNotAllowed",
+    "LocalizedValue": {
+      "en": "A Male Patient Cannot Have Uterus And Ovaries Subsection",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "FemaleProstateAndTesticlesSubsectionNotAllowed",
+    "LocalizedValue": {
+      "en": "A Female Patient Cannot Have Prostate And Testicles Subsection",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SubsectionIdentifierRequired",
+    "LocalizedValue": {
+      "en": "Subsection Identifier Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidReportSubsectionType",
+    "LocalizedValue": {
+      "en": "Invalid Report Subsection Type",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidSubsectionToSectionMapping",
+    "LocalizedValue": {
+      "en": "This Subsection Does Not Belong To Its Section",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SubsectionImageLimitExceeded",
+    "LocalizedValue": {
+      "en": "A Subsection Can Have Only 5 Images",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "SeverityIdentifierRequired",
+    "LocalizedValue": {
+      "en": "Severity Identifier Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidSeverityType",
+    "LocalizedValue": {
+      "en": "Invalid Severity Type",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "FindingDescriptionRequired",
+    "LocalizedValue": {
+      "en": "Finding Description Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportIsNotFinished",
+    "LocalizedValue": {
+      "en": "Report Is Not Finished",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "DoctorCommentsUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Doctor Comments Updated Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "PatientUserRequired",
+    "LocalizedValue": {
+      "en": "Patient User Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "DoctorCommentsRequired",
+    "LocalizedValue": {
+      "en": "Doctor Comments Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportAlreadyExistsForThisBooking",
+    "LocalizedValue": {
+      "en": "Report Already Exists For This Booking",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportCompletedSuccessfully",
+    "LocalizedValue": {
+        "en": "Report Completed Successfully and Sent to Patient",
+        "ar": ""
+    }
+  },
+  {
+    "Key": "ReportAlreadyCompleted",
+    "LocalizedValue": {
+      "en": "Report Already Completed",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportUpdatedSuccessfully",
+    "LocalizedValue": {
+      "en": "Report Updated Successfully",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "ReportDoesNotExist",
+    "LocalizedValue": {
+      "en": "Report Does Not Exist",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "InvalidReportSection",
+    "LocalizedValue": {
+      "en": "Invalid Report Section",
+      "ar": ""
+    }
+  }
+]
