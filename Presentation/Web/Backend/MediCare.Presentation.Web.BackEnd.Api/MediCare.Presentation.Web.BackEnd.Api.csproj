@@ -7,20 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
-    <Content Remove="Controllers\**" />
-    <EmbeddedResource Remove="Controllers\**" />
-    <None Remove="Controllers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
+    <ProjectReference Include="..\..\..\..\Application\Backend\MediCare.Application.BackEnd\MediCare.Application.BackEnd.csproj" />
+    <ProjectReference Include="..\..\..\Shared\MediCare.Presentation.Shared\MediCare.Presentation.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,359 @@
+﻿[
+  {
+    "Key": "GeneralError",
+    "LocalizedValue": {
+      "en": "An error has occurred please try again",
+      "ar": "حدث خطأ ، يرجى المحاولة مرة أخرى"
+    }
+  },
+  {
+    "Key": "GeneralSuccess",
+    "LocalizedValue": {
+      "en": "Success",
+      "ar": "تم بنجاح"
+    }
+  },
+  {
+    "Key": "NoDataFound",
+    "LocalizedValue": {
+      "en": "No data found",
+      "ar": "لا يوجد بيانات"
+    }
+  },
+  {
+    "Key": "InvalidRequest",
+    "LocalizedValue": {
+      "en": "Invalid Request",
+      "ar": "Invalid Request"
+    }
+  },
+  {
+    "Key": "EmailOrPasswordInvalid",
+    "LocalizedValue": {
+      "en": "Invalid email or password",
+      "ar": "البريد الالكترونى او كلمة المرور غير صالحة"
+    }
+  },
+  {
+    "Key": "PinCodeNotExpired",
+    "LocalizedValue": {
+      "en": "Pin code not expired",
+      "ar": "لم تنتهي صلاحية رمز التفعيل "
+    }
+  },
+  {
+    "Key": "PinCodeExpired",
+    "LocalizedValue": {
+      "en": "Pin code expired",
+      "ar": "انتهت صلاحية كود التفعيل"
+    }
+  },
+  {
+    "Key": "ExceedMaxPinVerificationCount",
+    "LocalizedValue": {
+      "en": "You reached the max pin code verification count, Try again later",
+      "ar": "أنت تخطيت عدد مرات الحصول علي الرقم التعريفى"
+    }
+  },
+  {
+    "Key": "ExceedMaxPinEmailVerificationCount",
+    "LocalizedValue": {
+      "en": "You reached the max pin code verification count, Try again later",
+      "ar": "أنت تخطيت عدد مرات الحصول علي الرقم التعريفى"
+    }
+  },
+  {
+    "Key": "InvalidPinCode",
+    "LocalizedValue": {
+      "en": "Pin code is not valid",
+      "ar": "الرقم التعريفي غير صحيح"
+    }
+  },
+  {
+    "Key": "NotSubscribedMobileNumber",
+    "LocalizedValue": {
+      "en": "You are not a subscriber in the service",
+      "ar": "الرقم الذي ادخلته غير مشترك في خدمة اهلاوي في الملعب"
+    }
+  },
+  {
+    "Key": "ExceedLoginRetryCount",
+    "LocalizedValue": {
+      "en": "You exceed your login retry count",
+      "ar": "لقد تخطيت عدد مرات المحاولة لتسجيل الدخول"
+    }
+  },
+  {
+    "Key": "FieldRequired",
+    "LocalizedValue": {
+      "en": "Field is required",
+      "ar": "هذا الحقل مطلوب"
+    }
+  },
+  {
+    "Key": "PasswordRequired",
+    "LocalizedValue": {
+      "en": "Password is required",
+      "ar": "كلمة المرور مطلوبة"
+    }
+  },
+  {
+    "Key": "ShortPassword",
+    "LocalizedValue": {
+      "en": "Short Password",
+      "ar": "كلمة المرور قصيرة"
+    }
+  },
+  {
+    "Key": "PasswordChangedSuccessfully",
+    "LocalizedValue": {
+      "en": "Password changed successfully",
+      "ar": "تم تغير كلمة المرور بنجاح"
+    }
+  },
+  {
+    "Key": "InvalidPassword",
+    "LocalizedValue": {
+      "en": "Invalid Password",
+      "ar": "كلمة المرور غير صالحة"
+    }
+  },
+  {
+    "Key": "InvalidPasswordPattern",
+    "LocalizedValue": {
+      "en": "Your password must be have at least one uppercase, one lowercase , one symbol, one number and be at least 8 characters long",
+      "ar": "يجب أن يتكون الرمز السري من 8 إلى 14 حرف ويجب أن يحتوي على حروف وأرقام وحرف كبير أو رمز 8 حروف على الأقل - يكون فيه رقم ورمز وحرف كبير"
+    }
+  },
+  {
+    "Key": "UserDataNotFound",
+    "LocalizedValue": {
+      "en": "User Data Not Found",
+      "ar": "البريد الالكتروني غير مرتبط بحساب"
+    }
+  },
+  {
+    "Key": "ForgetPasswordPinCodeSentSuccessfully",
+    "LocalizedValue": {
+      "en": "Pin code has been sent successfully, please check your email",
+      "ar": "تم إرسال رمز التحقق بنجاح، يرجى التحقق من بريدك الإلكتروني"
+    }
+  },
+  {
+    "Key": "EmailVerificationPinCodeSentSuccessfully",
+    "LocalizedValue": {
+      "en": "Pin code has been sent successfully, please check your email",
+      "ar": "تم إرسال رمز التحقق بنجاح، يرجى التحقق من بريدك الإلكتروني"
+    }
+  },
+  {
+    "Key": "NameRequired",
+    "LocalizedValue": {
+      "en": "Name Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "PhoneNumberRequired",
+    "LocalizedValue": {
+      "en": "Phone Number Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "PhoneNumberAlreadyExists",
+    "LocalizedValue": {
+      "en": "Phone Number Already Exists",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "AgeRequired",
+    "LocalizedValue": {
+      "en": "Age Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "GenderRequired",
+    "LocalizedValue": {
+      "en": "Gender Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "FileRequired",
+    "LocalizedValue": {
+      "en": "Image File Required",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "UploadFailed",
+    "LocalizedValue": {
+      "en": "Image Upload Failed",
+      "ar": ""
+    }
+  },
+  {
+    "Key": "UserEmployeeUpdatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Profile Updated Successfully"
+    }
+  },
+  {
+    "Key": "AgeUpdatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Age Updated Successfully"
+    }
+  },
+  {
+    "Key": "GenderUpdatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Gender Updated Successfully"
+    }
+  },
+  {
+    "Key": "PhoneNumberUpdatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Phone Number Updated Successfully"
+    }
+  },
+  {
+    "Key": "UserNotActive",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "User not active"
+    }
+  },
+  {
+    "Key": "EmailAlreadyExists",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Email Already Exists"
+    }
+  },
+  {
+    "Key": "FirstNameRequired",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "First Name Required"
+    }
+  },
+  {
+    "Key": "LastNameRequired",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Last Name Required"
+    }
+  },
+  {
+    "Key": "EmailRequired",
+    "LocalizedValue": {
+      "ar": "يرجي ادخال البريد الالكتروني",
+      "en": "Email Required"
+    }
+  },
+  {
+    "Key": "CompanyRequired",
+    "LocalizedValue": {
+      "ar": "يرجي اختيار المنشأه التعليميه",
+      "en": "Educational Institute Required"
+    }
+  },
+  {
+    "Key": "CityRequired",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Location Required"
+    }
+  },
+  {
+    "Key": "YearRequired",
+    "LocalizedValue": {
+      "ar": "يرجي ادخال السنه التعليميه",
+      "en": "Year Required"
+    }
+  },
+  {
+    "Key": "MajorRequired",
+    "LocalizedValue": {
+      "ar": "يرجي اختيار التخصص الجامعي",
+      "en": "Major Required"
+    }
+  },
+  {
+    "Key": "CompanyDoesNotExist",
+    "LocalizedValue": {
+      "ar": "هذه المنشأه التعليميه غير موجوده",
+      "en": "Educational Institute Does Not Exist"
+    }
+  },
+  {
+    "Key": "MajorDoesNotExist",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Major Does Not Exist"
+    }
+  },
+  {
+    "Key": "PinCodeSentSuccessfully",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "Pin Code Sent Successfully"
+    }
+  },
+  {
+    "Key": "UserNotVerified",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "User Is Not Verified"
+    }
+  },
+  {
+    "Key": "UserActivated",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "User Activated Successfully"
+    }
+  },
+  {
+    "Key": "UserNotFound",
+    "LocalizedValue": {
+      "ar": "",
+      "en": "User Not Found"
+    }
+  },
+  {
+    "Key": "DateOfBirthRequired",
+    "LocalizedValue": {
+      "ar": "تاريخ الميلاد مطلوب",
+      "en": "Date Of Birth Required"
+    }
+  },
+  {
+    "Key": "DateOfBirthMustBeAbove18",
+    "LocalizedValue": {
+      "ar": "تاريخ الميلاد يجب ان يكون اكبر من 18 عام",
+      "en": "Date Of Birth Must Be Above 18"
+    }
+  },
+  {
+    "Key": "CityDoesNotExist",
+    "LocalizedValue": {
+      "ar": "هذه المدينه غير موجوده",
+      "en": "City Does Not Exist"
+    }
+  },
+  {
+    "Key": "ExceedMaxPinForgetPasswordCount",
+    "LocalizedValue": {
+      "en": "You reached the max pin code forget password count, Try again later",
+      "ar": "أنت تخطيت عدد مرات الحصول علي الرقم التعريفى"
+    }
+  }
+]

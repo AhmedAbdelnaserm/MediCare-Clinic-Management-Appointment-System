@@ -1,4 +1,5 @@
-﻿using MediCare.Core.IRepository.IRepository.Authentication;
+﻿using MediCare.Core.IRepository.IRepository;
+using MediCare.Core.IRepository.IRepository.Authentication;
 
 namespace MediCare.Core.IRepository.IUnitOfWork
 {
@@ -11,8 +12,8 @@ namespace MediCare.Core.IRepository.IUnitOfWork
 
         #region IRepoository
         IAuthRepository AuthRepository { get; }
-        //ICityRepository CityRepository { get; }
-        //IAreaRepository AreaRepository { get; }
+        ICityRepository CityRepository { get; }
+        IAreaRepository AreaRepository { get; }
         #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediCare.Core.IRepository.IRepository.Authentication;
+﻿using MediCare.Core.IRepository.IRepository;
+using MediCare.Core.IRepository.IRepository.Authentication;
 using MediCare.Core.IRepository.IUnitOfWork;
 using MediCare.Infrastructure.Repository.Context;
 using MediCare.Infrastructure.Repository.Repository;
@@ -57,9 +58,9 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         #region Repository
         public IAuthRepository AuthRepository => new AuthRepository(AppDbContext);
 
-        //public ICityRepository CityRepository => new CityRepository(AppDbContext);
+        public ICityRepository CityRepository => new CityRepository(AppDbContext);
 
-        //public IAreaRepository AreaRepository => new AreaRepository(AppDbContext);
+        public IAreaRepository AreaRepository => new AreaRepository(AppDbContext);
         #endregion
     }
 }
