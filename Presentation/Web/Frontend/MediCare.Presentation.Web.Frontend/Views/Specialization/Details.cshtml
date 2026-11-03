@@ -1,0 +1,45 @@
+﻿@model MediCare.Application.BackEnd.Dto.Dto.Specialization.SpecializationDto
+
+@{
+    ViewData["Title"] = "Specialization Details";
+}
+
+<div class="container my-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-info text-white py-3">
+            <h5 class="mb-0">@Model.DisplayName (Specialization ID: #@Model.SpecializationId)</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6 border-end">
+                    <h6 class="text-muted border-bottom pb-2">English Profile</h6>
+                    <dl class="row mt-3">
+                        <dt class="col-sm-4 text-secondary">Name</dt>
+                        <dd class="col-sm-8 fw-semibold">@Model.EnName</dd>
+
+                        <dt class="col-sm-4 text-secondary">Description</dt>
+                        <dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.EnDescription) ? "No description provided." : Model.EnDescription)</dd>
+                    </dl>
+                </div>
+
+                <div class="col-md-6" dir="rtl">
+                    <h6 class="text-muted border-bottom pb-2 text-start">البيانات بالعربية</h6>
+                    <dl class="row mt-3">
+                        <dt class="col-sm-4 text-secondary">الاسم</dt>
+                        <dd class="col-sm-8 fw-semibold">@Model.ArName</dd>
+
+                        <dt class="col-sm-4 text-secondary">الوصف</dt>
+                        <dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.ArDescription) ? "لا يوجد وصف مدخل." : Model.ArDescription)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light p-3 d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.SpecializationId" class="btn btn-warning me-2">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.SpecializationId" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>

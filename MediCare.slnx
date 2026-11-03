@@ -30,7 +30,9 @@
   <Folder Name="/Presentation/Web/Backend/">
     <Project Path="Presentation/Web/Backend/MediCare.Presentation.Web.BackEnd.Api/MediCare.Presentation.Web.BackEnd.Api.csproj" />
   </Folder>
-  <Folder Name="/Presentation/Web/Frontend/" />
+  <Folder Name="/Presentation/Web/Frontend/">
+    <Project Path="Presentation/Web/Frontend/MediCare.Presentation.Web.Frontend/MediCare.Presentation.Web.Frontend.csproj" Id="4a41a64c-1c07-492a-8fac-bcb2d058df5a" />
+  </Folder>
   <Folder Name="/Presentation/Web/Identity/">
     <Project Path="Presentation/Web/Identity/MediCare.Presentation.Web.Identity.Api/MediCare.Presentation.Web.Identity.Api.csproj" />
   </Folder>

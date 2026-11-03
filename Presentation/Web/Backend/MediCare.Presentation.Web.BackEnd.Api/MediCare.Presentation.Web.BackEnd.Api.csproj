@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -9,11 +9,23 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Application\Backend\MediCare.Application.BackEnd.Dto\MediCare.Application.BackEnd.Dto.csproj" />
+    <ProjectReference Include="..\..\..\..\Application\Identity\MediCare.Application.Identity\MediCare.Application.Identity.csproj" />
+    <ProjectReference Include="..\..\..\..\Application\Identity\MediCare.Application.Identity.Dto\MediCare.Application.Identity.Dto.csproj" />
+    <ProjectReference Include="..\..\..\..\Application\Identity\MediCare.IApplication.Identity\MediCare.IApplication.Identity.csproj" />
     <ProjectReference Include="..\..\..\..\Application\Backend\MediCare.Application.BackEnd\MediCare.Application.BackEnd.csproj" />
+    <ProjectReference Include="..\..\..\..\Application\Backend\MediCare.Application.IBackEnd\MediCare.IApplication.BackEnd.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\MediCare.Core.Entity\MediCare.Core.Entity.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\MediCare.Core.IRepository\MediCare.Core.IRepository.csproj" />
+    <ProjectReference Include="..\..\..\..\Infrastructure\MediCare.Infrastructure.Repository\MediCare.Infrastructure.Repository.csproj" />
     <ProjectReference Include="..\..\..\Shared\MediCare.Presentation.Shared\MediCare.Presentation.Shared.csproj" />
   </ItemGroup>
 

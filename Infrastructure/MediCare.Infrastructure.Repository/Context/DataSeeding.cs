@@ -1,132 +1,309 @@
-﻿using MediCare.Core.Entity.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MediCare.Core.Entity;
+using MediCare.Core.Entity.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+
 
 namespace MediCare.Infrastructure.Repository.Context
 {
-    public class DataSeeding
+
+    public static class DataSeeding
     {
-        public static void Seed(ModelBuilder modelBuilder)
+        public static async Task SeedAsync(
+            DbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
-            //SeedCities(modelBuilder);
-            //SeedAreas(modelBuilder);
+            // 1. Roles
+            await SeedRolesAsync(roleManager);
+
+            // 2. Identity Users
+            var (doctorUser, patientUser) = await SeedUsersAsync(userManager);
+
+            // 3. Geographic Data (MultiLanguage: EnName / ArName)
+            var area = await SeedLocationsAsync(context);
+
+            // 4. Specializations (MultiLanguage)
+            var specialization = await SeedSpecializationsAsync(context);
+
+            // 5. Clinic & Doctor
+            var (clinic, doctor) = await SeedClinicAndDoctorAsync(context, area, specialization, doctorUser);
+
+            // 6. ClinicDoctor Bridge
+            var clinicDoctor = await SeedClinicDoctorAsync(context, clinic, doctor);
+
+            // 7. Working Hours (TimeOnly)
+            var workingHour = await SeedWorkingHoursAsync(context, clinicDoctor);
+
+            // 8. Patient Profile (DateOnly)
+            var patient = await SeedPatientAsync(context, patientUser);
+
+            // 9. Slot & Appointment
+            await SeedSlotAndAppointmentAsync(context, clinicDoctor, workingHour, patient);
         }
 
-        //#region Cities
-        //private static void SeedCities(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<City>().HasData(
-        //        new City { CityId = 1, ArName = "القاهرة", EnName = "Cairo", ArDescription = "القاهرة", EnDescription = "Cairo", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 2, ArName = "الجيزة", EnName = "Giza", ArDescription = "الجيزة", EnDescription = "Giza", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 3, ArName = "الإسكندرية", EnName = "Alexandria", ArDescription = "الإسكندرية", EnDescription = "Alexandria", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 4, ArName = "الدقهلية", EnName = "Dakahlia", ArDescription = "الدقهلية", EnDescription = "Dakahlia", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 5, ArName = "البحر الأحمر", EnName = "Red Sea", ArDescription = "البحر الأحمر", EnDescription = "Red Sea", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 6, ArName = "البحيرة", EnName = "Beheira", ArDescription = "البحيرة", EnDescription = "Beheira", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 7, ArName = "الفيوم", EnName = "Fayoum", ArDescription = "الفيوم", EnDescription = "Fayoum", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 8, ArName = "الغربية", EnName = "Gharbiya", ArDescription = "الغربية", EnDescription = "Gharbiya", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 9, ArName = "الإسماعلية", EnName = "Ismailia", ArDescription = "الإسماعلية", EnDescription = "Ismailia", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 10, ArName = "المنوفية", EnName = "Menofia", ArDescription = "المنوفية", EnDescription = "Menofia", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 11, ArName = "المنيا", EnName = "Minya", ArDescription = "المنيا", EnDescription = "Minya", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 12, ArName = "القليوبية", EnName = "Qalyubia", ArDescription = "القليوبية", EnDescription = "Qalyubia", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 13, ArName = "الوادي الجديد", EnName = "New Valley", ArDescription = "الوادي الجديد", EnDescription = "New Valley", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 14, ArName = "السويس", EnName = "Suez", ArDescription = "السويس", EnDescription = "Suez", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 15, ArName = "أسوان", EnName = "Aswan", ArDescription = "أسوان", EnDescription = "Aswan", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 16, ArName = "أسيوط", EnName = "Assiut", ArDescription = "أسيوط", EnDescription = "Assiut", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 17, ArName = "بني سويف", EnName = "Beni Suef", ArDescription = "بني سويف", EnDescription = "Beni Suef", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 18, ArName = "بورسعيد", EnName = "Port Said", ArDescription = "بورسعيد", EnDescription = "Port Said", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 19, ArName = "دمياط", EnName = "Damietta", ArDescription = "دمياط", EnDescription = "Damietta", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 20, ArName = "سوهاج", EnName = "Sohag", ArDescription = "سوهاج", EnDescription = "Sohag", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 21, ArName = "شمال سيناء", EnName = "North Sinai", ArDescription = "شمال سيناء", EnDescription = "North Sinai", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 22, ArName = "جنوب سيناء", EnName = "South Sinai", ArDescription = "جنوب سيناء", EnDescription = "South Sinai", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 23, ArName = "الشرقية", EnName = "Sharqia", ArDescription = "الشرقية", EnDescription = "Sharqia", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 24, ArName = "كفر الشيخ", EnName = "Kafr El Sheikh", ArDescription = "كفر الشيخ", EnDescription = "Kafr El Sheikh", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 25, ArName = "مطروح", EnName = "Matrouh", ArDescription = "مطروح", EnDescription = "Matrouh", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 26, ArName = "الفيوم", EnName = "Faiyum", ArDescription = "الفيوم", EnDescription = "Faiyum", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted },
-        //        new City { CityId = 27, ArName = "الوادي الجديد", EnName = "New Valley", ArDescription = "الوادي الجديد", EnDescription = "New Valley", CreationTime = new DateTime(2025, 12, 27), LastModificationTime = new DateTime(2025, 12, 27), CreatorUserId = 1, LastModifierUserId = 1, DeleteStatusId = (int)DeleteStatusEnum.NotDeleted }
-        //    );
-        //}
-        //#endregion
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roles = { "Admin", "Doctor", "Patient" };
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+        }
 
-        //#region Areas
-        //private static void SeedAreas(ModelBuilder modelBuilder)
-        //{
-        //    int areaId = 1;
+        private static async Task<(ApplicationUser doctorUser, ApplicationUser patientUser)> SeedUsersAsync(
+            UserManager<ApplicationUser> userManager)
+        {
+            // Admin
+            var adminEmail = "admin@medicare.com";
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true
+                };
+                var result = await userManager.CreateAsync(adminUser, "Admin@123456");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+            }
 
-        //    var areasPerCity = new Dictionary<int, List<(string ArName, string EnName)>>()
-        //    {
-        //        // القاهرة - 10 Areas
-        //        { 1, new List<(string,string)>
-        //            {
-        //                ("مصر الجديدة","Heliopolis"),("المعادي","Maadi"),("العباسية","Abbaseya"),
-        //                ("الزمالك","Zamalek"),("الجيزة","Giza"),("حلوان","Helwan"),
-        //                ("المرج","El Marg"),("مدينة نصر","Nasr City"),("عين شمس","Ain Shams"),("الظاهر","Al Zaher")
-        //            }
-        //        },
-        //        // الجيزة - 10 Areas
-        //        { 2, new List<(string,string)>
-        //            {
-        //                ("الهرم","Al Haram"),("الشيخ زايد","Sheikh Zayed"),("الواحات","Al Wahat"),
-        //                ("الدقي","Dokki"),("الجيزة الجديدة","New Giza"),("المهندسين","Mohandessin"),
-        //                ("العجوزة","Agouza"),("أبو الهول","Abu El Hol"),("الصف","Saf"),("الوراق","Warraq")
-        //            }
-        //        },
-        //        // الإسكندرية - 10 Areas
-        //        { 3, new List<(string,string)>
-        //            {
-        //                ("سموحة","Smoha"),("العصافرة","El Asafra"),("كامب شيزار","Camp Chezar"),
-        //                ("برج العرب","Borg El Arab"),("محرم بك","Moharam Bek"),("سيدي جابر","Sidi Gaber"),
-        //                ("رشدي","Roshdy"),("ستانلي","Stanley"),("المنتزه","Montaza"),("برج العرب الجديدة","New Borg El Arab")
-        //            }
-        //        },
-        //        // باقي المحافظات 3-5 Areas
-        //        { 4, new List<(string,string)>{ ("منية النصر","Menia El Nasr"),("طلخا","Talkha"),("المنصورة","Mansoura") } },
-        //        { 5, new List<(string,string)>{ ("الغردقة","Hurghada"),("رأس غارب","Ras Gharib"),("القصير","Quseir") } },
-        //        { 6, new List<(string,string)>{ ("دمنهور","Damanhur"),("كفر الدوار","Kafr El Dawar"),("رشيد","Rashid") } },
-        //        { 7, new List<(string,string)>{ ("الفيوم الجديدة","Faiyum El Gedida"),("مدينة الفيوم","Faiyum City"),("طامية","Tamiya") } },
-        //        { 8, new List<(string,string)>{ ("طنطا","Tanta"),("المحلة الكبرى","Mahalla"),("زفتى","Zefta") } },
-        //        { 9, new List<(string,string)>{ ("القصاصين","Al Qassaseen"),("الإسماعيلية الجديدة","New Ismailia"),("فايد","Fayed") } },
-        //        { 10, new List<(string,string)>{ ("شبين الكوم","Shebin El Kom"),("منوف","Menouf"),("السادات","Sadat City") } },
-        //        { 11, new List<(string,string)>{ ("المنيا الجديدة","New Minya"),("مغاغة","Magagha"),("ملوي","Mallawi") } },
-        //        { 12, new List<(string,string)>{ ("بنها","Banha"),("قليوب","Qalyub"),("شبرا الخيمة","Shubra El Kheima") } },
-        //        { 13, new List<(string,string)>{ ("الخارجة","El Kharga"),("باريس","Paris"),("الداخلة","El Dakhla") } },
-        //        { 14, new List<(string,string)>{ ("السويس","Suez City"),("جميع","Gomaa"),("القصاصين","Qassaseen") } },
-        //        { 15, new List<(string,string)>{ ("أسوان","Aswan City"),("كوم أمبو","Kom Ombo"),("نصر النوبة","Naser El Nuba") } },
-        //        { 16, new List<(string,string)>{ ("أسيوط","Assiut City"),("ديروط","Deirout"),("منفلوط","Manfalut") } },
-        //        { 17, new List<(string,string)>{ ("بني سويف","Beni Suef City"),("الفشن","Fashn"),("ناصر","Naser") } },
-        //        { 18, new List<(string,string)>{ ("بورسعيد","Port Said City"),("العرب","Al Arab"),("الضواحي","Al Dawaahi") } },
-        //        { 19, new List<(string,string)>{ ("دمياط","Damietta City"),("رأس البر","Ras El Bar"),("الزرقا","Zarqa") } },
-        //        { 20, new List<(string,string)>{ ("سوهاج","Sohag City"),("جبل طوسون","Jabal Toson"),("أخميم","Akhmim") } },
-        //        { 21, new List<(string,string)>{ ("العريش","Al Arish"),("الشيخ زويد","Sheikh Zuweid"),("رفح","Rafah") } },
-        //        { 22, new List<(string,string)>{ ("دهب","Dahab"),("شرم الشيخ","Sharm El Sheikh"),("طور سيناء","Tor Sinai") } },
-        //        { 23, new List<(string,string)>{ ("الزقازيق","Zagazig"),("بلبيس","Belbeis"),("أبو حماد","Abu Hammad") } },
-        //        { 24, new List<(string,string)>{ ("كفر الشيخ","Kafr El Sheikh City"),("دسوق","Desouq"),("مطوبس","Motobas") } },
-        //        { 25, new List<(string,string)>{ ("مرسى مطروح","Marsa Matrouh"),("الحمام","El Hammam"),("النجيلة","El Negila") } },
-        //        { 26, new List<(string,string)>{ ("الفيوم الجديدة","Faiyum El Gedida"),("مدينة الفيوم","Faiyum City"),("طامية","Tamiya") } },
-        //        { 27, new List<(string,string)>{ ("الخارجة","El Kharga"),("باريس","Paris"),("الداخلة","El Dakhla") } },
-        //    };
+            // Doctor User
+            var docEmail = "doctor@medicare.com";
+            var doctorUser = await userManager.FindByEmailAsync(docEmail);
+            if (doctorUser == null)
+            {
+                doctorUser = new ApplicationUser
+                {
+                    UserName = docEmail,
+                    Email = docEmail,
+                    EmailConfirmed = true
+                };
+                var result = await userManager.CreateAsync(doctorUser, "Doctor@123456");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(doctorUser, "Doctor");
+                }
+            }
 
-        //    foreach (var kvp in areasPerCity)
-        //    {
-        //        int cityId = kvp.Key;
-        //        foreach (var area in kvp.Value)
-        //        {
-        //            modelBuilder.Entity<Area>().HasData(
-        //                new Area
-        //                {
-        //                    AreaId = areaId++,
-        //                    CityId = cityId,
-        //                    ArName = area.ArName,
-        //                    EnName = area.EnName,
-        //                    ArDescription = area.ArName,
-        //                    EnDescription = area.EnName,
-        //                    CreationTime = new DateTime(2025, 12, 27),
-        //                    LastModificationTime = new DateTime(2025, 12, 27),
-        //                    CreatorUserId = 1,
-        //                    LastModifierUserId = 1,
-        //                    DeleteStatusId = (int)DeleteStatusEnum.NotDeleted
-        //                });
-        //        }
-        //    }
-        //}
-        //#endregion
+            // Patient User
+            var patEmail = "patient@medicare.com";
+            var patientUser = await userManager.FindByEmailAsync(patEmail);
+            if (patientUser == null)
+            {
+                patientUser = new ApplicationUser
+                {
+                    UserName = patEmail,
+                    Email = patEmail,
+                    EmailConfirmed = true
+                };
+                var result = await userManager.CreateAsync(patientUser, "Patient@123456");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(patientUser, "Patient");
+                }
+            }
+
+            return (doctorUser, patientUser);
+        }
+
+        private static async Task<Area> SeedLocationsAsync(DbContext context)
+        {
+            var existingArea = await context.Set<Area>().FirstOrDefaultAsync();
+            if (existingArea != null) return existingArea;
+
+            var city = new City
+            {
+                EnName = "Cairo",
+                ArName = "القاهرة",
+                EnDescription = "Capital of Egypt",
+                ArDescription = "عاصمة مصر"
+            };
+
+            await context.Set<City>().AddAsync(city);
+            await context.SaveChangesAsync();
+
+            var area = new Area
+            {
+                EnName = "Nasr City",
+                ArName = "مدينة نصر",
+                EnDescription = "Nasr City District",
+                ArDescription = "حي مدينة نصر",
+                CityId = city.CityId
+            };
+
+            await context.Set<Area>().AddAsync(area);
+            await context.SaveChangesAsync();
+
+            return area;
+        }
+
+        private static async Task<Specialization> SeedSpecializationsAsync(DbContext context)
+        {
+            var existingSpec = await context.Set<Specialization>().FirstOrDefaultAsync();
+            if (existingSpec != null) return existingSpec;
+
+            var specialization = new Specialization
+            {
+                EnName = "Cardiology",
+                ArName = "أمراض القلب",
+                EnDescription = "Heart and blood vessel treatments",
+                ArDescription = "علاج أمراض القلب والأوعية الدموية"
+            };
+
+            await context.Set<Specialization>().AddAsync(specialization);
+            await context.SaveChangesAsync();
+
+            return specialization;
+        }
+
+        private static async Task<(Clinic clinic, Doctor doctor)> SeedClinicAndDoctorAsync(
+            DbContext context, Area area, Specialization specialization, ApplicationUser doctorUser)
+        {
+            var clinic = await context.Set<Clinic>().FirstOrDefaultAsync();
+            if (clinic == null)
+            {
+                clinic = new Clinic
+                {
+                    EnName = "MediCare Main Clinic",
+                    ArName = "عيادة ميديكير الرئيسية",
+                    EnDescription = "Main medical center",
+                    ArDescription = "المركز الطبي الرئيسي",
+                    AreaId = area.AreaId
+                };
+                await context.Set<Clinic>().AddAsync(clinic);
+                await context.SaveChangesAsync();
+            }
+
+            var doctor = await context.Set<Doctor>().FirstOrDefaultAsync();
+            if (doctor == null)
+            {
+                doctor = new Doctor
+                {
+                    SpecializationId = specialization.SpecializationId,
+                    UserId = doctorUser.Id
+                };
+                await context.Set<Doctor>().AddAsync(doctor);
+                await context.SaveChangesAsync();
+            }
+
+            return (clinic, doctor);
+        }
+
+        private static async Task<ClinicDoctor> SeedClinicDoctorAsync(DbContext context, Clinic clinic, Doctor doctor)
+        {
+            var clinicDoctor = await context.Set<ClinicDoctor>()
+                .FirstOrDefaultAsync(cd => cd.ClinicId == clinic.ClinicId && cd.DoctorId == doctor.DoctorId);
+
+            if (clinicDoctor == null)
+            {
+                clinicDoctor = new ClinicDoctor
+                {
+                    ClinicId = clinic.ClinicId,
+                    DoctorId = doctor.DoctorId
+                };
+                await context.Set<ClinicDoctor>().AddAsync(clinicDoctor);
+                await context.SaveChangesAsync();
+            }
+
+            return clinicDoctor;
+        }
+
+        private static async Task<WorkingHour> SeedWorkingHoursAsync(DbContext context, ClinicDoctor clinicDoctor)
+        {
+            var workingHour = await context.Set<WorkingHour>()
+                .FirstOrDefaultAsync(w => w.ClinicDoctorId == clinicDoctor.ClinicDoctorId);
+
+            if (workingHour == null)
+            {
+                workingHour = new WorkingHour
+                {
+                    ClinicDoctorId = clinicDoctor.ClinicDoctorId,
+                    DayOfWeek = DayOfWeek.Sunday,
+                    // TimeOnly used instead of TimeSpan
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                };
+                await context.Set<WorkingHour>().AddAsync(workingHour);
+                await context.SaveChangesAsync();
+            }
+
+            return workingHour;
+        }
+
+        private static async Task<Patient> SeedPatientAsync(DbContext context, ApplicationUser patientUser)
+        {
+            var patient = await context.Set<Patient>().FirstOrDefaultAsync();
+            if (patient == null)
+            {
+                patient = new Patient
+                {
+                    UserId = patientUser.Id,
+                    // DateOnly used instead of DateTime
+                    DateOfBirth = new DateOnly(1995, 1, 1)
+                };
+                await context.Set<Patient>().AddAsync(patient);
+                await context.SaveChangesAsync();
+            }
+
+            return patient;
+        }
+
+        private static async Task SeedSlotAndAppointmentAsync(
+DbContext context, ClinicDoctor clinicDoctor, WorkingHour workingHour, Patient patient)
+        {
+            var slot = await context.Set<Slot>().FirstOrDefaultAsync();
+            if (slot == null)
+            {
+                slot = new Slot
+                {
+                    ClinicDoctorId = clinicDoctor.ClinicDoctorId,
+                    IsAvailable = true
+                };
+                await context.Set<Slot>().AddAsync(slot);
+                await context.SaveChangesAsync();
+            }
+
+            var appointment = await context.Set<Appointment>().FirstOrDefaultAsync();
+            if (appointment == null)
+            {
+                appointment = new Appointment
+                {
+                    PatientId = patient.PatientId,
+                    SlotId = slot.SlotId
+                };
+                await context.Set<Appointment>().AddAsync(appointment);
+                await context.SaveChangesAsync();
+
+                // Medical Record & Prescription
+                var record = new MedicalRecord
+                {
+                    AppointmentId = appointment.AppointmentId, // uses AppointmentId, not Id
+                    Diagnosis = "Checkup Routine"
+                };
+                await context.Set<MedicalRecord>().AddAsync(record);
+                await context.SaveChangesAsync();
+
+                var prescription = new Prescription
+                {
+                    MedicalRecordId = record.MedicalRecordId // uses MedicalRecordId, not Id
+                };
+                await context.Set<Prescription>().AddAsync(prescription);
+                await context.SaveChangesAsync();
+            }
+
+        }
     }
 }

@@ -96,7 +96,7 @@ namespace MediCare.Application.Identity.AppService
 
                 return response.GetSuccessResponse(authModel, Localization.RegisterSuccessfully);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Catch any unexpected error → delete user if already created
                 if (user != null)
@@ -105,7 +105,8 @@ namespace MediCare.Application.Identity.AppService
                     if (existingUser != null)
                         await UserManager.DeleteAsync(existingUser);
                 }
-                return response;
+                Logger.LogError(ex, "UserRegister failed");
+                return response.GetErrorResponse("Registration failed: " + ex.Message);
             }
         }
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
