@@ -14,7 +14,6 @@ namespace MediCare.Infrastructure.Repository.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            DataSeeding.Seed(modelBuilder);
         }
 
     }

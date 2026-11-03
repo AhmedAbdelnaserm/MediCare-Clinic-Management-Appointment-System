@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MediCare.Application.BackEnd.Dto.Dto.Paitient.PatientDto>
+
+@{
+    ViewData["Title"] = "Patient Management";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Patient Management</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add New Patient</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Date of Birth</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td><code>@patient.UserId</code></td>
+                                <td>@($"{patient.DateOfBirth:yyyy-MM-dd}")</td>
+                                <td class="text-end">
+                                    <a asp-action="Details" asp-route-id="@patient.PatientId" class="btn btn-sm btn-outline-info me-1">Details</a>
+                                    <a asp-action="Edit" asp-route-id="@patient.PatientId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@patient.PatientId" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">
+                                No patient profiles found. Click <strong>+ Add New Patient</strong> to create one.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
