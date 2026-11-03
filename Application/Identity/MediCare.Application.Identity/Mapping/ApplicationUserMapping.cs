@@ -4,7 +4,7 @@ using MediCare.Core.Entity.Entity;
 
 namespace MediCare.Application.Identity.Mapping
 {
-    public class ApplicationUserMapping :Profile
+    public class ApplicationUserMapping : Profile
     {
         public ApplicationUserMapping()
         {
