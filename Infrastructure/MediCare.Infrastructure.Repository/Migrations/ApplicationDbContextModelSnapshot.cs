@@ -361,10 +361,19 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.Property<int>("DeleteStatusId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GraduationCertificate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastModificationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifierUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SpecializationId")
