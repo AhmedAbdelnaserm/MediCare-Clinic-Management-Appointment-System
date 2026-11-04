@@ -12,6 +12,7 @@ namespace MediCare.Core.IRepository.IRepository
         Task<List<Clinic>> GetClinicsByAreaId(int areaId, string includeProperties = "");
 
         Task CreateClinic(Clinic clinic);
-        void UpdateClinic(Clinic clinic);
+        Task UpdateClinic(Clinic clinic);
+        Task DeleteClinic(Clinic clinic);
     }
 }

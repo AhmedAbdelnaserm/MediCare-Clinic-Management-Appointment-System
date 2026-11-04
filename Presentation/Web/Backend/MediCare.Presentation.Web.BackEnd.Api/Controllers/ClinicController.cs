@@ -35,20 +35,15 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
             return Ok(await ClinicAppService.GetClinicsByAreaId(areaId));
         }
 
-        [HttpGet("GetClinicDetails/{clinicId}")]
-        public async Task<IActionResult> GetClinicDetails(int clinicId)
-        {
-            return Ok(await ClinicAppService.GetClinicDetails(clinicId));
-        }
 
         [HttpPost("CreateClinic")]
-        public async Task<IActionResult> CreateClinic([FromBody] SaveClinicDto clinicDto)
+        public async Task<IActionResult> CreateClinic([FromBody] CreateClinicRequestDto clinicDto)
         {
             return Ok(await ClinicAppService.CreateClinic(clinicDto));
         }
 
         [HttpPut("UpdateClinic/{clinicId}")]
-        public async Task<IActionResult> UpdateClinic(int clinicId, [FromBody] SaveClinicDto clinicDto)
+        public async Task<IActionResult> UpdateClinic(int clinicId, [FromBody] CreateClinicRequestDto clinicDto)
         {
             return Ok(await ClinicAppService.UpdateClinic(clinicId, clinicDto));
         }
