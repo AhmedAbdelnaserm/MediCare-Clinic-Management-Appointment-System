@@ -12,6 +12,7 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Configuration
             services.AddScoped<ILocalizationService, LocalizationService>();
             services.AddScoped<ICityAppService, CityAppService>();
             services.AddScoped<IAreaAppService, AreaAppService>();
+            services.AddScoped<IClinicAppService, ClinicAppService>();
             return services;
         }
     }

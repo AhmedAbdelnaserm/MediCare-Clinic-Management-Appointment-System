@@ -14,6 +14,7 @@ namespace MediCare.Core.IRepository.IUnitOfWork
         IAuthRepository AuthRepository { get; }
         ICityRepository CityRepository { get; }
         IAreaRepository AreaRepository { get; }
+        IClinicRepository ClinicRepository { get; }
         #endregion
     }
 }
