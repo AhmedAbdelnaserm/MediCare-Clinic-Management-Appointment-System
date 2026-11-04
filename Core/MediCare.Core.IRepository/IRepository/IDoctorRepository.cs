@@ -17,6 +17,10 @@ namespace MediCare.Core.IRepository.IRepository
         Task <List<Doctor>> GetDoctorsByClinicIdAndSpecializationId(int clinicId, int specializationId, string includeProperties = "");
         Task<List<Appointment>> GetAppointmentsByDoctorId(int doctorId, string includeProperties = "");
         Task<List<Slot>> GetSlotsByDoctorId(int doctorId, string includeProperties = "");
+        Task<bool> UserExists(string userId);
+        Task<bool> DoctorExistsForUser(string userId);
+        Task<bool> SpecializationExists(int specializationId);
+        Task<bool> CheckIsDoctorExist(int doctorId);
         // Task<Appointment> GetAppointmentById(int appointmentId, string includeProperties = "");
         // Task<Slot> GetSlotById(int slotId, string includeProperties = "");
         // Task<Slot> CreateSlot(Slot slot);

@@ -15,34 +15,83 @@ namespace MediCare.Application.BackEnd.AppService
         public DoctorService(IMapper mapper, ILocalizationService localization, ILogger<DoctorService> logger, IUnitOfWork unitOfWork) : base(mapper, localization, logger, unitOfWork)
         {
         }
-        public async Task<ResponseDto<DoctorResponseDto>> CreateDoctor(DoctorRequestDto doctorRequestDto)
+        public async Task<ResponseDto<EmptyResponseDto>> CreateDoctor(DoctorRequestDto doctorRequestDto)
         {
-            ResponseDto<DoctorResponseDto> response = new();
-            if (doctorRequestDto == null || string.IsNullOrWhiteSpace(doctorRequestDto.UserId) || !Enum.IsDefined(typeof(SpecializationEnum), doctorRequestDto.SpecializationId) || doctorRequestDto.ConsultationFee < 0)
-                return response.GetErrorResponse(Localization.GeneralError);
+            var response = await ValidateDoctorCreateRequestData(doctorRequestDto);
+            if (response.Code != ResultStatusEnum.Success)
+                return response;
             var doctor = Mapper.Map<Doctor>(doctorRequestDto);
             doctor.UserId = doctorRequestDto.UserId.Trim();
             doctor.SpecializationId = doctorRequestDto.SpecializationId;
             await UnitOfWork.DoctorRepository.CreateDoctor(doctor);
             await UnitOfWork.Commit();
-            var createdDoctor = await UnitOfWork.DoctorRepository.GetDoctorById(doctor.DoctorId);
-            var responseDto = Mapper.Map<DoctorResponseDto>(createdDoctor);
-            return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
+            return response.GetSuccessResponse(new EmptyResponseDto(), Localization.GeneralSuccess);
         }
-        public async Task<ResponseDto<DoctorResponseDto>> UpdateDoctor(DoctorRequestDto doctorRequestDto)
+        public async Task<ResponseDto<EmptyResponseDto>> UpdateDoctor(DoctorRequestDto doctorRequestDto)
         {
-            ResponseDto<DoctorResponseDto> response = new();
-            if (doctorRequestDto == null || doctorRequestDto.DoctorId <= 0 || !Enum.IsDefined(typeof(SpecializationEnum), doctorRequestDto.SpecializationId) || doctorRequestDto.ConsultationFee < 0)
-                return response.GetErrorResponse(Localization.GeneralError);
+            var response = await ValidateDoctorUpdateRequestData(doctorRequestDto);
+            if (response.Code != ResultStatusEnum.Success)
+                return response;
             var doctor = await UnitOfWork.DoctorRepository.GetDoctorById(doctorRequestDto.DoctorId);
-            if (doctor == null)
-                return response.GetErrorResponse(Localization.NoDataFound);
             Mapper.Map(doctorRequestDto, doctor);
-            var updatedDoctor = await UnitOfWork.DoctorRepository.UpdateDoctor(doctor);
+            await UnitOfWork.DoctorRepository.UpdateDoctor(doctor);
             await UnitOfWork.Commit();
-            updatedDoctor = await UnitOfWork.DoctorRepository.GetDoctorById(doctorRequestDto.DoctorId);
-            var responseDto = Mapper.Map<DoctorResponseDto>(updatedDoctor);
-            return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
+            return response.GetSuccessResponse(new EmptyResponseDto(), Localization.GeneralSuccess);
+        }
+
+        private async Task<ResponseDto<EmptyResponseDto>> ValidateDoctorCreateRequestData(DoctorRequestDto request)
+        {
+            var response = new ResponseDto<EmptyResponseDto>();
+            if (request == null)
+                return response.GetErrorResponse("Doctor request is required.");
+            if (string.IsNullOrWhiteSpace(request.UserId))
+                return response.GetErrorResponse("UserId is required.");
+            var userId = request.UserId.Trim();
+            if (!await UnitOfWork.DoctorRepository.UserExists(userId))
+                return response.GetErrorResponse("UserId must match an existing registered user.");
+            if (await UnitOfWork.DoctorRepository.DoctorExistsForUser(userId))
+                return response.GetErrorResponse("This user is already linked to a doctor.");
+            if (!Enum.IsDefined(typeof(SpecializationEnum), request.SpecializationId))
+                return response.GetErrorResponse("SpecializationId must be a valid specialization enum value.");
+            if (!await UnitOfWork.DoctorRepository.SpecializationExists(request.SpecializationId))
+                return response.GetErrorResponse("The selected specialization is missing from the database. Apply the specialization migration.");
+            if (request.ConsultationFee < 0)
+                return response.GetErrorResponse("ConsultationFee cannot be negative.");
+            if (string.IsNullOrWhiteSpace(request.EnName))
+                return response.GetErrorResponse("EnName is required.");
+            if (string.IsNullOrWhiteSpace(request.ArName))
+                return response.GetErrorResponse("ArName is required.");
+            if (string.IsNullOrWhiteSpace(request.EnDescription))
+                return response.GetErrorResponse("EnDescription is required.");
+            if (string.IsNullOrWhiteSpace(request.ArDescription))
+                return response.GetErrorResponse("ArDescription is required.");
+
+            return response.GetSuccessResponse(new EmptyResponseDto());
+        }
+        private async Task<ResponseDto<EmptyResponseDto>> ValidateDoctorUpdateRequestData(DoctorRequestDto request)
+        {
+            var response = new ResponseDto<EmptyResponseDto>();
+            if (request == null)
+                return response.GetErrorResponse("Doctor request is required.");
+            if (request.DoctorId <= 0)
+                return response.GetErrorResponse("DoctorId must be greater than zero.");
+            if (!await UnitOfWork.DoctorRepository.CheckIsDoctorExist(request.DoctorId))
+                return response.GetErrorResponse("Doctor was not found.");
+            if (!Enum.IsDefined(typeof(SpecializationEnum), request.SpecializationId))
+                return response.GetErrorResponse("SpecializationId must be a valid specialization enum value.");
+            if (!await UnitOfWork.DoctorRepository.SpecializationExists(request.SpecializationId))
+                return response.GetErrorResponse("The selected specialization is missing from the database. Apply the specialization migration.");
+            if (request.ConsultationFee < 0)
+                return response.GetErrorResponse("ConsultationFee cannot be negative.");
+            if (string.IsNullOrWhiteSpace(request.EnName))
+                return response.GetErrorResponse("EnName is required.");
+            if (string.IsNullOrWhiteSpace(request.ArName))
+                return response.GetErrorResponse("ArName is required.");
+            if (string.IsNullOrWhiteSpace(request.EnDescription))
+                return response.GetErrorResponse("EnDescription is required.");
+            if (string.IsNullOrWhiteSpace(request.ArDescription))
+                return response.GetErrorResponse("ArDescription is required.");
+            return response.GetSuccessResponse(new EmptyResponseDto());
         }
         public async Task<ResponseDto<List<DoctorResponseDto>>> GetDoctors()
         {

@@ -2,7 +2,7 @@
 
 namespace MediCare.Core.Entity.Entity;
 
-public class Doctor : BaseEntity
+public class Doctor : BaseMultiLanguageEntity
 {
     public int DoctorId { get; set; }
 
@@ -13,9 +13,8 @@ public class Doctor : BaseEntity
     public Specialization Specialization { get; set; } = null!;
 
     public decimal ConsultationFee { get; set; }
-    public string? Description { get; set; }
     public string? ProfileImage { get; set; }
-    public string? GraduationCertificate { get; set; }
+    public string? DoctorDegree { get; set; }
 
     public ICollection<ClinicDoctor> ClinicDoctors { get; set; }
         = new List<ClinicDoctor>();

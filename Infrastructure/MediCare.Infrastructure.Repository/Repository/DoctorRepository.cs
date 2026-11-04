@@ -16,22 +16,25 @@ namespace MediCare.Infrastructure.Repository.Repository
         }
         public override Expression<Func<Doctor, object>> ColumnsMap(string sortingExpression)
         {
-           return sortingExpression.ToLower() switch
-           {
-               "doctorid" => d => d.DoctorId,
-               "userid" => d => d.UserId,
-               "specializationid" => d => d.SpecializationId,
-               "consultationfee" => d => d.ConsultationFee,
-               "description" => d => d.Description,
-               "profileimage" => d => d.ProfileImage,
-               "graduationcertificate" => d => d.GraduationCertificate
-           };
+            throw new NotImplementedException();
         }
         public async Task<Doctor> CreateDoctor(Doctor doctor)
         {
             await CreateAsync(doctor);
             return doctor;
         }
+
+        public Task<bool> UserExists(string userId) =>
+            AppDbContext.Users.AnyAsync(user => user.Id == userId);
+
+        public Task<bool> DoctorExistsForUser(string userId) =>
+            AppDbContext.Doctors.AnyAsync(doctor => doctor.UserId == userId);
+
+        public Task<bool> SpecializationExists(int specializationId) =>
+            AppDbContext.Specializations.AnyAsync(specialization => specialization.SpecializationId == specializationId);
+
+        public Task<bool> CheckIsDoctorExist(int doctorId) =>
+            AppDbContext.Doctors.AnyAsync(doctor => doctor.DoctorId == doctorId && doctor.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted);
         public async Task<Doctor> UpdateDoctor(Doctor doctor)
         {
             Update(doctor);

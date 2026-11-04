@@ -21,10 +21,11 @@ public class DoctorMapping : Profile
             .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.User.FullName ?? src.User.UserName ?? string.Empty))
             .ForMember(dest => dest.DoctorEmail, opt => opt.MapFrom(src => src.User.Email ?? string.Empty))
             .ForMember(dest => dest.DoctorPhone, opt => opt.MapFrom(src => src.User.PhoneNumber ?? string.Empty))
-            .ForMember(dest => dest.DoctorAddress, opt => opt.MapFrom(src => src.ClinicDoctors.Select(cd => cd.Clinic.Address).FirstOrDefault() ?? string.Empty))
             .ForMember(dest => dest.SpecializationId, opt => opt.MapFrom(src => src.SpecializationId))
             .ForMember(dest => dest.SpecializationName, opt => opt.MapFrom(src => src.Specialization.EnName))
-            .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.ClinicDoctors.Select(cd => cd.Clinic.EnName).FirstOrDefault() ?? string.Empty));
+            .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.ClinicDoctors.Select(cd => cd.Clinic.EnName).FirstOrDefault() ?? string.Empty))
+            .ForMember(dest => dest.DoctorDegree, opt => opt.MapFrom(src => src.DoctorDegree))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.EnDescription));
 
         CreateMap<Appointment, AppointmentResponseDto>()
             .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.User == null ? string.Empty : src.Patient.User.FullName ?? src.Patient.User.UserName ?? string.Empty))

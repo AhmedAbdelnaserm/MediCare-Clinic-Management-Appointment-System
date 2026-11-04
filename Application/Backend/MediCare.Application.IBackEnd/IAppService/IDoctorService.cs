@@ -5,8 +5,8 @@ namespace MediCare.IApplication.BackEnd.IAppService
 {
     public interface IDoctorService
     {
-       Task <ResponseDto<DoctorResponseDto>> CreateDoctor(DoctorRequestDto doctorRequestDto);
-        Task<ResponseDto<DoctorResponseDto>> UpdateDoctor(DoctorRequestDto doctorRequestDto);
+        Task<ResponseDto<EmptyResponseDto>> CreateDoctor(DoctorRequestDto doctorRequestDto);
+        Task<ResponseDto<EmptyResponseDto>> UpdateDoctor(DoctorRequestDto doctorRequestDto);
         Task<ResponseDto<bool>> DeleteDoctor(int doctorId);
         Task<ResponseDto<DoctorResponseDto>> GetDoctorById(int doctorId);
         Task<ResponseDto<List<DoctorResponseDto>>> GetDoctors();
