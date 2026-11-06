@@ -12,7 +12,7 @@ public class Doctor : BaseMultiLanguageEntity
     public int SpecializationId { get; set; }
     public Specialization Specialization { get; set; } = null!;
 
-    public decimal ConsultationFee { get; set; }
+    public decimal ConsultationFee { get; set; } = 0;
     public string? ProfileImage { get; set; }
     public string? DoctorDegree { get; set; }
 

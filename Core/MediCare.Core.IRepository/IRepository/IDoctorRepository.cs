@@ -7,25 +7,15 @@ namespace MediCare.Core.IRepository.IRepository
 {
     public  interface IDoctorRepository
     {
-        Task <Doctor>CreateDoctor(Doctor doctor);
-        Task<Doctor> UpdateDoctor(Doctor doctor);
+        Task CreateDoctor(Doctor doctor);
+        Task UpdateDoctor(Doctor doctor);
         Task<bool> DeleteDoctor(int doctorId);
         Task<Doctor> GetDoctorById(int doctorId, string includeProperties = "");
         Task<List<Doctor>> GetDoctors(string includeProperties = "");
         Task <List<Doctor>> GetDoctorsBySpecializationId(int id, string includeProperties = "");
-        Task <List<Doctor>> GetDoctorsByClinicId(int id, string includeProperties = "");
-        Task <List<Doctor>> GetDoctorsByClinicIdAndSpecializationId(int clinicId, int specializationId, string includeProperties = "");
-        Task<List<Appointment>> GetAppointmentsByDoctorId(int doctorId, string includeProperties = "");
-        Task<List<Slot>> GetSlotsByDoctorId(int doctorId, string includeProperties = "");
-        Task<bool> UserExists(string userId);
-        Task<bool> DoctorExistsForUser(string userId);
-        Task<bool> SpecializationExists(int specializationId);
         Task<bool> CheckIsDoctorExist(int doctorId);
-        // Task<Appointment> GetAppointmentById(int appointmentId, string includeProperties = "");
-        // Task<Slot> GetSlotById(int slotId, string includeProperties = "");
-        // Task<Slot> CreateSlot(Slot slot);
-        // Task<Slot> UpdateSlot(Slot slot);
-        // Task <bool> DeleteSlot(int slotId);
+        // (i know i need to change the place for this) but i will keep it here for now and i will change it later (so please don't comment here ) 
+        Task<bool> SpecializationExists(int specializationId);
 
     }
 }

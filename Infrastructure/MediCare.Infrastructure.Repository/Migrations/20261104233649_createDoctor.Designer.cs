@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediCare.Infrastructure.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261103162402_create")]
-    partial class create
+    [Migration("20261104233649_createDoctor")]
+    partial class createDoctor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -352,6 +352,14 @@ namespace MediCare.Infrastructure.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"));
 
+                    b.Property<string>("ArDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ConsultationFee")
                         .HasColumnType("decimal(18,2)");
 
@@ -364,10 +372,15 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.Property<int>("DeleteStatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DoctorDegree")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GraduationCertificate")
+                    b.Property<string>("EnDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModificationTime")

@@ -18,27 +18,18 @@ namespace MediCare.Infrastructure.Repository.Repository
         {
             throw new NotImplementedException();
         }
-        public async Task<Doctor> CreateDoctor(Doctor doctor)
+        public async Task CreateDoctor(Doctor doctor)
         {
             await CreateAsync(doctor);
-            return doctor;
         }
-
-        public Task<bool> UserExists(string userId) =>
-            AppDbContext.Users.AnyAsync(user => user.Id == userId);
-
-        public Task<bool> DoctorExistsForUser(string userId) =>
-            AppDbContext.Doctors.AnyAsync(doctor => doctor.UserId == userId);
-
-        public Task<bool> SpecializationExists(int specializationId) =>
-            AppDbContext.Specializations.AnyAsync(specialization => specialization.SpecializationId == specializationId);
-
-        public Task<bool> CheckIsDoctorExist(int doctorId) =>
-            AppDbContext.Doctors.AnyAsync(doctor => doctor.DoctorId == doctorId && doctor.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted);
-        public async Task<Doctor> UpdateDoctor(Doctor doctor)
+        public Task<bool> CheckIsDoctorExist(int doctorId)
+        { return AppDbContext.Doctors.AnyAsync(doctor => doctor.DoctorId == doctorId && doctor.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted); }
+        public Task<bool> SpecializationExists(int specializationId)
+        { return AppDbContext.Specializations.AnyAsync(specialization => specialization.SpecializationId == specializationId); }
+        public Task UpdateDoctor(Doctor doctor)
         {
             Update(doctor);
-            return doctor;
+            return Task.CompletedTask;
         }
         public async Task<bool> DeleteDoctor(int doctorId)
         {
@@ -62,38 +53,11 @@ namespace MediCare.Infrastructure.Repository.Repository
             var result=await GetWhereAsync(d => d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
             return result;
         }
-       public async Task<List<Doctor>> GetDoctorsByClinicIdAndSpecializationId(int clinicId, int specializationId, string includeProperties = "")
+        public async Task<List<Doctor>> GetDoctorsBySpecializationId(int specializationId, string includeProperties = "")
         {
-            var result = await GetWhereAsync(d => d.ClinicDoctors.Any(cd => cd.ClinicId == clinicId) && d.SpecializationId == specializationId && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
-            return  result;
-               
+            var result = await GetWhereAsync(d => d.SpecializationId == specializationId && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
+            return result;
         }
 
-        public async Task<List<Doctor>> GetDoctorsBySpecializationId(int id, string includeProperties = "")
-        {
-            var result = await GetWhereAsync(d => d.SpecializationId == id && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
-            return result;
-        }
-        public async Task<List<Doctor>> GetDoctorsByClinicId(int id, string includeProperties = "")
-        {
-            var result = await GetWhereAsync(d => d.ClinicDoctors.Any(cd => cd.ClinicId == id) && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
-            return result;
-        }
-   
-        public async Task<List<Appointment>> GetAppointmentsByDoctorId(int doctorId, string includeProperties = "")
-        {
-           IQueryable<Appointment> query = AppDbContext.Set<Appointment>().Where(a => a.Slot.ClinicDoctor.DoctorId == doctorId && a.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted).Include(a => a.Patient).ThenInclude(p => p.User);
-           foreach (var include in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries)) query = query.Include(include);
-           var result=await query.ToListAsync();
-            return result;
-        }
-      
-        public async Task<List<Slot>> GetSlotsByDoctorId(int doctorId, string includeProperties = "")
-        {
-            IQueryable<Slot> query = AppDbContext.Set<Slot>().Where(s => s.ClinicDoctor.DoctorId == doctorId && s.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted).Include(s => s.Appointments.Where(a => a.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted)).ThenInclude(a => a.Patient).ThenInclude(p => p!.User);
-            foreach (var include in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries)) query = query.Include(include);
-            var result = await query.ToListAsync();
-            return result;
-        }
     }
 }
