@@ -21,8 +21,8 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         {
             try
             {
-                return AppDbContext.SaveChangesAsync();
-            }
+            return AppDbContext.SaveChangesAsync();
+        }
             catch (Exception ex)
             {
                 return null;
@@ -61,6 +61,7 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         public ICityRepository CityRepository => new CityRepository(AppDbContext);
 
         public IAreaRepository AreaRepository => new AreaRepository(AppDbContext);
+        public IDoctorRepository DoctorRepository => new DoctorRepository(AppDbContext);
         #endregion
     }
 }

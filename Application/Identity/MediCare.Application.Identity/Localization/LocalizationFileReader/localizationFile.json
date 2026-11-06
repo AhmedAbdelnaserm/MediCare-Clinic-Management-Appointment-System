@@ -355,5 +355,90 @@
       "en": "You reached the max pin code forget password count, Try again later",
       "ar": "أنت تخطيت عدد مرات الحصول علي الرقم التعريفى"
     }
+  },
+  {
+    "Key": "InvalidSpecialization",
+    "LocalizedValue": {
+        "ar": "التخصص غير صحيح",
+        "en": "Invalid Specialization"
+      }
+    },
+    {
+      "Key": "SpecializationNotFound",
+      "LocalizedValue": {
+        "ar": "التخصص غير موجود",
+        "en": "Specialization Not Found"
+      }
+    },
+    {
+      "Key": "InvalidConsultationFee",
+      "LocalizedValue": {
+        "ar": "رسوم الاستشارة غير صحيحة",
+        "en": "Invalid Consultation Fee"
+      }
+    },
+    {
+      "Key": "EnNameRequired",
+      "LocalizedValue": {
+        "ar": "الاسم الانجليزي مطلوب",
+        "en": "EnName is required"
+      }
+    },
+    {
+      "Key": "EnDescriptionRequired",
+      "LocalizedValue": {
+        "ar": "الوصف الانجليزي مطلوب",
+        "en": "EnDescription is required"
+      }
+    },
+  {
+    "Key": "DoctorNotFound",
+    "LocalizedValue": {
+      "ar": "الطبيب غير موجود",
+      "en": "Doctor Not Found"
+    }
+  },
+  {
+    "Key": "DoctorCreatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "تم إنشاء الطبيب بنجاح",
+      "en": "Doctor Created Successfully"
+    }
+  },
+  {
+    "Key": "DoctorUpdatedSuccessfully",
+    "LocalizedValue": {
+      "ar": "تم تحديث بيانات الطبيب بنجاح",
+      "en": "Doctor Updated Successfully"
+    }
+  },
+  {
+    "Key": "DoctorDeletedSuccessfully",
+    "LocalizedValue": {
+      "ar": "تم حذف بيانات الطبيب بنجاح",
+      "en": "Doctor Deleted Successfully"
+    }
+  },
+  {
+    "Key": "DoctorAlreadyExists",
+    "LocalizedValue": {
+      "ar": "الطبيب موجود بالفعل",
+      "en": "Doctor Already Exists"
+    }
   }
+  ,
+    {
+      "Key": "DoctorHasAppointments",
+      "LocalizedValue": {
+        "ar": "لا يمكن حذف الطبيب لأنه لديه مواعيد",
+        "en": "Doctor has appointments and cannot be deleted"
+      }
+    },
+  {
+    "Key": "DoctorHasSlots",
+    "LocalizedValue": {
+      "ar": "لا يمكن حذف الطبيب لأنه لديه مواعيد متاحة",
+      "en": "Doctor has slots and cannot be deleted"
+    }
+  },
 ]
