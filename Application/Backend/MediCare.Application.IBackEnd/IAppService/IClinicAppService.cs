@@ -10,7 +10,7 @@ namespace MediCare.IApplication.BackEnd.IAppService
         Task<ResponseDto<List<TextValueBindingResponseDto>>> GetClinicsByAreaId(int areaId);
 
         Task<ResponseDto<EmptyResponseDto>> CreateClinic(CreateClinicRequestDto clinicDto);
-        Task<ResponseDto<EmptyResponseDto>> UpdateClinic(int clinicId, CreateClinicRequestDto clinicDto);
+        Task<ResponseDto<EmptyResponseDto>> UpdateClinic(int clinicId, UpdateClinicRequestDto clinicDto);
         Task<ResponseDto<EmptyResponseDto>> DeleteClinic(int clinicId);
     }
 }

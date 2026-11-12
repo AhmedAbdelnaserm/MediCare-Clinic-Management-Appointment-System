@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using MediCare.Common.Dto;
 using MediCare.Core.Entity.Entity;
 
@@ -30,6 +29,23 @@ namespace MediCare.Application.BackEnd.Mapping
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.AreaId, opt => opt.MapFrom(src => src.AreaId))
+                .ForMember(dest => dest.Area, opt => opt.Ignore())
+                .ForMember(dest => dest.ClinicDoctors, opt => opt.Ignore())
+                .ForMember(dest => dest.DeleteStatusId, opt => opt.Ignore())
+                .ForMember(dest => dest.CreationTime, opt => opt.Ignore())
+                .ForMember(dest => dest.LastModificationTime, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatorUserId, opt => opt.Ignore())
+                .ForMember(dest => dest.LastModifierUserId, opt => opt.Ignore());
+
+            CreateMap<UpdateClinicRequestDto, Clinic>()
+                .ForMember(dest => dest.ClinicId, opt => opt.Ignore())
+                .ForMember(dest => dest.EnName, opt => opt.MapFrom(src => src.EnName))
+                .ForMember(dest => dest.EnDescription, opt => opt.MapFrom(src => src.EnDescription))
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.AreaId, opt => opt.MapFrom(src => src.AreaId))
+                .ForMember(dest => dest.ArName, opt => opt.Ignore())
+                .ForMember(dest => dest.ArDescription, opt => opt.Ignore())
                 .ForMember(dest => dest.Area, opt => opt.Ignore())
                 .ForMember(dest => dest.ClinicDoctors, opt => opt.Ignore())
                 .ForMember(dest => dest.DeleteStatusId, opt => opt.Ignore())

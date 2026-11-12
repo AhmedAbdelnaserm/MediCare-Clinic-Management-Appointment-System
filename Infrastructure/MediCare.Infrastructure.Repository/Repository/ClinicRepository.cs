@@ -33,23 +33,23 @@ namespace MediCare.Infrastructure.Repository.Repository
             return await GetWhereAsync(c => c.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted && c.AreaId == areaId, includeProperties);
         }
 
-        public Task CreateClinic(Clinic clinic)
+        public async Task<bool> CreateClinic(Clinic clinic)
         {
-            return CreateAsync(clinic);
-
+            await CreateAsync(clinic);
+            return true;
         }
 
-        public Task UpdateClinic(Clinic clinic)
+        public Task<bool> UpdateClinic(Clinic clinic)
         {
             Update(clinic);
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
 
-        public Task DeleteClinic(Clinic clinic)
+        public Task<bool> DeleteClinic(Clinic clinic)
         {
             clinic.DeleteStatusId = (int)DeleteStatusEnum.Deleted;
             Update(clinic);
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
     }
 }

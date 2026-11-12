@@ -13,26 +13,29 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class ClinicAppService : BaseAppService, IClinicAppService
     {
-        public ClinicAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork) : base(mapper, localization, logger, unitOfWork)
+        public ClinicAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork)
+            : base(mapper, localization, logger, unitOfWork)
         {
         }
 
-        private async Task<ResponseDto<EmptyResponseDto>> ValidateClinicRequestData(CreateClinicRequestDto request)
+        private async Task<ResponseDto<EmptyResponseDto>> ValidateClinicRequestData(
+     string enName, string address, int areaId)
         {
             ResponseDto<EmptyResponseDto> response = new();
 
-            if (request == null)
-                return response.GetErrorResponse(Localization.InvalidRequest);
+            if (string.IsNullOrWhiteSpace(enName))
+                return response.GetErrorResponse(Localization.ClinicNameRequired);
 
-            if (string.IsNullOrWhiteSpace(request.EnName) ||
-                string.IsNullOrWhiteSpace(request.Address) ||
-                request.AreaId <= default(int))
-                return response.GetErrorResponse(Localization.InvalidData);
+            if (string.IsNullOrWhiteSpace(address))
+                return response.GetErrorResponse(Localization.ClinicAddressRequired);
 
-            var areaExists = await UnitOfWork.AreaRepository.CheckIsAreaExist(request.AreaId);
+            if (areaId <= default(int))
+                return response.GetErrorResponse(Localization.ClinicAreaRequired);
+
+            var areaExists = await UnitOfWork.AreaRepository.CheckIsAreaExist(areaId);
 
             if (!areaExists)
-                return response.GetErrorResponse(Localization.InvalidData);
+                return response.GetErrorResponse(Localization.ClinicAreaNotFound);
 
             return response.GetSuccessResponse(Localization.GeneralSuccess);
         }
@@ -89,7 +92,11 @@ namespace MediCare.Application.BackEnd.AppService
         {
             ResponseDto<EmptyResponseDto> response = new();
 
-            var validationResponse = await ValidateClinicRequestData(clinicDto);
+            if (clinicDto == null)
+                return response.GetErrorResponse(Localization.InvalidRequest);
+
+            var validationResponse = await ValidateClinicRequestData(
+                clinicDto.EnName, clinicDto.Address, clinicDto.AreaId);
 
             if (validationResponse.Code != ResultStatusEnum.Success)
                 return response.GetErrorResponse(validationResponse.Message);
@@ -102,17 +109,21 @@ namespace MediCare.Application.BackEnd.AppService
             await UnitOfWork.ClinicRepository.CreateClinic(clinic);
             await UnitOfWork.Commit();
 
-            return response.GetSuccessResponse(new EmptyResponseDto(), Localization.GeneralSuccess);
+            return response.GetSuccessResponse(Localization.GeneralSuccess);
         }
 
-        public async Task<ResponseDto<EmptyResponseDto>> UpdateClinic(int clinicId, CreateClinicRequestDto clinicDto)
+        public async Task<ResponseDto<EmptyResponseDto>> UpdateClinic(int clinicId, UpdateClinicRequestDto clinicDto)
         {
             ResponseDto<EmptyResponseDto> response = new();
 
             if (clinicId <= default(int))
                 return response.GetErrorResponse(Localization.InvalidData);
 
-            var validationResponse = await ValidateClinicRequestData(clinicDto);
+            if (clinicDto == null)
+                return response.GetErrorResponse(Localization.InvalidRequest);
+
+            var validationResponse = await ValidateClinicRequestData(
+                clinicDto.EnName, clinicDto.Address, clinicDto.AreaId);
 
             if (validationResponse.Code != ResultStatusEnum.Success)
                 return response.GetErrorResponse(validationResponse.Message);
@@ -129,7 +140,7 @@ namespace MediCare.Application.BackEnd.AppService
             await UnitOfWork.ClinicRepository.UpdateClinic(clinic);
             await UnitOfWork.Commit();
 
-            return response.GetSuccessResponse(new EmptyResponseDto(), Localization.GeneralSuccess);
+            return response.GetSuccessResponse(Localization.GeneralSuccess);
         }
 
         public async Task<ResponseDto<EmptyResponseDto>> DeleteClinic(int clinicId)
@@ -149,7 +160,7 @@ namespace MediCare.Application.BackEnd.AppService
             await UnitOfWork.ClinicRepository.DeleteClinic(clinic);
             await UnitOfWork.Commit();
 
-            return response.GetSuccessResponse(new EmptyResponseDto(), Localization.GeneralSuccess);
+            return response.GetSuccessResponse(Localization.GeneralSuccess);
         }
     }
 }

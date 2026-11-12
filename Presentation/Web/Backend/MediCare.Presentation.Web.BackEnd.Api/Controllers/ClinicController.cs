@@ -43,7 +43,7 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
         }
 
         [HttpPut("UpdateClinic/{clinicId}")]
-        public async Task<IActionResult> UpdateClinic(int clinicId, [FromBody] CreateClinicRequestDto clinicDto)
+        public async Task<IActionResult> UpdateClinic(int clinicId, [FromBody] UpdateClinicRequestDto clinicDto)
         {
             return Ok(await ClinicAppService.UpdateClinic(clinicId, clinicDto));
         }

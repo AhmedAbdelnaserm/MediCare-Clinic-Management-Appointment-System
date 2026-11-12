@@ -11,8 +11,8 @@ namespace MediCare.Core.IRepository.IRepository
         Task<List<Clinic>> GetClinics(string includeProperties = "");
         Task<List<Clinic>> GetClinicsByAreaId(int areaId, string includeProperties = "");
 
-        Task CreateClinic(Clinic clinic);
-        Task UpdateClinic(Clinic clinic);
-        Task DeleteClinic(Clinic clinic);
+        Task<bool> CreateClinic(Clinic clinic);
+        Task<bool> UpdateClinic(Clinic clinic);
+        Task<bool> DeleteClinic(Clinic clinic);
     }
 }
