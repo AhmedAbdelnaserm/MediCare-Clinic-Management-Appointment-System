@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using MediCare.Application.BackEnd.Base;
+using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Common.Dto;
 using MediCare.Common.Enum;

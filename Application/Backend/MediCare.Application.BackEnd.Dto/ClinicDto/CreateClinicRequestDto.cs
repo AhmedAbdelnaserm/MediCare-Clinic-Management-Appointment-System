@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediCare.Common.Dto
+﻿namespace MediCare.Application.BackEnd.Dto.ClinicDto
 {
     public class CreateClinicRequestDto
     {

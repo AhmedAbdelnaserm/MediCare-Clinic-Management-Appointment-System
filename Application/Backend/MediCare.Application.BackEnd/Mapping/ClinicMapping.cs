@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Common.Dto;
 using MediCare.Core.Entity.Entity;
 

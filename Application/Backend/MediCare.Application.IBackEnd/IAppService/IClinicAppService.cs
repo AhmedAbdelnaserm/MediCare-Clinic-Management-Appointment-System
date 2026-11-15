@@ -1,4 +1,5 @@
 ﻿
+using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Common.Dto;
 
 namespace MediCare.IApplication.BackEnd.IAppService
