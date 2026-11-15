@@ -12,4 +12,7 @@ public class Clinic : BaseMultiLanguageEntity
 
     public ICollection<ClinicDoctor> ClinicDoctors { get; set; }
         = new List<ClinicDoctor>();
+
+    public ICollection<ClinicStaff> ClinicStaffs { get; set; }
+    = new List<ClinicStaff>();
 }

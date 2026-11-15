@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MediCare.Presentation.Shared.Configuration
 {
-    public static class ApplicationResolveServices
+    public static class InfrastructureServiceCollectionExtensions
     {
-        public static IServiceCollection AddApplicationResolveServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

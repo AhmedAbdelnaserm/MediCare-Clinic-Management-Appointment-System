@@ -1,0 +1,49 @@
+﻿@{
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+
+    var (navbar, sidebar) = area switch
+    {
+        "SuperAdmin" => ("_SuperAdminNavbar.cshtml", "_SuperAdminSidebar.cshtml"),
+        "Admin" => ("_AdminNavbar.cshtml", "_AdminSidebar.cshtml"),
+        "Doctor" => ("_DoctorNavbar.cshtml", "_DoctorSidebar.cshtml"),
+        "Patient" => ("_PatientNavbar.cshtml", "_PatientSidebar.cshtml"),
+        _ => throw new InvalidOperationException("Unknown dashboard area.")
+    };
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MediCare</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="dashboard-wrapper">
+
+        <aside class="dashboard-sidebar">
+            <partial name="@($"~/Views/Shared/Partials/{area}/{sidebar}")" />
+        </aside>
+
+        <div class="dashboard-main">
+            <header>
+                <partial name="@($"~/Views/Shared/Partials/{area}/{navbar}")" />
+            </header>
+
+            <main class="dashboard-content">
+                @RenderBody()
+            </main>
+        </div>
+
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

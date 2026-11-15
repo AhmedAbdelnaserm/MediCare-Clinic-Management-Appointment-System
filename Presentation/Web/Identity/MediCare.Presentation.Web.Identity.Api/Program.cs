@@ -21,7 +21,7 @@ builder.Services
     .AddIdentityServices()
     .AddJwtAuthentication(builder.Configuration)
     .AddSwaggerWithJwt("Identity API")
-    .AddApplicationResolveServices();
+    .AddInfrastructureServices();
 
 
 builder.Services.AddControllers();
@@ -34,9 +34,14 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    // 1. Create all application roles first.
     await IdentityRoleSeeder.SeedAsync(scope.ServiceProvider);
-}
 
+    // 2. Create the initial SuperAdmin if configured.
+    await SuperAdminSeeder.SeedAsync(
+        scope.ServiceProvider,
+        app.Configuration);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

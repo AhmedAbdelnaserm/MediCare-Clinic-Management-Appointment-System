@@ -341,6 +341,46 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.ToTable("ClinicDoctors");
                 });
 
+            modelBuilder.Entity("MediCare.Core.Entity.Entity.ClinicStaff", b =>
+                {
+                    b.Property<int>("ClinicStaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClinicStaffId"));
+
+                    b.Property<int>("ClinicId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeleteStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifierUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ClinicStaffId");
+
+                    b.HasIndex("ClinicId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ClinicStaffs");
+                });
+
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Doctor", b =>
                 {
                     b.Property<int>("DoctorId")
@@ -943,6 +983,25 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("MediCare.Core.Entity.Entity.ClinicStaff", b =>
+                {
+                    b.HasOne("MediCare.Core.Entity.Entity.Clinic", "Clinic")
+                        .WithMany("ClinicStaffs")
+                        .HasForeignKey("ClinicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MediCare.Core.Entity.Entity.ApplicationUser", "User")
+                        .WithOne("ClinicStaff")
+                        .HasForeignKey("MediCare.Core.Entity.Entity.ClinicStaff", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Clinic");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Doctor", b =>
                 {
                     b.HasOne("MediCare.Core.Entity.Entity.Specialization", "Specialization")
@@ -1106,6 +1165,8 @@ namespace MediCare.Infrastructure.Repository.Migrations
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.ApplicationUser", b =>
                 {
+                    b.Navigation("ClinicStaff");
+
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
@@ -1129,6 +1190,8 @@ namespace MediCare.Infrastructure.Repository.Migrations
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Clinic", b =>
                 {
                     b.Navigation("ClinicDoctors");
+
+                    b.Navigation("ClinicStaffs");
                 });
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.ClinicDoctor", b =>

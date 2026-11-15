@@ -19,15 +19,7 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         #region Main Methods Implementation 
         public Task<int> Commit()
         {
-            try
-            {
-                return AppDbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
+            return AppDbContext.SaveChangesAsync();
         }
         public void RollBack()
         {

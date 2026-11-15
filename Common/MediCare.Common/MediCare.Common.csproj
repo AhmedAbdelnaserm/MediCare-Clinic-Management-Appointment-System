@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ExtensionMethod\" />
     <Folder Include="Helper\" />
     <Folder Include="IHelper\" />
   </ItemGroup>

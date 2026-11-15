@@ -40,8 +40,11 @@ namespace MediCare.Application.Identity.AppService
             if (user == null)
                 return response;
             var jwtGenerateToken = await GenerateToken(user);
-            var authModel = new AuthModel
+            var authModel = new AuthModel()
             {
+                UserId = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtGenerateToken),
                 Roles = (await UserManager.GetRolesAsync(user)).ToList(),
                 TokenExpireOn = jwtGenerateToken.ValidTo
