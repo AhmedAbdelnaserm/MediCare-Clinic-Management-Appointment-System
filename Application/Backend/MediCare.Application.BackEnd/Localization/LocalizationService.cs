@@ -18,7 +18,8 @@
         public string InvalidData => Reader.GetKeyValue("InvalidData", "Invalid Data");
         public string ClinicNameRequired => Reader.GetKeyValue("ClinicNameRequired", "Clinic name is required");
         public string ClinicAddressRequired => Reader.GetKeyValue("ClinicAddressRequired", "Clinic address is required");
-        public string ClinicAreaRequired => Reader.GetKeyValue("ClinicAreaRequired", "Please select a valid area");
-        public string ClinicAreaNotFound => Reader.GetKeyValue("ClinicAreaNotFound", "The selected area does not exist");
+        public string AreaRequired => Reader.GetKeyValue("ClinicAreaRequired", "Please select a valid area");
+        public string AreaNotFound => Reader.GetKeyValue("AreaNotFound", "The selected area does not exist");
+        public string ClinicNotFound => Reader.GetKeyValue("ClinicNotFound", "The requested clinic does not exist");
     }
 }

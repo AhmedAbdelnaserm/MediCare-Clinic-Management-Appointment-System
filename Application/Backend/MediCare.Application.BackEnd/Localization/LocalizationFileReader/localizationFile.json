@@ -413,34 +413,6 @@
     }
   },
   {
-    "Key": "InvalidSubsectionToSectionMapping",
-    "LocalizedValue": {
-      "en": "This Subsection Does Not Belong To Its Section",
-      "ar": ""
-    }
-  },
-  {
-    "Key": "SubsectionImageLimitExceeded",
-    "LocalizedValue": {
-      "en": "A Subsection Can Have Only 5 Images",
-      "ar": ""
-    }
-  },
-  {
-    "Key": "SeverityIdentifierRequired",
-    "LocalizedValue": {
-      "en": "Severity Identifier Required",
-      "ar": ""
-    }
-  },
-  {
-    "Key": "InvalidSeverityType",
-    "LocalizedValue": {
-      "en": "Invalid Severity Type",
-      "ar": ""
-    }
-  },
-  {
     "Key": "FindingDescriptionRequired",
     "LocalizedValue": {
       "en": "Finding Description Required",

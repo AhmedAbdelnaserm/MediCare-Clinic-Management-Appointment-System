@@ -1,18 +1,12 @@
 ﻿using MediCare.Core.Entity.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MediCare.Core.IRepository.IRepository.Base;
 
 namespace MediCare.Core.IRepository.IRepository
 {
-    public interface IClinicRepository
+    public interface IClinicRepository : IBaseRepository<Clinic>
     {
         Task<Clinic> GetClinic(int clinicId, string includeProperties = "");
         Task<List<Clinic>> GetClinics(string includeProperties = "");
         Task<List<Clinic>> GetClinicsByAreaId(int areaId, string includeProperties = "");
-
-        Task<bool> CreateClinic(Clinic clinic);
-        Task<bool> UpdateClinic(Clinic clinic);
-        Task<bool> DeleteClinic(Clinic clinic);
     }
 }
