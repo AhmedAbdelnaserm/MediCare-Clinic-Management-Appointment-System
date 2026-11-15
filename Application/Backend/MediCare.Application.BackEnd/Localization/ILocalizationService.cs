@@ -10,6 +10,11 @@
         string DataRequired { get; }
         string InvalidData { get; }
         #endregion
-
+        #region Clinic
+        string ClinicNameRequired { get; }
+        string ClinicAddressRequired { get; }
+        string ClinicAreaRequired { get; }
+        string ClinicAreaNotFound { get; }
+        #endregion
     }
 }

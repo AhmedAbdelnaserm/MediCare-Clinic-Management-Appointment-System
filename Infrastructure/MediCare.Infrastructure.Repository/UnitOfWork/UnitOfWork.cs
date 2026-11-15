@@ -61,6 +61,8 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         public ICityRepository CityRepository => new CityRepository(AppDbContext);
 
         public IAreaRepository AreaRepository => new AreaRepository(AppDbContext);
+
+        public IClinicRepository ClinicRepository => new ClinicRepository(AppDbContext);
         #endregion
     }
 }
