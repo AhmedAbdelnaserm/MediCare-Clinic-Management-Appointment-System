@@ -9,13 +9,21 @@ namespace MediCare.Application.Identity.Mapping
         public ApplicationUserMapping()
         {
             CreateMap<RegisterDto, ApplicationUser>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+                .ForMember(destination => destination.Email,
+                    options => options.MapFrom(source => source.Email.Trim()))
+                .ForMember(destination => destination.UserName,
+                    options => options.MapFrom(source => source.UserName.Trim()));
 
             CreateMap<ApplicationUser, AuthModel>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+                .ForMember(destination => destination.UserId,
+                    options => options.MapFrom(source => source.Id))
+                .ForMember(destination => destination.UserName,
+                    options => options.MapFrom(source => source.UserName ?? string.Empty))
+                .ForMember(destination => destination.Email,
+                    options => options.MapFrom(source => source.Email ?? string.Empty))
+                .ForMember(destination => destination.Token, options => options.Ignore())
+                .ForMember(destination => destination.Roles, options => options.Ignore())
+                .ForMember(destination => destination.TokenExpireOn, options => options.Ignore());
         }
     }
 }
