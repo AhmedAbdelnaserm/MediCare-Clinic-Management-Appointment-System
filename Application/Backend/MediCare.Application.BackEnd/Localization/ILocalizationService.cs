@@ -19,6 +19,11 @@
         string EnNameRequired { get; }
         string EnDescriptionRequired { get; }
         #endregion
-
+        #region Clinic
+        string ClinicNameRequired { get; }
+        string ClinicAddressRequired { get; }
+        string ClinicAreaRequired { get; }
+        string ClinicAreaNotFound { get; }
+        #endregion
     }
 }

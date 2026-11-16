@@ -26,5 +26,9 @@
         public string EnNameRequired => Reader.GetKeyValue("EnNameRequired", "English name is required.");
         public string EnDescriptionRequired => Reader.GetKeyValue("EnDescriptionRequired", "English description is required.");
    
+        public string ClinicNameRequired => Reader.GetKeyValue("ClinicNameRequired", "Clinic name is required");
+        public string ClinicAddressRequired => Reader.GetKeyValue("ClinicAddressRequired", "Clinic address is required");
+        public string ClinicAreaRequired => Reader.GetKeyValue("ClinicAreaRequired", "Please select a valid area");
+        public string ClinicAreaNotFound => Reader.GetKeyValue("ClinicAreaNotFound", "The selected area does not exist");
     }
 }

@@ -13,6 +13,7 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Configuration
             services.AddScoped<ICityAppService, CityAppService>();
             services.AddScoped<IAreaAppService, AreaAppService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IClinicAppService, ClinicAppService>();
             return services;
         }
     }
