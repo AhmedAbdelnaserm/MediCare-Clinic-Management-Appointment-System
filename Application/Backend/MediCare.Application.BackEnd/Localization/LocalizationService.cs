@@ -16,6 +16,16 @@
         public string InvalidRequest => Reader.GetKeyValue("InvalidRequest", "Invalid Request");
         public string DataRequired => Reader.GetKeyValue("DataRequired", "Data Required");
         public string InvalidData => Reader.GetKeyValue("InvalidData", "Invalid Data");
+        public string InvalidDoctorId => Reader.GetKeyValue("InvalidDoctorId", "Doctor ID must be greater than zero.");
+        public string DoctorNotFound => Reader.GetKeyValue("DoctorNotFound", "Doctor was not found.");
+        public string UserNotFound => Reader.GetKeyValue("UserNotFound", "User was not found.");
+        public string UserAlreadyDoctor => Reader.GetKeyValue("UserAlreadyDoctor", "This user is already assigned to a doctor.");
+        public string InvalidSpecialization => Reader.GetKeyValue("InvalidSpecialization", "Select a valid specialization.");
+        public string SpecializationNotFound => Reader.GetKeyValue("SpecializationNotFound", "Selected specialization was not found.");
+        public string InvalidConsultationFee => Reader.GetKeyValue("InvalidConsultationFee", "Consultation fee cannot be negative.");
+        public string EnNameRequired => Reader.GetKeyValue("EnNameRequired", "English name is required.");
+        public string EnDescriptionRequired => Reader.GetKeyValue("EnDescriptionRequired", "English description is required.");
+   
         public string ClinicNameRequired => Reader.GetKeyValue("ClinicNameRequired", "Clinic name is required");
         public string ClinicAddressRequired => Reader.GetKeyValue("ClinicAddressRequired", "Clinic address is required");
         public string AreaRequired => Reader.GetKeyValue("ClinicAreaRequired", "Please select a valid area");

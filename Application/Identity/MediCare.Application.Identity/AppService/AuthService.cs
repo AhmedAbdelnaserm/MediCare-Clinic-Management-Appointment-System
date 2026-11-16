@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediCare.Application.Identity.Base;
 using MediCare.Application.Identity.Dto.Authentication;
 using MediCare.Application.Identity.Localization;
@@ -41,15 +41,10 @@ namespace MediCare.Application.Identity.AppService
             if (user == null)
                 return response;
             var jwtGenerateToken = await GenerateToken(user);
-            var authModel = new AuthModel()
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                Token = new JwtSecurityTokenHandler().WriteToken(jwtGenerateToken),
-                Roles = (await UserManager.GetRolesAsync(user)).ToList(),
-                TokenExpireOn = jwtGenerateToken.ValidTo
-            };
+            var authModel = Mapper.Map<AuthModel>(user);
+            authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtGenerateToken);
+            authModel.Roles = (await UserManager.GetRolesAsync(user)).ToList();
+            authModel.TokenExpireOn = jwtGenerateToken.ValidTo;
             return response.GetSuccessResponse(authModel, Localization.LoginSuccessfully);
         }
         public async Task<ResponseDto<AuthModel>> UserRegister(RegisterDto request)
@@ -80,7 +75,7 @@ namespace MediCare.Application.Identity.AppService
                 if (!roleResult.Succeeded)
                 {
                     var errors = string.Empty;
-                    foreach (var err in result.Errors)
+                    foreach (var err in roleResult.Errors)
                     {
                         errors += $"{err.Description},";
                     }
@@ -103,7 +98,7 @@ namespace MediCare.Application.Identity.AppService
             catch (Exception)
             {
                 // Catch any unexpected error → delete user if already created
-                if (user != null)
+                if (!string.IsNullOrEmpty(user?.Id))
                 {
                     var existingUser = await UserManager.FindByIdAsync(user.Id);
                     if (existingUser != null)
