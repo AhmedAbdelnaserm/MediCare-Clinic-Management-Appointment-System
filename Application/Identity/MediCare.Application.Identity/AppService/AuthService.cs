@@ -5,6 +5,7 @@ using MediCare.Application.Identity.Localization;
 using MediCare.Common.Dto;
 using MediCare.Common.Enum;
 using MediCare.Common.Helper;
+using MediCare.Common.Interface;
 using MediCare.Core.Entity.Entity;
 using MediCare.Core.IRepository.IUnitOfWork;
 using MediCare.IApplication.Identity.IAppService;
@@ -23,8 +24,8 @@ namespace MediCare.Application.Identity.AppService
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly JWT Jwt;
         public AuthService(IMapper mapper, ILocalizationService localization, ILogger<AuthService> logger,
-            IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IOptions<JWT> jwt)
-            : base(mapper, localization, logger, unitOfWork)
+            IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IOptions<JWT> jwt, ICurrentUserService currentUser)
+            : base(mapper, localization, logger, unitOfWork, currentUser)
         {
             UserManager = userManager;
             Jwt = jwt.Value;

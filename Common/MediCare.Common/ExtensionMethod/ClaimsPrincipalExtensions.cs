@@ -1,7 +1,6 @@
-﻿
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
-namespace MediCare.Common.Extensions;
+namespace MediCare.Common.ExtensionMethod;
 
 public static class ClaimsPrincipalExtensions
 {

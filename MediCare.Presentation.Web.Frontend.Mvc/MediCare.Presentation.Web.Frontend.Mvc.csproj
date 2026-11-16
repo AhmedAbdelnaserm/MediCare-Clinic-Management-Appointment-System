@@ -16,8 +16,11 @@
     <Folder Include="Areas\Doctor\ViewModels\" />
     <Folder Include="Areas\Patient\Controllers\" />
     <Folder Include="Areas\Patient\ViewModels\" />
-    <Folder Include="Areas\SuperAdmin\ViewModels\" />
     <Folder Include="ViewModels\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.3.0" />
   </ItemGroup>
 
   <PropertyGroup>

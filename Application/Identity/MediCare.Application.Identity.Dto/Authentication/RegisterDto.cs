@@ -8,6 +8,5 @@ namespace MediCare.Application.Identity.Dto.Authentication
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        //public int UserRoles { get; set; }
     }
 }

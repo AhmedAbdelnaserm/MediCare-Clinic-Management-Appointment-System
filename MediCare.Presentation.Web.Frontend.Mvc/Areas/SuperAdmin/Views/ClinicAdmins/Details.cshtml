@@ -1,0 +1,27 @@
+﻿@model MediCare.Application.Identity.Dto.ClinicAdminDto.ClinicAdminDto
+
+@{
+    ViewData["Title"] = "Clinic Admin Details";
+}
+
+<h2 class="mb-4">Clinic Admin Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Full Name</dt>
+    <dd class="col-sm-9">@Model.FullName</dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Phone</dt>
+    <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+    <dt class="col-sm-3">Clinic</dt>
+    <dd class="col-sm-9">@Model.ClinicName</dd>
+
+    <dt class="col-sm-3">Status</dt>
+    <dd class="col-sm-9">@(Model.IsActive ? "Active" : "Inactive")</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.UserId" class="btn btn-warning">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back</a>

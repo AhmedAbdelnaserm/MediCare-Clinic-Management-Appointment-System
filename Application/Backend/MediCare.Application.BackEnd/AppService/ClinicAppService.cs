@@ -5,6 +5,7 @@ using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Common.Dto;
 using MediCare.Common.Enum;
+using MediCare.Common.Interface;
 using MediCare.Core.Entity.Entity;
 using MediCare.Core.IRepository.IUnitOfWork;
 using MediCare.IApplication.BackEnd.IAppService;
@@ -14,8 +15,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class ClinicAppService : BaseAppService, IClinicAppService
     {
-        public ClinicAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork)
-            : base(mapper, localization, logger, unitOfWork)
+        public ClinicAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+            : base(mapper, localization, logger, unitOfWork, currentUser)
         {
         }
 
@@ -26,7 +27,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinicId <= default(int))
                 return response.GetErrorResponse(Localization.InvalidData);
 
-            var clinic = await UnitOfWork.ClinicRepository.GetClinic(clinicId);
+            var clinic = await UnitOfWork.ClinicRepository.GetClinic(clinicId, "Area");
 
             if (clinic == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
@@ -67,6 +68,17 @@ namespace MediCare.Application.BackEnd.AppService
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
 
+        public async Task<ResponseDto<List<ClinicDto>>> GetClinicsForManagement()
+        {
+            ResponseDto<List<ClinicDto>> response = new();
+
+            var clinics = await UnitOfWork.ClinicRepository.GetClinics("Area");
+
+            if (clinics.Count == default(int))
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            return response.GetSuccessResponse(Mapper.Map<List<ClinicDto>>(clinics), Localization.GeneralSuccess);
+        }
         public async Task<ResponseDto<EmptyResponseDto>> CreateClinic(CreateClinicRequestDto clinicDto)
         {
             ResponseDto<EmptyResponseDto> response = await ValidateCreateClinicRequestData(clinicDto);
@@ -74,7 +86,8 @@ namespace MediCare.Application.BackEnd.AppService
                 return response.GetErrorResponse(response.Message);
 
             var clinic = Mapper.Map<Clinic>(clinicDto);
-
+            clinic.CreatorUserId = CurrentUser.UserId
+                ?? throw new InvalidOperationException("Current user is not authenticated.");
             clinic.DeleteStatusId = (int)DeleteStatusEnum.NotDeleted;
             clinic.CreationTime = DateTime.UtcNow;
 
@@ -92,8 +105,11 @@ namespace MediCare.Application.BackEnd.AppService
                 return response.GetErrorResponse(response.Message);
 
             var clinic = await UnitOfWork.ClinicRepository.GetClinic(clinicId);
+
             Mapper.Map(clinicDto, clinic);
 
+            clinic.LastModifierUserId = CurrentUser.UserId
+                ?? throw new InvalidOperationException("Current user is not authenticated.");
             clinic.LastModificationTime = DateTime.UtcNow;
 
             UnitOfWork.ClinicRepository.Update(clinic);
@@ -115,8 +131,11 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinic == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
 
+            clinic.LastModifierUserId = CurrentUser.UserId
+                ?? throw new InvalidOperationException("Current user is not authenticated.");
             clinic.LastModificationTime = DateTime.UtcNow;
             clinic.DeleteStatusId = (int)DeleteStatusEnum.Deleted;
+
             UnitOfWork.ClinicRepository.Update(clinic);
 
             return await UnitOfWork.Commit() > default(int) ?

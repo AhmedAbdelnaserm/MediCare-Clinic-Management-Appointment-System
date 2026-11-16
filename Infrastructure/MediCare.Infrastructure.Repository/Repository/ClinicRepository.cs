@@ -15,7 +15,14 @@ namespace MediCare.Infrastructure.Repository.Repository
 
         public override Expression<Func<Clinic, object>> ColumnsMap(string sortingExpression)
         {
-            throw new NotImplementedException();
+            return sortingExpression switch
+            {
+                nameof(Clinic.EnName) => x => x.EnName,
+                nameof(Clinic.ArName) => x => x.ArName,
+                nameof(Clinic.Address) => x => x.Address,
+                nameof(Clinic.CreationTime) => x => x.CreationTime,
+                _ => x => x.ClinicId
+            };
         }
 
         public async Task<Clinic> GetClinic(int clinicId, string includeProperties = "")

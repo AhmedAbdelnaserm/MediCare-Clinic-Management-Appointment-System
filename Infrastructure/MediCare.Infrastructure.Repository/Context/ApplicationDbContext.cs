@@ -1,5 +1,6 @@
 ﻿using MediCare.Core.Entity.Entity;
 using MediCare.Infrastructure.Repository.Configuration;
+using MediCare.Infrastructure.Repository.Seed;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

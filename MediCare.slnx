@@ -5,7 +5,6 @@
     <Project Path="Application/Backend/MediCare.Application.BackEnd/MediCare.Application.BackEnd.csproj" />
     <Project Path="Application/Backend/MediCare.Application.IBackEnd/MediCare.IApplication.BackEnd.csproj" />
   </Folder>
-  <Folder Name="/Application/Frotend/" />
   <Folder Name="/Application/Identity/">
     <Project Path="Application/Identity/MediCare.Application.Identity.Dto/MediCare.Application.Identity.Dto.csproj" />
     <Project Path="Application/Identity/MediCare.Application.Identity/MediCare.Application.Identity.csproj" />

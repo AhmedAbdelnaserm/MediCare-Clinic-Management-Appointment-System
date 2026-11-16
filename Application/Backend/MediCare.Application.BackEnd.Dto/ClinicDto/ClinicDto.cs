@@ -10,7 +10,9 @@
         public string ArDescription { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string? PhoneNumber { get; set; }
+        public int CityId { get; set; }
         public int AreaId { get; set; }
+        public string AreaName { get; set; } = string.Empty;
         #endregion
     }
 }
