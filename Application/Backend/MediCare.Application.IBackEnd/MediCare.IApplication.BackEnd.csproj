@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\MediCare.Common\MediCare.Common.csproj" />
+    <ProjectReference Include="..\MediCare.Application.BackEnd.Dto\MediCare.Application.BackEnd.Dto.csproj" />
   </ItemGroup>
 
 </Project>

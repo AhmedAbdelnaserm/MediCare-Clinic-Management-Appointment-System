@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Presentation\\Web\\Backend\\MediCare.Presentation.Web.BackEnd.Api\\MediCare.Presentation.Web.BackEnd.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Presentation\\Web\\Frontend\\MediCare.Presentation.Web.Frontend\\MediCare.Presentation.Web.Frontend.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

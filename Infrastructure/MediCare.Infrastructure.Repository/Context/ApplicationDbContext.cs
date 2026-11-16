@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MediCare.Core.Entity.Entity;
+using MediCare.Infrastructure.Repository.Context;
 
 namespace MediCare.Infrastructure.Repository.Context
 {
@@ -14,7 +15,6 @@ namespace MediCare.Infrastructure.Repository.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            DataSeeding.Seed(modelBuilder);
         }
 
     }
