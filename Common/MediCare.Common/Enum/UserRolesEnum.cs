@@ -2,7 +2,8 @@
 {
     public enum UserRolesEnum
     {
-        Admin,
+        SuperAdmin,
+        ClinicAdmin,
         Doctor,
         Patient
     }

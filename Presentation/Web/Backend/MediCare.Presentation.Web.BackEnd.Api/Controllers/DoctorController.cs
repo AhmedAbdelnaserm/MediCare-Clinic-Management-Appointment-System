@@ -1,7 +1,7 @@
 using MediCare.IApplication.BackEnd.IAppService;
-using MediCare.Application.BackEnd.Dto.Dto;
 using MediCare.Common.Enum;
 using Microsoft.AspNetCore.Mvc;
+using MediCare.Application.BackEnd.Dto.DoctorDto;
 
 namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
 {

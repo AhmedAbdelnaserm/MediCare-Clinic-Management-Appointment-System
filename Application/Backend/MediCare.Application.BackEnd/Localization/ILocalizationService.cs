@@ -22,8 +22,9 @@
         #region Clinic
         string ClinicNameRequired { get; }
         string ClinicAddressRequired { get; }
-        string ClinicAreaRequired { get; }
-        string ClinicAreaNotFound { get; }
+        string AreaRequired { get; }
+        string AreaNotFound { get; }
+        string ClinicNotFound { get; }
         #endregion
     }
 }

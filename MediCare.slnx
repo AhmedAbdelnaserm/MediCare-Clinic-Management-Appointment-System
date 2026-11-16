@@ -5,7 +5,6 @@
     <Project Path="Application/Backend/MediCare.Application.BackEnd/MediCare.Application.BackEnd.csproj" />
     <Project Path="Application/Backend/MediCare.Application.IBackEnd/MediCare.IApplication.BackEnd.csproj" />
   </Folder>
-  <Folder Name="/Application/Frotend/" />
   <Folder Name="/Application/Identity/">
     <Project Path="Application/Identity/MediCare.Application.Identity.Dto/MediCare.Application.Identity.Dto.csproj" />
     <Project Path="Application/Identity/MediCare.Application.Identity/MediCare.Application.Identity.csproj" />
@@ -30,7 +29,9 @@
   <Folder Name="/Presentation/Web/Backend/">
     <Project Path="Presentation/Web/Backend/MediCare.Presentation.Web.BackEnd.Api/MediCare.Presentation.Web.BackEnd.Api.csproj" />
   </Folder>
-  <Folder Name="/Presentation/Web/Frontend/" />
+  <Folder Name="/Presentation/Web/Frontend/">
+    <Project Path="MediCare.Presentation.Web.Frontend.Mvc/MediCare.Presentation.Web.Frontend.Mvc.csproj" Id="52c70bab-11a4-4bc1-aeb7-bd7e955bb0dc" />
+  </Folder>
   <Folder Name="/Presentation/Web/Identity/">
     <Project Path="Presentation/Web/Identity/MediCare.Presentation.Web.Identity.Api/MediCare.Presentation.Web.Identity.Api.csproj" />
   </Folder>

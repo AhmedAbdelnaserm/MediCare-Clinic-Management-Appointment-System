@@ -1,0 +1,18 @@
+﻿namespace MediCare.Application.BackEnd.Dto.ClinicDto
+{
+    public class ClinicDto
+    {
+        #region Properties
+        public int ClinicId { get; set; }
+        public string EnName { get; set; } = string.Empty;
+        public string ArName { get; set; } = string.Empty;
+        public string EnDescription { get; set; } = string.Empty;
+        public string ArDescription { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public string? PhoneNumber { get; set; }
+        public int CityId { get; set; }
+        public int AreaId { get; set; }
+        public string AreaName { get; set; } = string.Empty;
+        #endregion
+    }
+}

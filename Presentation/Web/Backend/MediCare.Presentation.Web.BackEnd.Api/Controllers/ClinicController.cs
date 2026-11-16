@@ -1,7 +1,6 @@
 ﻿
-using MediCare.Common.Dto;
+using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.IApplication.BackEnd.IAppService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
@@ -29,7 +28,7 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
             return Ok(await ClinicAppService.GetClinics());
         }
 
-        [HttpGet("GetClinicsByAreaId/{areaId}")]
+        [HttpGet("GetClinic/{areaId}")]
         public async Task<IActionResult> GetClinicsByAreaId(int areaId)
         {
             return Ok(await ClinicAppService.GetClinicsByAreaId(areaId));

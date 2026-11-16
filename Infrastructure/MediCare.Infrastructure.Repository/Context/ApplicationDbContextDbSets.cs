@@ -21,7 +21,7 @@ namespace MediCare.Infrastructure.Repository.Context
         public DbSet<Slot> Slots { get; set; }
         public DbSet<WorkingHour> WorkingHours { get; set; }
         public DbSet<UploadedAttachment> UploadedAttachments { get; set; }
-
+        public DbSet<ClinicStaff> ClinicStaffs { get; set; }
 
         #endregion
     }

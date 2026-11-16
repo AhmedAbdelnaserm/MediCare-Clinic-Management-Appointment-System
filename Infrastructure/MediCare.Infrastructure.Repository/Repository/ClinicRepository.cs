@@ -15,7 +15,14 @@ namespace MediCare.Infrastructure.Repository.Repository
 
         public override Expression<Func<Clinic, object>> ColumnsMap(string sortingExpression)
         {
-            throw new NotImplementedException();
+            return sortingExpression switch
+            {
+                nameof(Clinic.EnName) => x => x.EnName,
+                nameof(Clinic.ArName) => x => x.ArName,
+                nameof(Clinic.Address) => x => x.Address,
+                nameof(Clinic.CreationTime) => x => x.CreationTime,
+                _ => x => x.ClinicId
+            };
         }
 
         public async Task<Clinic> GetClinic(int clinicId, string includeProperties = "")
@@ -31,25 +38,6 @@ namespace MediCare.Infrastructure.Repository.Repository
         public async Task<List<Clinic>> GetClinicsByAreaId(int areaId, string includeProperties = "")
         {
             return await GetWhereAsync(c => c.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted && c.AreaId == areaId, includeProperties);
-        }
-
-        public async Task<bool> CreateClinic(Clinic clinic)
-        {
-            await CreateAsync(clinic);
-            return true;
-        }
-
-        public Task<bool> UpdateClinic(Clinic clinic)
-        {
-            Update(clinic);
-            return Task.FromResult(true);
-        }
-
-        public Task<bool> DeleteClinic(Clinic clinic)
-        {
-            clinic.DeleteStatusId = (int)DeleteStatusEnum.Deleted;
-            Update(clinic);
-            return Task.FromResult(true);
         }
     }
 }

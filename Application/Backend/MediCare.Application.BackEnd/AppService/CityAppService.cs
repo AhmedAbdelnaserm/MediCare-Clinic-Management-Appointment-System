@@ -2,6 +2,7 @@
 using MediCare.Application.BackEnd.Base;
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Common.Dto;
+using MediCare.Common.Interface;
 using MediCare.Core.IRepository.IUnitOfWork;
 using MediCare.IApplication.BackEnd.IAppService;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class CityAppService : BaseAppService, ICityAppService
     {
-        public CityAppService(IMapper mapper, ILocalizationService localization, ILogger<CityAppService> logger, IUnitOfWork unitOfWork) : base(mapper, localization, logger, unitOfWork)
+        public CityAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+            : base(mapper, localization, logger, unitOfWork, currentUser)
         {
         }
 

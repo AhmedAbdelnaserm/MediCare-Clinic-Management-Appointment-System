@@ -1,0 +1,111 @@
+﻿@using MediCare.Common.Dto
+@using MediCare.Presentation.Web.Frontend.Mvc.Areas.SuperAdmin.ViewModels
+@model ClinicFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Clinic";
+    var cities = ViewBag.Cities as List<TextValueBindingResponseDto> ?? new();
+    var areas = ViewBag.Areas as List<TextValueBindingResponseDto> ?? new();
+    var clinicId = (int)ViewBag.ClinicId;
+}
+
+<h2>Edit Clinic</h2>
+
+<form asp-action="Edit" asp-route-id="@clinicId" method="post">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="EnName" class="form-label"></label>
+        <input asp-for="EnName" class="form-control" />
+        <span asp-validation-for="EnName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EnDescription" class="form-label"></label>
+        <textarea asp-for="EnDescription" class="form-control"></textarea>
+        <span asp-validation-for="EnDescription" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CityId" class="form-label">City</label>
+        <select asp-for="CityId" class="form-select" id="CityId">
+            <option value="0">Select City</option>
+            @foreach (var city in cities)
+            {
+                <option value="@city.Id">@city.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CityId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AreaId" class="form-label">Area</label>
+        <select asp-for="AreaId" class="form-select" id="AreaId"
+                disabled="@(Model.CityId <= 0)">
+            <option value="0">Select Area</option>
+            @foreach (var area in areas)
+            {
+                <option value="@area.Id">@area.Name</option>
+            }
+        </select>
+        <span asp-validation-for="AreaId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const citySelect = document.getElementById("CityId");
+        const areaSelect = document.getElementById("AreaId");
+
+        citySelect.addEventListener("change", async function() {
+            const cityId = this.value;
+
+            areaSelect.innerHTML = '<option value="0">Select Area</option>';
+            areaSelect.disabled = true;
+
+            if (!cityId || cityId === "0")
+                return;
+
+            try {
+                const url = '@Url.Action("GetAreasByCity", "Clinics", new { area = "SuperAdmin" })';
+                const response = await fetch(`${url}?cityId=${encodeURIComponent(cityId)}`);
+
+                if (!response.ok)
+                    throw new Error("Failed to load areas.");
+
+                const areas = await response.json();
+
+                areas.forEach(area => {
+                    const option = document.createElement("option");
+                    option.value = area.id;
+                    option.textContent = area.name;
+                    areaSelect.appendChild(option);
+                });
+
+                areaSelect.disabled = areas.length === 0;
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    </script>
+}

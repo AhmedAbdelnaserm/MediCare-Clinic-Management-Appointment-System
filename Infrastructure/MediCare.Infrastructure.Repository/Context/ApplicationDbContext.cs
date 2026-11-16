@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MediCare.Core.Entity.Entity;
+using MediCare.Infrastructure.Repository.Configuration;
+using MediCare.Infrastructure.Repository.Seed;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MediCare.Core.Entity.Entity;
 
 namespace MediCare.Infrastructure.Repository.Context
 {
@@ -13,6 +15,10 @@ namespace MediCare.Infrastructure.Repository.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(ClinicStaffConfiguration).Assembly
+            );
 
             DataSeeding.Seed(modelBuilder);
         }

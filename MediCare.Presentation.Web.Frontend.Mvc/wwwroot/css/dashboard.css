@@ -1,0 +1,43 @@
+﻿
+html, body {
+    min-height: 100%;
+    margin: 0;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background-color: #212529;
+}
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-content {
+    padding: 24px;
+}
+
+.sidebar-content .nav-link {
+    padding: 12px 20px;
+}
+
+    .sidebar-content .nav-link:hover {
+        background-color: #343a40;
+    }
+
+@media (max-width: 768px) {
+    .dashboard-sidebar {
+        width: 180px;
+    }
+
+    .dashboard-content {
+        padding: 12px;
+    }
+}

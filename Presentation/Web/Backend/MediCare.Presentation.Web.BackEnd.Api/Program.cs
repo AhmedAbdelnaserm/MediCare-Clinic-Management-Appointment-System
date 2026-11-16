@@ -16,7 +16,7 @@ builder.Services
     .AddIdentityServices()
     .AddBackendResolveServices()
     .AddJwtAuthentication(builder.Configuration)
-    .AddApplicationResolveServices()
+    .AddInfrastructureServices()
     .AddSwaggerWithJwt("Backend API");
 
 
