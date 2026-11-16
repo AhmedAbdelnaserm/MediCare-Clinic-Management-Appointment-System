@@ -1,7 +1,6 @@
 using AutoMapper;
-using MediCare.Common.Dto;
 using MediCare.Core.Entity.Entity;
-using MediCare.Application.BackEnd.Dto.Dto;
+using MediCare.Application.BackEnd.Dto.DoctorDto;
 
 namespace MediCare.Application.BackEnd.Mapping;
 

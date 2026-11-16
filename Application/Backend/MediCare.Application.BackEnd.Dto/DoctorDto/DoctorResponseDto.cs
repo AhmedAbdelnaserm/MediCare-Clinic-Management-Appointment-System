@@ -1,4 +1,4 @@
-namespace MediCare.Common.Dto;
+namespace MediCare.Application.BackEnd.Dto.DoctorDto;
 
 public class DoctorResponseDto
 {
