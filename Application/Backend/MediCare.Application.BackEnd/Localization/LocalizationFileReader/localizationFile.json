@@ -516,5 +516,79 @@
       "en": "Invalid Report Section",
       "ar": ""
     }
+  },
+  {
+    "Key": "InvalidDoctorId",
+    "LocalizedValue": { "en": "Doctor ID must be greater than zero.", "ar": "رقم الطبيب يجب أن يكون أكبر من صفر." }
+  },
+  {
+    "Key": "DoctorNotFound",
+    "LocalizedValue": {
+      "en": "Doctor was not found.",
+      "ar": "الطبيب غير موجود."
+    }
+  },
+  {
+    "Key": "UserNotFound",
+    "LocalizedValue": {
+      "en": "User was not found.",
+      "ar": "المستخدم غير موجود."
+    }
+  },
+  {
+    "Key": "UserAlreadyDoctor",
+    "LocalizedValue": {
+      "en": "This user is already assigned to a doctor.",
+      "ar": "هذا المستخدم مرتبط بطبيب بالفعل."
+    }
+  },
+  {
+    "Key": "InvalidSpecialization",
+    "LocalizedValue": {
+      "en": "Select a valid specialization.",
+      "ar": "اختر تخصصاً صالحاً."
+    }
+  },
+  {
+    "Key": "SpecializationNotFound",
+    "LocalizedValue": {
+      "en": "Selected specialization was not found.",
+      "ar": "التخصص المحدد غير موجود."
+    }
+  },
+  {
+    "Key": "InvalidConsultationFee",
+    "LocalizedValue": {
+      "en": "Consultation fee cannot be negative.",
+      "ar": "لا يمكن أن تكون رسوم الكشف سالبة."
+    }
+  },
+  {
+    "Key": "EnNameRequired",
+    "LocalizedValue": {
+      "en": "English name is required.",
+      "ar": "الاسم باللغة الإنجليزية مطلوب."
+    }
+  },
+  {
+    "Key": "EnDescriptionRequired",
+    "LocalizedValue": {
+      "en": "English description is required.",
+      "ar": "الوصف باللغة الإنجليزية مطلوب."
+    }
+  },
+  {
+    "Key": "ArNameRequired",
+    "LocalizedValue": {
+      "en": "Arabic name is required.",
+      "ar": "الاسم باللغة العربية مطلوب."
+    }
+  },
+  {
+    "Key": "ArDescriptionRequired",
+    "LocalizedValue": {
+      "en": "Arabic description is required.",
+      "ar": "الوصف باللغة العربية مطلوب."
+    }
   }
 ]

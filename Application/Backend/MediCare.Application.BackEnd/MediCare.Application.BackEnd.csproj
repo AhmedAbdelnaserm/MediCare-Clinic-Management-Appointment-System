@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\MediCare.Core.Entity\MediCare.Core.Entity.csproj" />
+    <ProjectReference Include="..\MediCare.Application.BackEnd.Dto\MediCare.Application.BackEnd.Dto.csproj" />
     <ProjectReference Include="..\..\..\Core\MediCare.Core.IRepository\MediCare.Core.IRepository.csproj" />
     <ProjectReference Include="..\MediCare.Application.IBackEnd\MediCare.IApplication.BackEnd.csproj" />
   </ItemGroup>
