@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using MediCare.Application.BackEnd.Base;
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Common.Dto;
@@ -11,8 +10,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class CityAppService : BaseAppService, ICityAppService
     {
-        public CityAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
-            : base(mapper, localization, logger, unitOfWork, currentUser)
+        public CityAppService(ILocalizationService localization, ILogger<CityAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+            : base(localization, logger, unitOfWork, currentUser)
         {
         }
 
@@ -24,7 +23,7 @@ namespace MediCare.Application.BackEnd.AppService
             var city = await UnitOfWork.CityRepository.GetCity(cityId);
             if (city == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<TextValueBindingResponseDto>(city);
+            var responseDto = new TextValueBindingResponseDto { Id = city.CityId, Name = city.EnName };
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
         public async Task<ResponseDto<List<TextValueBindingResponseDto>>> GetCities()
@@ -33,7 +32,7 @@ namespace MediCare.Application.BackEnd.AppService
             var city = await UnitOfWork.CityRepository.GetCities();
             if (city.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<List<TextValueBindingResponseDto>>(city);
+            var responseDto = city.Select(item => new TextValueBindingResponseDto { Id = item.CityId, Name = item.EnName }).ToList();
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
 

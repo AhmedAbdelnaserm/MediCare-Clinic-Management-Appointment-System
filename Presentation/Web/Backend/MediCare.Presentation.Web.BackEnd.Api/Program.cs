@@ -1,28 +1,23 @@
-using MediCare.Application.BackEnd.Mapping;
+using MediCare.Infrastructure.Repository;
 using MediCare.Presentation.Shared.Configuration;
 using MediCare.Presentation.Web.BackEnd.Api.Configuration;
+using MediCare.Presentation.Web.BackEnd.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(
-    cfg => { },
-    typeof(AreaMapping).Assembly
-);
-
 //===== Add Services =====
 builder.Services
-    .AddDbServices(builder.Configuration)
-    .AddCorsWithDefaultPolicy()
-    .AddIdentityServices()
+    .AddInfrastructure(builder.Configuration)
+    .AddCorsWithDefaultPolicy(builder.Configuration)
     .AddBackendResolveServices()
     .AddJwtAuthentication(builder.Configuration)
-    .AddInfrastructureServices()
     .AddSwaggerWithJwt("Backend API");
 
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHostedService<AppointmentReminderWorker>();
 
 var app = builder.Build();
 

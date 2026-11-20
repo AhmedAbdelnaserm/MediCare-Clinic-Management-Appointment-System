@@ -2,10 +2,8 @@ namespace MediCare.Application.BackEnd.Dto.DoctorDto;
 
 public class DoctorResponseDto
 {
-    public string UserId { get; set; }
+    public int DoctorId { get; set; }
     public string DoctorName { get; set; } = string.Empty;
-    public string DoctorEmail { get; set; } = string.Empty;
-    public string DoctorPhone { get; set; } = string.Empty;
     public int SpecializationId { get; set; }
     public string SpecializationName { get; set; } = string.Empty;
     public string ClinicName { get; set; } = string.Empty;

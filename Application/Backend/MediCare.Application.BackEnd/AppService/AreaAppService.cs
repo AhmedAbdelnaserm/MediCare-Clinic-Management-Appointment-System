@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using MediCare.Application.BackEnd.Base;
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Common.Dto;
@@ -11,8 +10,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class AreaAppService : BaseAppService, IAreaAppService
     {
-        public AreaAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
-            : base(mapper, localization, logger, unitOfWork, currentUser)
+        public AreaAppService(ILocalizationService localization, ILogger<AreaAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+            : base(localization, logger, unitOfWork, currentUser)
         {
         }
 
@@ -24,7 +23,7 @@ namespace MediCare.Application.BackEnd.AppService
             var area = await UnitOfWork.AreaRepository.GetArea(areaId);
             if (area == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<TextValueBindingResponseDto>(area);
+            var responseDto = new TextValueBindingResponseDto { Id = area.AreaId, Name = area.EnName };
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
 
@@ -34,7 +33,7 @@ namespace MediCare.Application.BackEnd.AppService
             var areas = await UnitOfWork.AreaRepository.GetAreas();
             if (areas.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<List<TextValueBindingResponseDto>>(areas);
+            var responseDto = areas.Select(area => new TextValueBindingResponseDto { Id = area.AreaId, Name = area.EnName }).ToList();
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
 
@@ -44,7 +43,7 @@ namespace MediCare.Application.BackEnd.AppService
             var areas = await UnitOfWork.AreaRepository.GetAreasByCityId(cityId);
             if (areas.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<List<TextValueBindingResponseDto>>(areas);
+            var responseDto = areas.Select(area => new TextValueBindingResponseDto { Id = area.AreaId, Name = area.EnName }).ToList();
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
     }

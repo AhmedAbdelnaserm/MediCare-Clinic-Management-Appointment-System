@@ -1,6 +1,8 @@
-﻿
+
 using MediCare.Common.Enum;
 using MediCare.Core.Entity.Entity;
+using MediCare.Application.Identity.Dto.Authentication;
+using MediCare.IApplication.Identity.IAppService;
 using MediCare.Presentation.Web.Frontend.Mvc.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,13 +14,16 @@ public class AccountController : Controller
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IAuthService _authService;
 
     public AccountController(
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IAuthService authService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _authService = authService;
     }
 
     [AllowAnonymous]
@@ -35,6 +40,50 @@ public class AccountController : Controller
     }
 
     [AllowAnonymous]
+    [HttpGet]
+    public IActionResult Register()
+    {
+        if (User.Identity?.IsAuthenticated == true)
+            return RedirectToRoleDashboard();
+
+        return View(new RegisterViewModel());
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var result = await _authService.UserRegister(new RegisterDto
+        {
+            FullName = model.FullName.Trim(),
+            Email = model.Email.Trim(),
+            UserName = model.Email.Trim(),
+            PhoneNumber = model.PhoneNumber?.Trim(),
+            Password = model.Password
+        });
+
+        if (result.Code != ResultStatusEnum.Success || result.Data is null)
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View(model);
+        }
+
+        var user = await _userManager.FindByIdAsync(result.Data.UserId);
+        if (user is null)
+        {
+            ModelState.AddModelError(string.Empty, "Your account was created, but we could not sign you in. Please log in.");
+            return View("Login", new LoginViewModel { Email = model.Email });
+        }
+
+        await _signInManager.SignInAsync(user, isPersistent: false);
+        return RedirectToAction("Index", "Dashboard", new { area = "Patient" });
+    }
+
+    [AllowAnonymous]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model)
@@ -42,11 +91,14 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var result = await _signInManager.PasswordSignInAsync(
-            model.Email,
-            model.Password,
-            model.RememberMe,
-            lockoutOnFailure: true);
+        var user = await _userManager.FindByEmailAsync(model.Email.Trim());
+        var result = user is null
+            ? Microsoft.AspNetCore.Identity.SignInResult.Failed
+            : await _signInManager.PasswordSignInAsync(
+                user,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true);
 
         if (result.Succeeded)
         {

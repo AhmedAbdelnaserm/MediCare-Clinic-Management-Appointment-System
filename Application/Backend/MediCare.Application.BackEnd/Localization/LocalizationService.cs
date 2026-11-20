@@ -1,4 +1,4 @@
-﻿namespace MediCare.Application.BackEnd.Localization
+namespace MediCare.Application.BackEnd.Localization
 {
     public class LocalizationService : ILocalizationService
     {
@@ -6,8 +6,7 @@
         public LocalizationService()
         {
             Reader = new LocalizationFileReader.LocalizationFileReader(
-                "localization.common",
-                "localization.backend"
+                "localizationFile"
             );
         }
         public string GeneralError => Reader.GetKeyValue("GeneralError", "An error has occurred please try again");

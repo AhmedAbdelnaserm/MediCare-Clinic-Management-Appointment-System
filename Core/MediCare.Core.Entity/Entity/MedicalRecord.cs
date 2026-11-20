@@ -21,4 +21,5 @@ public class MedicalRecord : BaseEntity
 
     public ICollection<Prescription> Prescriptions { get; set; }
         = new List<Prescription>();
+    public ICollection<UploadedAttachment> UploadedAttachments { get; set; } = new List<UploadedAttachment>();
 }

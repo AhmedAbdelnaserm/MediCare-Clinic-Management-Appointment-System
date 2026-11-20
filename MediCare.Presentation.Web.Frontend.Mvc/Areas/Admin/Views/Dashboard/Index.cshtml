@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Clinic Admin Dashboard";
+}
+
+<section class="container-fluid py-4">
+    <p class="text-uppercase text-secondary small mb-2">Clinic workspace</p>
+    <h1 class="h3 mb-2">Welcome, @User.Identity?.Name</h1>
+    <p class="text-secondary mb-4">You are signed in as a clinic administrator.</p>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="h5">Clinic access is active</h2>
+            <p class="mb-0 text-secondary">Your account is connected to its clinic. Clinic-specific doctors, patients, schedules, and appointments can be managed here as those workflows are enabled.</p>
+        </div>
+    </div>
+</section>

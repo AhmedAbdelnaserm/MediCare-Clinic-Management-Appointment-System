@@ -1,23 +1,29 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace MediCare.Presentation.Shared.Configuration
+namespace MediCare.Presentation.Shared.Configuration;
+
+public static class CorsServiceCollectionExtensions
 {
-    public static class CorsServiceCollectionExtensions
+    public static IServiceCollection AddCorsWithDefaultPolicy(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        public static IServiceCollection AddCorsWithDefaultPolicy(this IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                });
-            });
+        var allowedOrigins = configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>() ?? [];
 
-            return services;
-        }
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                if (allowedOrigins.Length > 0)
+                    policy.WithOrigins(allowedOrigins);
+
+                policy.AllowAnyMethod().AllowAnyHeader();
+            });
+        });
+
+        return services;
     }
 }

@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediCare.Application.BackEnd.Base;
 using MediCare.Application.BackEnd.Dto.DoctorDto;
 using MediCare.Application.BackEnd.Localization;
@@ -13,8 +12,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class DoctorService : BaseAppService, IDoctorService
     {
-        public DoctorService(IMapper mapper, ILocalizationService localization,
-            ILogger<DoctorService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser) : base(mapper, localization, logger, unitOfWork, currentUser)
+        public DoctorService(ILocalizationService localization,
+            ILogger<DoctorService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser) : base(localization, logger, unitOfWork, currentUser)
         {
         }
         public async Task<ResponseDto<DoctorResponseDto>> GetDoctorById(int doctorId)
@@ -23,7 +22,7 @@ namespace MediCare.Application.BackEnd.AppService
             var doctor = await UnitOfWork.DoctorRepository.GetDoctorById(doctorId);
             if (doctor == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<DoctorResponseDto>(doctor);
+            var responseDto = ToResponseDto(doctor);
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
         public async Task<ResponseDto<List<DoctorResponseDto>>> GetDoctors()
@@ -32,7 +31,7 @@ namespace MediCare.Application.BackEnd.AppService
             var doctors = await UnitOfWork.DoctorRepository.GetDoctors();
             if (doctors.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<List<DoctorResponseDto>>(doctors);
+            var responseDto = doctors.Select(ToResponseDto).ToList();
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
         public async Task<ResponseDto<List<DoctorResponseDto>>> GetDoctorsBySpecializationId(int specializationId)
@@ -41,7 +40,7 @@ namespace MediCare.Application.BackEnd.AppService
             var doctors = await UnitOfWork.DoctorRepository.GetDoctorsBySpecializationId(specializationId);
             if (doctors.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
-            var responseDto = Mapper.Map<List<DoctorResponseDto>>(doctors);
+            var responseDto = doctors.Select(ToResponseDto).ToList();
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
         public async Task<ResponseDto<EmptyResponseDto>> CreateDoctor(CreateDoctorRequestDto doctorRequestDto)
@@ -49,7 +48,7 @@ namespace MediCare.Application.BackEnd.AppService
             ResponseDto<EmptyResponseDto> response = await ValidateDoctorCreateRequestData(doctorRequestDto);
             if (response.Code != ResultStatusEnum.Success)
                 return response;
-            var doctor = Mapper.Map<Doctor>(doctorRequestDto);
+            var doctor = new Doctor { UserId = doctorRequestDto.UserId, SpecializationId = doctorRequestDto.SpecializationId, ConsultationFee = doctorRequestDto.ConsultationFee, EnName = doctorRequestDto.EnName.Trim(), EnDescription = doctorRequestDto.EnDescription.Trim(), ProfileImage = doctorRequestDto.ProfileImage, DoctorDegree = doctorRequestDto.DoctorDegree };
             doctor.ArDescription = string.Empty;
             doctor.ArName = string.Empty;
             doctor.CreatorUserId = CurrentUser.UserId
@@ -69,7 +68,15 @@ namespace MediCare.Application.BackEnd.AppService
                 return response;
 
             var doctor = await UnitOfWork.DoctorRepository.GetDoctorById(doctorId);
-            Mapper.Map(doctorRequestDto, doctor);
+            if (doctor == null)
+                return response.GetErrorResponse(Localization.DoctorNotFound);
+
+            doctor.SpecializationId = doctorRequestDto.SpecializationId;
+            doctor.ConsultationFee = doctorRequestDto.ConsultationFee;
+            doctor.EnName = doctorRequestDto.EnName.Trim();
+            doctor.EnDescription = doctorRequestDto.EnDescription.Trim();
+            doctor.ProfileImage = doctorRequestDto.ProfileImage;
+            doctor.DoctorDegree = doctorRequestDto.DoctorDegree;
             doctor.LastModifierUserId = CurrentUser.UserId
                  ?? throw new InvalidOperationException("Current user is not authenticated.");
             doctor.LastModificationTime = DateTime.UtcNow;
@@ -143,5 +150,17 @@ namespace MediCare.Application.BackEnd.AppService
             return response.GetSuccessResponse();
         }
     
+        private static DoctorResponseDto ToResponseDto(Doctor doctor) => new()
+        {
+            DoctorId = doctor.DoctorId,
+            DoctorName = doctor.EnName,
+            SpecializationId = doctor.SpecializationId,
+            SpecializationName = doctor.Specialization.EnName,
+            ClinicName = doctor.ClinicDoctors.Select(link => link.Clinic.EnName).FirstOrDefault() ?? string.Empty,
+            ConsultationFee = doctor.ConsultationFee,
+            Description = doctor.EnDescription,
+            ProfileImage = doctor.ProfileImage,
+            DoctorDegree = doctor.DoctorDegree
+        };
     }
 }

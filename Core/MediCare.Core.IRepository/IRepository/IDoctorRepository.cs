@@ -1,11 +1,11 @@
-﻿using MediCare.Core.Entity.Entity;
+using MediCare.Core.Entity.Entity;
 using MediCare.Core.IRepository.IRepository.Base;
 
 namespace MediCare.Core.IRepository.IRepository
 {
     public  interface IDoctorRepository : IBaseRepository<Doctor>
     {
-        Task<Doctor> GetDoctorById(int doctorId, string includeProperties = "");
+        Task<Doctor?> GetDoctorById(int doctorId, string includeProperties = "");
         Task<List<Doctor>> GetDoctors(string includeProperties = "");
         Task <List<Doctor>> GetDoctorsBySpecializationId(int id, string includeProperties = "");
         Task<bool> CheckIsDoctorExist(int doctorId);

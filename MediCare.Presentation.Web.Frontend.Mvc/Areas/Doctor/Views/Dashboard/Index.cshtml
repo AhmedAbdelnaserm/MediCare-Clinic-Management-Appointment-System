@@ -1,0 +1,125 @@
+@model MediCare.Presentation.Web.Frontend.Mvc.Areas.Doctor.ViewModels.DoctorWorkspaceViewModel
+
+@{
+    ViewData["Title"] = "Doctor workspace";
+}
+
+<section class="container-fluid py-4">
+    <p class="text-uppercase text-secondary small mb-2">Doctor workspace</p>
+    <h1 class="h3 mb-4">Welcome, @User.Identity?.Name</h1>
+
+    @if (TempData["RecordMessage"] is string message)
+    {
+        <div class="alert alert-success" role="status">@message</div>
+    }
+    @if (TempData["RecordError"] is string error)
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-3">Completed appointments needing a record</h2>
+            @if (Model.AppointmentsAwaitingRecord.Count == 0)
+            {
+                <p class="text-secondary mb-0">There are no completed appointments waiting for a medical record.</p>
+            }
+            else
+            {
+                @foreach (var appointment in Model.AppointmentsAwaitingRecord)
+                {
+                    <details class="border rounded p-3 mb-3">
+                        <summary><strong>@appointment.PatientName</strong> · @appointment.StartAt.ToString("dd MMM yyyy, HH:mm")</summary>
+                        <form asp-action="CreateRecord" method="post" enctype="multipart/form-data" class="row g-3 mt-1">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                            <div class="col-12">
+                                <label class="form-label" for="symptoms-@appointment.AppointmentId">Symptoms</label>
+                                <textarea class="form-control" id="symptoms-@appointment.AppointmentId" name="Symptoms" maxlength="4000" rows="2"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="diagnosis-@appointment.AppointmentId">Diagnosis</label>
+                                <textarea class="form-control" id="diagnosis-@appointment.AppointmentId" name="Diagnosis" maxlength="4000" required rows="2"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="notes-@appointment.AppointmentId">Treatment notes</label>
+                                <textarea class="form-control" id="notes-@appointment.AppointmentId" name="TreatmentNotes" maxlength="8000" rows="2"></textarea>
+                            </div>
+                            <div class="col-12"><label class="form-label" for="attachments-@appointment.AppointmentId">Clinical attachments (PDF, JPEG, PNG; up to 10 MB each)</label><input id="attachments-@appointment.AppointmentId" name="attachments" type="file" class="form-control" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple /></div>
+                            <div class="col-12">
+                                <label class="form-label" for="prescription-instructions-@appointment.AppointmentId">Prescription instructions (optional)</label>
+                                <textarea class="form-control" id="prescription-instructions-@appointment.AppointmentId" name="PrescriptionInstructions" maxlength="4000" rows="2"></textarea>
+                                <div class="prescription-items mt-3" data-appointment="@appointment.AppointmentId">
+                                    <div class="prescription-row row g-2 align-items-end mb-2">
+                                        <div class="col-md-3"><label class="form-label small">Medication</label><input name="PrescriptionItems[0].MedicationName" data-field="MedicationName" class="form-control" maxlength="200" /></div>
+                                        <div class="col-md-2"><label class="form-label small">Dosage</label><input name="PrescriptionItems[0].Dosage" data-field="Dosage" class="form-control" maxlength="200" /></div>
+                                        <div class="col-md-2"><label class="form-label small">Frequency</label><input name="PrescriptionItems[0].Frequency" data-field="Frequency" class="form-control" maxlength="200" /></div>
+                                        <div class="col-md-2"><label class="form-label small">Duration</label><input name="PrescriptionItems[0].Duration" data-field="Duration" class="form-control" maxlength="200" /></div>
+                                        <div class="col-md-3"><label class="form-label small">Instructions</label><input name="PrescriptionItems[0].Instructions" data-field="Instructions" class="form-control" maxlength="1000" /></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary add-prescription-item" data-target="@appointment.AppointmentId">Add another medication</button>
+                            </div>
+                            <div class="col-12 text-end"><button class="btn btn-primary" type="submit">Save medical record</button></div>
+                        </form>
+                    </details>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-3">Recent medical records</h2>
+            @if (Model.RecentRecords.Count == 0)
+            {
+                <p class="text-secondary mb-0">Records you create will appear here.</p>
+            }
+            else
+            {
+                <div class="table-responsive"><table class="table align-middle mb-0">
+                    <thead><tr><th>Patient</th><th>Appointment</th><th>Diagnosis</th></tr></thead>
+                    <tbody>
+                    @foreach (var record in Model.RecentRecords)
+                    {
+                        <tr><td>@record.PatientName</td><td>@record.AppointmentAt.ToString("dd MMM yyyy, HH:mm")</td><td>@record.Diagnosis @foreach (var attachment in record.Attachments) { <a asp-action="DownloadAttachment" asp-route-id="@attachment.AttachmentId" class="d-block small">@attachment.FileName</a> }</td></tr>
+                    }
+                    </tbody>
+                </table></div>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll(".add-prescription-item").forEach(button => {
+            button.addEventListener("click", () => {
+                const container = document.querySelector(`.prescription-items[data-appointment='${button.dataset.target}']`);
+                if (!container || container.querySelectorAll(".prescription-row").length >= 20) return;
+
+                const row = container.querySelector(".prescription-row").cloneNode(true);
+                row.querySelectorAll("input").forEach(input => input.value = "");
+                const removeColumn = document.createElement("div");
+                removeColumn.className = "col-12 text-end";
+                const removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.className = "btn btn-sm btn-link text-danger remove-prescription-item";
+                removeButton.textContent = "Remove medication";
+                removeButton.addEventListener("click", () => { row.remove(); reindex(container); });
+                removeColumn.appendChild(removeButton);
+                row.appendChild(removeColumn);
+                container.appendChild(row);
+                reindex(container);
+            });
+        });
+
+        function reindex(container) {
+            container.querySelectorAll(".prescription-row").forEach((row, index) => {
+                row.querySelectorAll("input[data-field]").forEach(input => {
+                    input.name = `PrescriptionItems[${index}].${input.dataset.field}`;
+                });
+            });
+        }
+    </script>
+}

@@ -2,7 +2,6 @@
 using MediCare.Core.IRepository.IRepository.Base;
 using MediCare.Infrastructure.Repository.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
 
 namespace MediCare.Infrastructure.Repository.Base
@@ -21,10 +20,12 @@ namespace MediCare.Infrastructure.Repository.Base
         #endregion
 
         #region Get Page
-        public async Task<List<T>> GetPageAsync<TKey>(int skipCount, int takeCount, Expression<Func<T, bool>> filter,
+        public async Task<List<T>> GetPageAsync<TKey>(int pageIndex, int pageSize, Expression<Func<T, bool>>? filter,
             Expression<Func<T, TKey>> sortingExpression, Common.Enum.SortDirectionEnum sortDir = Common.Enum.SortDirectionEnum.Ascending,
             string includeProperties = "")
         {
+            ArgumentOutOfRangeException.ThrowIfNegative(pageIndex);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageSize);
             IQueryable<T> query = AppDbContext.Set<T>();
 
             if (filter != null)
@@ -35,14 +36,13 @@ namespace MediCare.Infrastructure.Repository.Base
             query = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
-            skipCount = skipCount * takeCount;
             switch (sortDir)
             {
                 case Common.Enum.SortDirectionEnum.Ascending:
-                    query = query.OrderBy<T, TKey>(sortingExpression).Skip(skipCount).Take(takeCount);
+                    query = query.OrderBy(sortingExpression).Skip(pageIndex * pageSize).Take(pageSize);
                     break;
                 case Common.Enum.SortDirectionEnum.Descending:
-                    query = query.OrderByDescending<T, TKey>(sortingExpression).Skip(skipCount).Take(takeCount);
+                    query = query.OrderByDescending(sortingExpression).Skip(pageIndex * pageSize).Take(pageSize);
                     break;
                 default:
                     break;
@@ -53,10 +53,13 @@ namespace MediCare.Infrastructure.Repository.Base
         #endregion
 
         #region Get Take Count
-        public async Task<List<T>> GetTakeCount<TKey>(int takeCount, Expression<Func<T, bool>> filter = null,
-            string includeProperties = "", Expression<Func<T, TKey>> sortingExpression = null,
+        public async Task<List<T>> GetTakeCount<TKey>(int takeCount, Expression<Func<T, bool>>? filter = null,
+            string includeProperties = "", Expression<Func<T, TKey>>? sortingExpression = null,
             SortDirectionEnum sortDir = SortDirectionEnum.Ascending)
         {
+            if (takeCount <= 0)
+                return [];
+
             IQueryable<T> query = AppDbContext.Set<T>();
 
             if (filter != null)
@@ -94,7 +97,7 @@ namespace MediCare.Infrastructure.Repository.Base
         #endregion
 
         #region First Or Default
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
+        public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>>? filter)
         {
             IQueryable<T> query = AppDbContext.Set<T>();
 
@@ -105,7 +108,7 @@ namespace MediCare.Infrastructure.Repository.Base
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter, string includeProperties = "")
+        public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>>? filter, string includeProperties = "")
         {
             IQueryable<T> query = AppDbContext.Set<T>();
 
@@ -122,7 +125,7 @@ namespace MediCare.Infrastructure.Repository.Base
         #endregion
 
         #region Get Where
-        public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> filter = null)
+        public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>>? filter = null)
         {
             IQueryable<T> query = AppDbContext.Set<T>();
 
@@ -133,7 +136,7 @@ namespace MediCare.Infrastructure.Repository.Base
             return await query.ToListAsync();
         }
 
-        public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> filter = null, string includeProperties = "")
+        public async Task<List<T>> GetWhereAsync(Expression<Func<T, bool>>? filter = null, string includeProperties = "")
         {
             IQueryable<T> query = AppDbContext.Set<T>();
 
@@ -180,9 +183,11 @@ namespace MediCare.Infrastructure.Repository.Base
         #endregion
 
         #region Get Any
-        public async Task<bool> GetAnyAsync(Expression<Func<T, bool>> filter = null)
+        public async Task<bool> GetAnyAsync(Expression<Func<T, bool>>? filter = null)
         {
-            return await AppDbContext.Set<T>().AnyAsync(filter);
+            return filter is null
+                ? await AppDbContext.Set<T>().AnyAsync()
+                : await AppDbContext.Set<T>().AnyAsync(filter);
         }
         #endregion
 
@@ -235,21 +240,6 @@ namespace MediCare.Infrastructure.Repository.Base
         //        .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         //    return await query.DeleteFromQueryAsync();
         //}
-        public abstract Expression<Func<T, object>> ColumnsMap(string sortingExpression);
-        #endregion
-
-        #region Transaction
-        public IDbContextTransaction BeginTransaction()
-        {
-            return AppDbContext.Database.BeginTransaction();
-        }
-        #endregion
-
-        #region ExecuteSqlRawAsync
-        public void ExecuteSqlRawAsync(string command)
-        {
-            AppDbContext.Database.ExecuteSqlRawAsync(command);
-        }
         #endregion
 
     }

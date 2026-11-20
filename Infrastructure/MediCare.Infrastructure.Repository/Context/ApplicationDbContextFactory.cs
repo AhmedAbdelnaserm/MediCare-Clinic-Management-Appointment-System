@@ -10,14 +10,19 @@ namespace MediCare.Infrastructure.Repository.Context
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<ApplicationDbContextFactory>(optional: true)
+                .AddEnvironmentVariables()
                 .Build();
 
+            var connectionString = config.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException(
+                    "Set ConnectionStrings:DefaultConnection in User Secrets or the ConnectionStrings__DefaultConnection environment variable before running migrations.");
+            }
+
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer(
-                config.GetConnectionString("DefaultConnection")
-            );
+            optionsBuilder.UseSqlServer(connectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

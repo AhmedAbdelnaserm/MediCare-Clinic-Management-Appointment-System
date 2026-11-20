@@ -18,4 +18,5 @@ public class ClinicDoctor : BaseEntity
         = new List<WorkingHour>();
     public ICollection<Slot> Slots { get; set; }
     = new List<Slot>();
+    public ICollection<ScheduleException> ScheduleExceptions { get; set; } = new List<ScheduleException>();
 }

@@ -1,0 +1,29 @@
+@model MediCare.Presentation.Web.Frontend.Mvc.Areas.SuperAdmin.ViewModels.DoctorAccountFormViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Add doctor";
+    var specializations = ViewBag.Specializations as List<SelectListItem> ?? [];
+}
+
+<section class="container py-4" style="max-width: 820px">
+    <h1 class="h3 mb-1">Add doctor</h1>
+    <p class="text-secondary mb-4">This creates the sign-in account and doctor profile together.</p>
+    <form asp-action="Create" method="post" class="card border-0 shadow-sm"><div class="card-body p-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="FullName" class="form-label"></label><input asp-for="FullName" class="form-control" autocomplete="name" /><span asp-validation-for="FullName" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="EnName" class="form-label">Name shown to patients</label><input asp-for="EnName" class="form-control" /><span asp-validation-for="EnName" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" autocomplete="email" /><span asp-validation-for="Email" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="PhoneNumber" class="form-label"></label><input asp-for="PhoneNumber" class="form-control" /><span asp-validation-for="PhoneNumber" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="Password" class="form-label">Temporary password</label><input asp-for="Password" class="form-control" autocomplete="new-password" /><span asp-validation-for="Password" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="SpecializationId" class="form-label">Specialty</label><select asp-for="SpecializationId" asp-items="specializations" class="form-select"><option value="0">Choose specialty</option></select><span asp-validation-for="SpecializationId" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="ConsultationFee" class="form-label">Consultation fee (EGP)</label><input asp-for="ConsultationFee" class="form-control" type="number" min="0" step="0.01" /><span asp-validation-for="ConsultationFee" class="text-danger"></span></div>
+            <div class="col-md-6"><label asp-for="DoctorDegree" class="form-label">Degree (optional)</label><input asp-for="DoctorDegree" class="form-control" /></div>
+            <div class="col-12"><label asp-for="EnDescription" class="form-label">Profile description</label><textarea asp-for="EnDescription" class="form-control" rows="4"></textarea><span asp-validation-for="EnDescription" class="text-danger"></span></div>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4"><a asp-action="Index" class="btn btn-outline-secondary">Cancel</a><button type="submit" class="btn btn-primary">Create doctor</button></div>
+    </div></form>
+</section>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,16 +1,17 @@
+using MediCare.Infrastructure.Repository;
 using MediCare.Presentation.Shared.Configuration;
 using MediCare.Presentation.Web.Frontend.Mvc.Configuration;
+using MediCare.Common.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
 builder.Services
-    .AddDbServices(builder.Configuration)
-    .AddInfrastructureServices()
-    .AddIdentityServices()
+    .AddInfrastructure(builder.Configuration)
     .AddFrontendResolveServices()
-    .AddFrontendAuthentication();
+    .AddFrontendAuthentication(builder.Environment);
 
 var app = builder.Build();
 

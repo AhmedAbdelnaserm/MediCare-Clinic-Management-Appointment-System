@@ -1,0 +1,68 @@
+@model MediCare.Presentation.Web.Frontend.Mvc.Areas.Patient.ViewModels.DoctorDirectoryViewModel
+
+@{
+    ViewData["Title"] = "Find a Doctor";
+}
+
+<section class="container-fluid py-4">
+    <div class="mb-4">
+        <p class="text-uppercase text-secondary small mb-2">Care directory</p>
+        <h1 class="h3 mb-1">Find a doctor</h1>
+        <p class="text-secondary mb-0">Explore doctors, specialties, clinics, and consultation fees.</p>
+    </div>
+
+    <form method="get" asp-area="Patient" asp-controller="Doctors" asp-action="Index" class="row g-2 align-items-end mb-4">
+        <div class="col-12 col-md-5 col-lg-4">
+            <label for="specializationId" class="form-label">Specialty</label>
+            <select id="specializationId" name="specializationId" asp-items="Model.Specializations" class="form-select">
+                <option value="">All specialties</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-primary" type="submit">Filter</button>
+            <a asp-action="Index" class="btn btn-link">Clear</a>
+        </div>
+    </form>
+
+    @if (ViewBag.Error is string error)
+    {
+        <div class="alert alert-warning" role="status">@error</div>
+    }
+
+    @if (Model.Doctors.Count == 0)
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 text-center">
+                <h2 class="h5">No doctors are listed yet</h2>
+                <p class="text-secondary mb-0">Please check again later or contact your clinic.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var doctor in Model.Doctors)
+            {
+                <div class="col-12 col-md-6 col-xl-4">
+                    <article class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h5 mb-1">Dr. @doctor.DoctorName</h2>
+                            <p class="text-primary mb-3">@doctor.SpecializationName</p>
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-secondary">Clinic</dt>
+                                <dd class="col-7">@(string.IsNullOrWhiteSpace(doctor.ClinicName) ? "Not listed" : doctor.ClinicName)</dd>
+                                <dt class="col-5 text-secondary">Consultation</dt>
+                                <dd class="col-7">@doctor.ConsultationFee.ToString("0.##") EGP</dd>
+                            </dl>
+                            @if (!string.IsNullOrWhiteSpace(doctor.Description))
+                            {
+                                <p class="text-secondary mt-3 mb-0">@doctor.Description</p>
+                            }
+                            <a asp-area="Patient" asp-controller="Appointments" asp-action="Index" asp-route-doctorId="@doctor.DoctorId" class="btn btn-outline-primary mt-3">View available times</a>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</section>

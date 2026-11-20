@@ -1,0 +1,90 @@
+@model MediCare.Presentation.Web.Frontend.Mvc.Areas.SuperAdmin.ViewModels.ClinicDoctorScheduleViewModel
+
+@{
+    ViewData["Title"] = "Configure availability";
+}
+
+<section class="container-fluid py-4">
+    <p class="text-uppercase text-secondary small mb-2">Clinic operations · Step 2</p>
+    <h1 class="h3 mb-1">Set weekly availability</h1>
+    <p class="text-secondary mb-4">Times are entered and stored in UTC. Generated slots use the consultation duration set in the previous step.</p>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert alert-warning">@error</div>
+    }
+
+    <div class="row g-4">
+        <div class="col-12 col-xl-7">
+            <form asp-action="SaveHours" method="post" class="card border-0 shadow-sm">
+                @Html.AntiForgeryToken()
+                <input asp-for="ClinicDoctorId" type="hidden" />
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3">Opening hours</h2>
+                    <div class="table-responsive"><table class="table align-middle">
+                        <thead><tr><th>Day</th><th>Open</th><th>Start (UTC)</th><th>End (UTC)</th></tr></thead>
+                        <tbody>
+                        @for (var i = 0; i < Model.WorkingHours.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.WorkingHours[i].DayName<br /><span class="small text-secondary">@Model.WorkingHours[i].ShiftName</span></td>
+                                <td>
+                                    <input asp-for="WorkingHours[i].IsWorking" class="form-check-input" />
+                                    <input asp-for="WorkingHours[i].DayOfWeek" type="hidden" />
+                                    <input asp-for="WorkingHours[i].DayName" type="hidden" />
+                                </td>
+                                <td><input asp-for="WorkingHours[i].StartTime" type="time" class="form-control" /></td>
+                                <td><input asp-for="WorkingHours[i].EndTime" type="time" class="form-control" /></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table></div>
+                    <button class="btn btn-primary" type="submit">Save weekly hours</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12 col-xl-5">
+            <form asp-action="Generate" method="post" class="card border-0 shadow-sm">
+                @Html.AntiForgeryToken()
+                <input asp-for="ClinicDoctorId" type="hidden" />
+                <div class="card-body p-4">
+                    <h2 class="h5">Generate appointment times</h2>
+                    <p class="text-secondary small">This creates open slots from the saved weekly hours. Existing bookings are kept.</p>
+                    <div class="mb-3"><label asp-for="StartDate" class="form-label">From (UTC)</label><input asp-for="StartDate" type="date" class="form-control" /></div>
+                    <div class="mb-4"><label asp-for="EndDate" class="form-label">Through (UTC)</label><input asp-for="EndDate" type="date" class="form-control" /></div>
+                    <button class="btn btn-outline-primary" type="submit">Generate slots</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body p-4">
+            <h2 class="h5">Date exceptions</h2>
+            <p class="text-secondary small">Close a specific date or set one custom opening interval. Save the exception, then generate available times for that date.</p>
+            <form asp-action="SaveException" method="post" class="row g-3 align-items-end">
+                @Html.AntiForgeryToken()<input asp-for="ClinicDoctorId" type="hidden" />
+                <div class="col-md-3"><label asp-for="ExceptionDate" class="form-label">Date (UTC)</label><input asp-for="ExceptionDate" type="date" class="form-control" required /></div>
+                <div class="col-md-3"><label asp-for="ExceptionReason" class="form-label">Reason (optional)</label><input asp-for="ExceptionReason" maxlength="250" class="form-control" /></div>
+                <div class="col-md-2"><div class="form-check mb-2"><input asp-for="ExceptionIsClosed" class="form-check-input" /><label asp-for="ExceptionIsClosed" class="form-check-label">Clinic closed</label></div></div>
+                <div class="col-md-2"><label asp-for="ExceptionStartTime" class="form-label">Custom start</label><input asp-for="ExceptionStartTime" type="time" class="form-control" /></div>
+                <div class="col-md-2"><label asp-for="ExceptionEndTime" class="form-label">Custom end</label><input asp-for="ExceptionEndTime" type="time" class="form-control" /></div>
+                <div class="col-12"><button class="btn btn-primary" type="submit">Save date exception</button></div>
+            </form>
+            @if (Model.Exceptions.Count > 0)
+            {
+                <div class="table-responsive mt-4"><table class="table align-middle"><thead><tr><th>Date (UTC)</th><th>Availability</th><th>Reason</th><th></th></tr></thead><tbody>
+                @foreach (var item in Model.Exceptions)
+                {
+                    <tr><td>@item.ExceptionDate</td><td>@(item.IsClosed ? "Closed" : $"{item.StartTime:HH:mm}–{item.EndTime:HH:mm} UTC")</td><td>@item.Reason</td><td><form asp-action="DeleteException" method="post">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@Model.ClinicDoctorId" /><input type="hidden" name="exceptionId" value="@item.ScheduleExceptionId" /><button class="btn btn-sm btn-outline-danger" type="submit">Remove</button></form></td></tr>
+                }
+                </tbody></table></div>
+            }
+        </div>
+    </div>
+</section>

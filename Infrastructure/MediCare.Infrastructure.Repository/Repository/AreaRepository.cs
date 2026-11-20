@@ -1,40 +1,30 @@
-﻿using MediCare.Common.Enum;
+using MediCare.Common.Enum;
 using MediCare.Core.Entity.Entity;
 using MediCare.Core.IRepository.IRepository;
 using MediCare.Infrastructure.Repository.Base;
 using MediCare.Infrastructure.Repository.Context;
-using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
-namespace MediCare.Infrastructure.Repository.Repository
+namespace MediCare.Infrastructure.Repository.Repository;
+
+public sealed class AreaRepository : BaseRepository<Area>, IAreaRepository
 {
-    public class AreaRepository : BaseRepository<Area>, IAreaRepository
-    {
-        public AreaRepository(ApplicationDbContext appDbContext) : base(appDbContext)
-        {
-        }
+    public AreaRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-        public override Expression<Func<Area, object>> ColumnsMap(string sortingExpression)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<Area?> GetArea(int areaId, string includeProperties = "") =>
+        FirstOrDefaultAsync(area =>
+            area.AreaId == areaId && area.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted,
+            includeProperties);
 
-        public async Task<List<Area>> GetAreas(string includeProperties = "")
-        {
-            return await GetWhereAsync(a => a.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties);
-        }
+    public Task<List<Area>> GetAreas(string includeProperties = "") =>
+        GetWhereAsync(area => area.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties);
 
-        public async Task<Area> GetArea(int areaId, string includeProperties = "")
-        {
-            return await FirstOrDefaultAsync(a => a.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted && a.AreaId == areaId, includeProperties);
-        }
-        public async Task<bool> CheckIsAreaExist(int areaId)
-        {
-            return await GetAnyAsync(src => src.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted && src.AreaId == areaId);
-        }
+    public Task<bool> CheckIsAreaExist(int areaId) =>
+        GetAnyAsync(area => area.AreaId == areaId &&
+                            area.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted);
 
-        public async Task<List<Area>> GetAreasByCityId(int id, string includeProperties = "")
-        {
-            return await GetWhereAsync(a => a.CityId == id && a.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties);
-        }
-    }
+    public Task<List<Area>> GetAreasByCityId(int cityId, string includeProperties = "") =>
+        GetWhereAsync(area => area.CityId == cityId &&
+                              area.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted,
+            includeProperties);
 }

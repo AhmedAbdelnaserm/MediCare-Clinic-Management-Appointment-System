@@ -7,8 +7,8 @@ namespace MediCare.Common.Dto
     {
         #region Properties
         public ResultStatusEnum Code { get; set; }
-        public string Message { get; set; }
-        public T Data { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public T? Data { get; set; }
         #endregion
 
         #region Constructor
@@ -24,34 +24,34 @@ namespace MediCare.Common.Dto
         #endregion
 
         #region Methods
-        public ResponseDto<T> GetSuccessResponse(string message = null)
+        public ResponseDto<T> GetSuccessResponse(string? message = null)
         {
             SetSuccessResponse(message);
             return this;
         }
-        public ResponseDto<T> GetSuccessResponse(T responseData, string message = null)
+        public ResponseDto<T> GetSuccessResponse(T? responseData, string? message = null)
         {
             SetSuccessResponse(responseData, message);
             return this;
         }
-        public void SetSuccessResponse(T data, string message = null)
+        public void SetSuccessResponse(T? data, string? message = null)
         {
             SetSuccessResponse(message);
             Data = data;
         }
-        public void SetSuccessResponse(string message = null)
+        public void SetSuccessResponse(string? message = null)
         {
             Code = ResultStatusEnum.Success;
-            Message = message;
+            Message = message ?? string.Empty;
         }
 
-        public ResponseDto<T> GetErrorResponse(string message = null, ResultStatusEnum code = ResultStatusEnum.Error)
+        public ResponseDto<T> GetErrorResponse(string? message = null, ResultStatusEnum code = ResultStatusEnum.Error)
         {
             Code = code;
             SetErrorResponse(message, code);
             return this;
         }
-        public ResponseDto<T> GetErrorResponse(T data, string message = null)
+        public ResponseDto<T> GetErrorResponse(T? data, string? message = null)
         {
             SetErrorResponse(data, message);
             return this;
@@ -61,19 +61,20 @@ namespace MediCare.Common.Dto
             SetErrorResponse(httpStatusCode);
             return this;
         }
-        public void SetErrorResponse(string message = null, ResultStatusEnum code = ResultStatusEnum.Error)
+        public void SetErrorResponse(string? message = null, ResultStatusEnum code = ResultStatusEnum.Error)
         {
             Code = code;
-            Message = message;
+            Message = message ?? string.Empty;
         }
-        public void SetErrorResponse(T data, string message = null)
+        public void SetErrorResponse(T? data, string? message = null)
         {
             SetErrorResponse(message);
             Data = data;
         }
         public void SetErrorResponse(HttpStatusCode httpStatusCode)
         {
-            Code = ResultStatusEnum.Error;
+            Code = ResultStatusEnum.HttpError;
+            Message = $"{(int)httpStatusCode} {httpStatusCode}";
         }
         #endregion
     }

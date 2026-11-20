@@ -8,6 +8,7 @@
     <ProjectReference Include="..\Application\Identity\MediCare.Application.Identity\MediCare.Application.Identity.csproj" />
     <ProjectReference Include="..\Application\Identity\MediCare.IApplication.Identity\MediCare.IApplication.Identity.csproj" />
     <ProjectReference Include="..\Application\Identity\MediCare.Application.Identity.Dto\MediCare.Application.Identity.Dto.csproj" />
+    <ProjectReference Include="..\Infrastructure\MediCare.Infrastructure.Repository\MediCare.Infrastructure.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.3.0" />
   </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <UserSecretsId>f18860db-4cd8-4be6-9f84-e8828439f2f1</UserSecretsId>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>

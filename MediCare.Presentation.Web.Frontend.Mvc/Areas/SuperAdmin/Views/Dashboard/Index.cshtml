@@ -2,6 +2,13 @@
     ViewData["Title"] = "Super Admin Dashboard";
 }
 
-<h1>Super Admin Dashboard</h1>
-
-<p>Welcome, @User.Identity?.Name</p>
+<section class="container-fluid py-4">
+    <p class="text-uppercase text-secondary small mb-2">Platform operations</p>
+    <h1 class="h3 mb-2">Welcome, @User.Identity?.Name</h1>
+    <p class="text-secondary mb-4">Manage clinics, onboard doctors, and publish their appointment availability.</p>
+    <div class="row g-3">
+        <div class="col-12 col-md-6 col-xl-4"><div class="card h-100 border-0 shadow-sm"><div class="card-body p-4"><h2 class="h5">Clinics</h2><p class="text-secondary">Create and maintain clinic locations.</p><a asp-area="SuperAdmin" asp-controller="Clinics" asp-action="Index" class="btn btn-outline-primary">Manage clinics</a></div></div></div>
+        <div class="col-12 col-md-6 col-xl-4"><div class="card h-100 border-0 shadow-sm"><div class="card-body p-4"><h2 class="h5">Doctors</h2><p class="text-secondary">Create doctor accounts and clinical profiles.</p><a asp-area="SuperAdmin" asp-controller="Doctors" asp-action="Index" class="btn btn-outline-primary">Manage doctors</a></div></div></div>
+        <div class="col-12 col-md-6 col-xl-4"><div class="card h-100 border-0 shadow-sm"><div class="card-body p-4"><h2 class="h5">Availability</h2><p class="text-secondary">Assign doctors and publish open appointment times.</p><a asp-area="SuperAdmin" asp-controller="Schedules" asp-action="Index" class="btn btn-primary">Set up schedules</a></div></div></div>
+    </div>
+</section>

@@ -1,5 +1,5 @@
-﻿
-using AutoMapper;
+
+
 using MediCare.Application.BackEnd.Base;
 using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Application.BackEnd.Localization;
@@ -15,8 +15,8 @@ namespace MediCare.Application.BackEnd.AppService
 {
     public class ClinicAppService : BaseAppService, IClinicAppService
     {
-        public ClinicAppService(IMapper mapper, ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
-            : base(mapper, localization, logger, unitOfWork, currentUser)
+        public ClinicAppService(ILocalizationService localization, ILogger<ClinicAppService> logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+            : base(localization, logger, unitOfWork, currentUser)
         {
         }
 
@@ -32,7 +32,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinic == null)
                 return response.GetErrorResponse(Localization.NoDataFound);
 
-            var responseDto = Mapper.Map<ClinicDto>(clinic);
+            var responseDto = ToClinicDto(clinic);
 
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
@@ -46,7 +46,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinics.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
 
-            var responseDto = Mapper.Map<List<TextValueBindingResponseDto>>(clinics);
+            var responseDto = clinics.Select(ToBindingDto).ToList();
 
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
@@ -63,7 +63,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinics.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
 
-            var responseDto = Mapper.Map<List<TextValueBindingResponseDto>>(clinics);
+            var responseDto = clinics.Select(ToBindingDto).ToList();
 
             return response.GetSuccessResponse(responseDto, Localization.GeneralSuccess);
         }
@@ -77,7 +77,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (clinics.Count == default(int))
                 return response.GetErrorResponse(Localization.NoDataFound);
 
-            return response.GetSuccessResponse(Mapper.Map<List<ClinicDto>>(clinics), Localization.GeneralSuccess);
+            return response.GetSuccessResponse(clinics.Select(ToClinicDto).ToList(), Localization.GeneralSuccess);
         }
         public async Task<ResponseDto<EmptyResponseDto>> CreateClinic(CreateClinicRequestDto clinicDto)
         {
@@ -85,7 +85,7 @@ namespace MediCare.Application.BackEnd.AppService
             if (response.Code == ResultStatusEnum.Error)
                 return response.GetErrorResponse(response.Message);
 
-            var clinic = Mapper.Map<Clinic>(clinicDto);
+            var clinic = new Clinic { EnName = clinicDto.EnName.Trim(), EnDescription = clinicDto.EnDescription.Trim(), ArName = string.Empty, ArDescription = string.Empty, Address = clinicDto.Address.Trim(), PhoneNumber = clinicDto.PhoneNumber?.Trim(), AreaId = clinicDto.AreaId };
             clinic.CreatorUserId = CurrentUser.UserId
                 ?? throw new InvalidOperationException("Current user is not authenticated.");
             clinic.DeleteStatusId = (int)DeleteStatusEnum.NotDeleted;
@@ -105,8 +105,14 @@ namespace MediCare.Application.BackEnd.AppService
                 return response.GetErrorResponse(response.Message);
 
             var clinic = await UnitOfWork.ClinicRepository.GetClinic(clinicId);
+            if (clinic == null)
+                return response.GetErrorResponse(Localization.ClinicNotFound);
 
-            Mapper.Map(clinicDto, clinic);
+            clinic.EnName = clinicDto.EnName.Trim();
+            clinic.EnDescription = clinicDto.EnDescription.Trim();
+            clinic.Address = clinicDto.Address.Trim();
+            clinic.PhoneNumber = clinicDto.PhoneNumber?.Trim();
+            clinic.AreaId = clinicDto.AreaId;
 
             clinic.LastModifierUserId = CurrentUser.UserId
                 ?? throw new InvalidOperationException("Current user is not authenticated.");
@@ -195,5 +201,20 @@ namespace MediCare.Application.BackEnd.AppService
 
             return response.GetSuccessResponse(Localization.GeneralSuccess);
         }
+        private static TextValueBindingResponseDto ToBindingDto(Clinic clinic) => new() { Id = clinic.ClinicId, Name = clinic.EnName };
+
+        private static ClinicDto ToClinicDto(Clinic clinic) => new()
+        {
+            ClinicId = clinic.ClinicId,
+            EnName = clinic.EnName,
+            ArName = clinic.ArName,
+            EnDescription = clinic.EnDescription,
+            ArDescription = clinic.ArDescription,
+            Address = clinic.Address,
+            PhoneNumber = clinic.PhoneNumber,
+            CityId = clinic.Area.CityId,
+            AreaId = clinic.AreaId,
+            AreaName = clinic.Area.EnName
+        };
     }
 }

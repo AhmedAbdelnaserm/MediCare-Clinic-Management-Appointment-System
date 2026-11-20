@@ -2,9 +2,9 @@
 {
     public class BaseMultiLanguageEntity : BaseEntity
     {
-        public string EnName { get; set; }
-        public string ArName { get; set; }
-        public string EnDescription { get; set; }
-        public string ArDescription { get; set; }
+        public string EnName { get; set; } = string.Empty;
+        public string ArName { get; set; } = string.Empty;
+        public string EnDescription { get; set; } = string.Empty;
+        public string ArDescription { get; set; } = string.Empty;
     }
 }

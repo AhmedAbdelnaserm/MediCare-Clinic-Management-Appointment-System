@@ -1,56 +1,49 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Globalization;
 
-namespace MediCare.Application.BackEnd.Localization.LocalizationFileReader
+namespace MediCare.Application.BackEnd.Localization.LocalizationFileReader;
+
+public sealed class LocalizationFileReader
 {
-    public class LocalizationFileReader
+    private readonly Dictionary<string, Dictionary<string, string>> _data =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    public LocalizationFileReader(params string[] fileNames)
     {
-        private readonly Dictionary<string, Dictionary<string, string>> _data
-            = new(StringComparer.OrdinalIgnoreCase);
+        foreach (var fileName in fileNames)
+            LoadFile(fileName);
+    }
 
-        public LocalizationFileReader(params string[] fileNames)
+    private void LoadFile(string fileName)
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Localization", $"{fileName}.json");
+        if (!File.Exists(path))
+            return;
+
+        var items = JsonConvert.DeserializeObject<List<LocalizationFileDataDto>>(
+            File.ReadAllText(path)) ?? [];
+
+        foreach (var item in items)
         {
-            foreach (var file in fileNames)
-                LoadFile(file);
+            if (string.IsNullOrWhiteSpace(item.Key) || item.LocalizedValue is null)
+                continue;
+
+            _data[item.Key] = new Dictionary<string, string>(
+                item.LocalizedValue,
+                StringComparer.OrdinalIgnoreCase);
         }
+    }
 
-        // Load Data From File
-        #region Load Data
-        private void LoadFile(string fileName)
-        {
-            var basePath = AppContext.BaseDirectory;
-
-            var path = Path.Combine(
-                basePath,
-                "Localization",
-                $"{fileName}.json"
-            );
-
-            if (!File.Exists(path))
-                return; // ملف مش مطلوب للـ host ده
-
-            var list = JsonConvert.DeserializeObject<List<LocalizationFileDataDto>>(
-                File.ReadAllText(path));
-
-            foreach (var item in list)
-                _data[item.Key] = item.LocalizedValue;
-        }
-        #endregion
-
-        // Get Key Value
-        #region Get Key Value
-        public string GetKeyValue(string key, string fallback)
-        {
-            if (!_data.TryGetValue(key, out var cultures))
-                return fallback;
-
-            if (cultures.TryGetValue(
-                CultureInfo.CurrentCulture.Name, out var value))
-                return value;
-
+    public string GetKeyValue(string key, string fallback)
+    {
+        if (!_data.TryGetValue(key, out var cultures))
             return fallback;
-        }
-        #endregion
+
+        var culture = CultureInfo.CurrentUICulture;
+        if (cultures.TryGetValue(culture.Name, out var value) ||
+            cultures.TryGetValue(culture.TwoLetterISOLanguageName, out value))
+            return value;
+
+        return fallback;
     }
 }
-

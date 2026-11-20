@@ -1,4 +1,4 @@
-﻿namespace MediCare.Application.Identity.Localization
+namespace MediCare.Application.Identity.Localization
 {
     public class LocalizationService : ILocalizationService
     {
@@ -6,8 +6,7 @@
         public LocalizationService()
         {
             Reader = new LocalizationFileReader.LocalizationFileReader(
-                "localization.common",
-                "localization.identity"
+                "localizationFile"
             );
         }
 

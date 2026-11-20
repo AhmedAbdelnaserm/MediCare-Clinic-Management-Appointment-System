@@ -1,4 +1,4 @@
-﻿using MediCare.Core.IRepository.IRepository;
+using MediCare.Core.IRepository.IRepository;
 using MediCare.Core.IRepository.IRepository.Authentication;
 
 namespace MediCare.Core.IRepository.IUnitOfWork
@@ -11,12 +11,17 @@ namespace MediCare.Core.IRepository.IUnitOfWork
         #endregion
 
         #region IRepoository
-        IAuthRepository AuthRepository { get; }
         ICityRepository CityRepository { get; }
         IAreaRepository AreaRepository { get; }
         IDoctorRepository DoctorRepository { get; }
         IClinicRepository ClinicRepository { get; }
         IClinicStaffRepository ClinicStaffRepository { get; }
+        IPatientRepository PatientRepository { get; }
+        IAppointmentRepository AppointmentRepository { get; }
+        IClinicScheduleRepository ClinicScheduleRepository { get; }
+        IClinicalRecordRepository ClinicalRecordRepository { get; }
+        IClinicAppointmentRepository ClinicAppointmentRepository { get; }
+        IUserNotificationRepository UserNotificationRepository { get; }
         #endregion
     }
 }

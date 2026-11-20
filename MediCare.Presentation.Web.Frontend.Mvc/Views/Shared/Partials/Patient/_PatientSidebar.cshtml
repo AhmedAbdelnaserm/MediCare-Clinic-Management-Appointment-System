@@ -5,8 +5,15 @@
         <li class="nav-item">
             <a class="nav-link text-white" asp-area="Patient" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
         </li>
-        <li class="nav-item"><span class="nav-link text-white">My Appointments</span></li>
-        <li class="nav-item"><span class="nav-link text-white">Medical Records</span></li>
-        <li class="nav-item"><span class="nav-link text-white">My Profile</span></li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="Patient" asp-controller="Doctors" asp-action="Index">Find a doctor</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="Patient" asp-controller="Appointments" asp-action="Index">Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="Patient" asp-controller="MedicalRecords" asp-action="Index">Medical records</a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-controller="Notifications" asp-action="Index">Notifications</a></li>
     </ul>
 </div>

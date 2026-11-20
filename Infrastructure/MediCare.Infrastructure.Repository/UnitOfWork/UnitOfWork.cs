@@ -1,4 +1,4 @@
-﻿using MediCare.Core.IRepository.IRepository;
+using MediCare.Core.IRepository.IRepository;
 using MediCare.Core.IRepository.IRepository.Authentication;
 using MediCare.Core.IRepository.IUnitOfWork;
 using MediCare.Infrastructure.Repository.Context;
@@ -48,12 +48,17 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         #endregion
 
         #region Repository
-        public IAuthRepository AuthRepository => new AuthRepository(AppDbContext);
         public ICityRepository CityRepository => new CityRepository(AppDbContext);
         public IAreaRepository AreaRepository => new AreaRepository(AppDbContext);
         public IDoctorRepository DoctorRepository => new DoctorRepository(AppDbContext);
         public IClinicRepository ClinicRepository => new ClinicRepository(AppDbContext);
         public IClinicStaffRepository ClinicStaffRepository => new ClinicStaffRepository(AppDbContext);
+        public IPatientRepository PatientRepository => new PatientRepository(AppDbContext);
+        public IAppointmentRepository AppointmentRepository => new AppointmentRepository(AppDbContext);
+        public IClinicScheduleRepository ClinicScheduleRepository => new ClinicScheduleRepository(AppDbContext);
+        public IClinicalRecordRepository ClinicalRecordRepository => new ClinicalRecordRepository(AppDbContext);
+        public IClinicAppointmentRepository ClinicAppointmentRepository => new ClinicAppointmentRepository(AppDbContext);
+        public IUserNotificationRepository UserNotificationRepository => new UserNotificationRepository(AppDbContext);
         #endregion
     }
 }

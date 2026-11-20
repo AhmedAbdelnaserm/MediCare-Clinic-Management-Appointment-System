@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using MediCare.Application.Identity.AppService;
 using MediCare.Application.Identity.Localization;
 using MediCare.Common.Interface;
@@ -14,11 +13,8 @@ namespace MediCare.Application.Identity.Base
         protected IUnitOfWork UnitOfWork { get; }
         protected ILogger Logger { get; }
         protected ILocalizationService Localization { get; set; }
-        protected IMapper Mapper { get; set; }
-
-        public BaseAppService(IMapper mapper, ILocalizationService localization, ILogger logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+        public BaseAppService(ILocalizationService localization, ILogger logger, IUnitOfWork unitOfWork, ICurrentUserService currentUser)
         {
-            Mapper = mapper;
             Localization = localization;
             Logger = logger;
             UnitOfWork = unitOfWork;

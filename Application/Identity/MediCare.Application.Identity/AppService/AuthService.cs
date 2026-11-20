@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediCare.Application.Identity.Base;
 using MediCare.Application.Identity.Dto.Authentication;
 using MediCare.Application.Identity.Localization;
@@ -22,12 +21,16 @@ namespace MediCare.Application.Identity.AppService
     public class AuthService : BaseAppService, IAuthService
     {
         private readonly UserManager<ApplicationUser> UserManager;
+        private readonly SignInManager<ApplicationUser> SignInManager;
         private readonly JWT Jwt;
-        public AuthService(IMapper mapper, ILocalizationService localization, ILogger<AuthService> logger,
-            IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IOptions<JWT> jwt, ICurrentUserService currentUser)
-            : base(mapper, localization, logger, unitOfWork, currentUser)
+        public AuthService( ILocalizationService localization, ILogger<AuthService> logger,
+            IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, IOptions<JWT> jwt,
+            ICurrentUserService currentUser)
+            : base(localization, logger, unitOfWork, currentUser)
         {
             UserManager = userManager;
+            SignInManager = signInManager;
             Jwt = jwt.Value;
         }
 
@@ -39,9 +42,11 @@ namespace MediCare.Application.Identity.AppService
 
             var user = await UserManager.FindByEmailAsync(request.Email);
             if (user == null)
-                return response;
+                return response.GetErrorResponse(
+                    Localization.EmailOrPasswordIsIncorrect,
+                    ResultStatusEnum.InvalidUserNameOrPassword);
             var jwtGenerateToken = await GenerateToken(user);
-            var authModel = Mapper.Map<AuthModel>(user);
+            var authModel = ToAuthModel(user);
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtGenerateToken);
             authModel.Roles = (await UserManager.GetRolesAsync(user)).ToList();
             authModel.TokenExpireOn = jwtGenerateToken.ValidTo;
@@ -56,7 +61,7 @@ namespace MediCare.Application.Identity.AppService
             try
             {
                 // Create User
-                user = Mapper.Map<ApplicationUser>(request);
+                user = new ApplicationUser { Email = request.Email.Trim(), UserName = request.UserName.Trim(), FullName = request.FullName.Trim(), PhoneNumber = request.PhoneNumber };
                 var result = await UserManager.CreateAsync(user, request.Password);
                 if (!result.Succeeded)
                 {
@@ -88,15 +93,26 @@ namespace MediCare.Application.Identity.AppService
                 // Generate Token
                 var jwtGenerateToken = await GenerateToken(user);
 
-                var authModel = Mapper.Map<AuthModel>(user);
+                var authModel = ToAuthModel(user);
                 authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtGenerateToken);
                 authModel.Roles = (await UserManager.GetRolesAsync(user)).ToList();
                 authModel.TokenExpireOn = jwtGenerateToken.ValidTo;
 
+                await UnitOfWork.PatientRepository.CreateAsync(new Patient
+                {
+                    UserId = user.Id,
+                    CreationTime = DateTime.UtcNow,
+                    CreatorUserId = user.Id
+                });
+
+                if (await UnitOfWork.Commit() <= 0)
+                    throw new InvalidOperationException("Could not create the patient profile.");
+
                 return response.GetSuccessResponse(authModel, Localization.RegisterSuccessfully);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.LogError(ex, "Failed to register a patient account.");
                 // Catch any unexpected error → delete user if already created
                 if (!string.IsNullOrEmpty(user?.Id))
                 {
@@ -104,7 +120,7 @@ namespace MediCare.Application.Identity.AppService
                     if (existingUser != null)
                         await UserManager.DeleteAsync(existingUser);
                 }
-                return response;
+                return response.GetErrorResponse(Localization.GeneralError);
             }
         }
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
@@ -118,8 +134,8 @@ namespace MediCare.Application.Identity.AppService
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("uid", user.Id)
             }
@@ -151,7 +167,9 @@ namespace MediCare.Application.Identity.AppService
                 return response.GetErrorResponse(Localization.DataRequired);
             if (await UserManager.FindByEmailAsync(request.Email) != null ||
                 await UserManager.FindByNameAsync(request.UserName) != null)
-                return response.GetErrorResponse(Localization.EmailOrUserNameAlreadyExist);
+                return response.GetErrorResponse(
+                    Localization.EmailOrUserNameAlreadyExist,
+                    ResultStatusEnum.Duplicated);
 
             return response;
         }
@@ -164,10 +182,28 @@ namespace MediCare.Application.Identity.AppService
             if (request.Password == null || request.Email == null)
                 return response.GetErrorResponse(Localization.DataRequired);
             var user = await UserManager.FindByEmailAsync(request.Email);
-            if (user == null || !await UserManager.CheckPasswordAsync(user, request.Password))
-                return response.GetErrorResponse(Localization.EmailOrPasswordIsIncorrect);
+            if (user == null)
+                return response.GetErrorResponse(
+                    Localization.EmailOrPasswordIsIncorrect,
+                    ResultStatusEnum.InvalidUserNameOrPassword);
+
+            var signInResult = await SignInManager.CheckPasswordSignInAsync(
+                user,
+                request.Password,
+                lockoutOnFailure: true);
+
+            if (!signInResult.Succeeded)
+                return response.GetErrorResponse(
+                    Localization.EmailOrPasswordIsIncorrect,
+                    ResultStatusEnum.InvalidUserNameOrPassword);
 
             return response;
         }
+        private static AuthModel ToAuthModel(ApplicationUser user) => new()
+        {
+            UserId = user.Id,
+            UserName = user.UserName ?? string.Empty,
+            Email = user.Email ?? string.Empty
+        };
     }
 }

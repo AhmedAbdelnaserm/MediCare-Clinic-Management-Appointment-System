@@ -4,9 +4,19 @@ namespace MediCare.Application.Identity.Dto.Authentication
 {
     public class RegisterDto
     {
-        [EmailAddress(ErrorMessage ="Invalid Email Address")]
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        [Required, EmailAddress(ErrorMessage = "Invalid email address.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required, MaxLength(150)]
+        public string FullName { get; set; } = string.Empty;
+
+        [Phone]
+        public string? PhoneNumber { get; set; }
+
+        [Required, MinLength(3), MaxLength(50)]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required, MinLength(8)]
+        public string Password { get; set; } = string.Empty;
     }
 }

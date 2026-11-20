@@ -1,4 +1,4 @@
-﻿using MediCare.Common.Helper;
+using MediCare.Common.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +12,23 @@ namespace MediCare.Presentation.Shared.Configuration
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JWT");
+            var signingKey = jwtSettings["Key"];
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+            var expiryInMinutes = jwtSettings.GetValue<int?>("ExpiryInMinutes");
 
-            // Configure strongly typed JWT settings
+            if (string.IsNullOrWhiteSpace(signingKey) ||
+                Encoding.UTF8.GetByteCount(signingKey) < 32 ||
+                string.IsNullOrWhiteSpace(issuer) ||
+                string.IsNullOrWhiteSpace(audience) ||
+                expiryInMinutes is null or <= 0)
+            {
+                throw new InvalidOperationException(
+                    "JWT:Key (at least 32 bytes), JWT:Issuer, JWT:Audience, and a positive JWT:ExpiryInMinutes must be configured.");
+            }
+
             services.Configure<JWT>(jwtSettings);
-
-            var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+            var key = Encoding.UTF8.GetBytes(signingKey);
 
             services.AddAuthentication(options =>
             {
@@ -31,25 +43,13 @@ namespace MediCare.Presentation.Shared.Configuration
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["Issuer"],
-                    ValidAudience = jwtSettings["Audience"],
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    RoleClaimType = "roles",
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ClockSkew = TimeSpan.Zero
                 };
 
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = ctx =>
-                    {
-                        Console.WriteLine("Authentication Failed: " + ctx.Exception.Message);
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = ctx =>
-                    {
-                        Console.WriteLine("Token Validated Successfully");
-                        return Task.CompletedTask;
-                    }
-                };
             });
 
             return services;

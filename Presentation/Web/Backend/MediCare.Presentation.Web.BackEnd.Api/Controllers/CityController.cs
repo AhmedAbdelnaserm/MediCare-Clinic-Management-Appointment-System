@@ -1,10 +1,13 @@
-﻿using MediCare.IApplication.BackEnd.IAppService;
+using MediCare.Presentation.Shared.Extensions;
+using MediCare.IApplication.BackEnd.IAppService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class CityController : ControllerBase
     {
         private readonly ICityAppService CityAppService;
@@ -17,13 +20,13 @@ namespace MediCare.Presentation.Web.BackEnd.Api.Controllers
         [HttpGet("{cityId}")]
         public async Task<IActionResult> GetCity(int cityId)
         {
-            return Ok(await CityAppService.GetCity(cityId));
+            return this.ToHttpResult(await CityAppService.GetCity(cityId));
         }
 
         [HttpGet("GetCities")]
         public async Task<IActionResult> GetCities()
         {
-            return Ok(await CityAppService.GetCities());
+            return this.ToHttpResult(await CityAppService.GetCities());
         }
     }
 }

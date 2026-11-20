@@ -1,0 +1,27 @@
+@model IReadOnlyCollection<MediCare.Application.BackEnd.Dto.AppointmentDto.UserNotificationDto>
+@{
+    ViewData["Title"] = "Notifications";
+}
+<section class="container-fluid py-4">
+    <p class="text-uppercase text-secondary small mb-2">Your account</p>
+    <h1 class="h3 mb-4">Notifications</h1>
+    @if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+    @if (TempData["Error"] is string error) { <div class="alert alert-warning">@error</div> }
+    @if (Model.Count == 0)
+    {
+        <div class="card border-0 shadow-sm"><div class="card-body p-4 text-secondary">You are all caught up.</div></div>
+    }
+    else
+    {
+        <div class="list-group shadow-sm">
+        @foreach (var item in Model)
+        {
+            <article class="list-group-item py-3 @(item.ReadAtUtc is null ? "border-start border-4 border-primary" : "")">
+                <div class="d-flex justify-content-between gap-3"><div><h2 class="h6 mb-1">@item.Title</h2><p class="mb-1">@item.Message</p><small class="text-secondary">@item.CreatedAtUtc.ToString("dd MMM yyyy, HH:mm") UTC</small></div>
+                    @if (item.ReadAtUtc is null) { <form asp-action="MarkAsRead" method="post">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@item.Id" /><button type="submit" class="btn btn-sm btn-outline-secondary">Mark read</button></form> }
+                </div>
+            </article>
+        }
+        </div>
+    }
+</section>

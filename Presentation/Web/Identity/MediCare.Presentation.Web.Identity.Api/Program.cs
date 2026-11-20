@@ -1,27 +1,18 @@
+using MediCare.Infrastructure.Repository;
 using MediCare.Presentation.Web.Identity.Api.Configuration;
 using MediCare.Presentation.Shared.Configuration;
 using MediCare.Infrastructure.Repository.Seed;
-using MediCare.Application.Identity.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddAutoMapper(
-    cfg => { },
-    typeof(ApplicationUserMapping).Assembly
-);
-
-
-
 // ===== Cross-Cutting Configurations =====
 builder.Services
-    .AddDbServices(builder.Configuration)
-    .AddCorsWithDefaultPolicy()
+    .AddInfrastructure(builder.Configuration)
+    .AddCorsWithDefaultPolicy(builder.Configuration)
     .AddIdentityResolveServices()
-    .AddIdentityServices()
     .AddJwtAuthentication(builder.Configuration)
-    .AddSwaggerWithJwt("Identity API")
-    .AddInfrastructureServices();
+    .AddSwaggerWithJwt("Identity API");
 
 
 builder.Services.AddControllers();

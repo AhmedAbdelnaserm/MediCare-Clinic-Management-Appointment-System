@@ -20,8 +20,10 @@ namespace MediCare.Infrastructure.Repository.Context
         public DbSet<PrescriptionItem> PrescriptionItems { get; set; }
         public DbSet<Slot> Slots { get; set; }
         public DbSet<WorkingHour> WorkingHours { get; set; }
+        public DbSet<ScheduleException> ScheduleExceptions { get; set; }
         public DbSet<UploadedAttachment> UploadedAttachments { get; set; }
         public DbSet<ClinicStaff> ClinicStaffs { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
 
         #endregion
     }

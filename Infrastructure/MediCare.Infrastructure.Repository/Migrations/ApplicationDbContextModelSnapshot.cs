@@ -5313,6 +5313,59 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.ToTable("PrescriptionItems");
                 });
 
+            modelBuilder.Entity("MediCare.Core.Entity.Entity.ScheduleException", b =>
+                {
+                    b.Property<int>("ScheduleExceptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleExceptionId"));
+
+                    b.Property<int>("ClinicDoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeleteStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly?>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly>("ExceptionDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsClosed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifierUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<TimeOnly?>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("ScheduleExceptionId");
+
+                    b.HasIndex("ClinicDoctorId", "ExceptionDate")
+                        .IsUnique();
+
+                    b.ToTable("ScheduleExceptions", t =>
+                        {
+                            t.HasCheckConstraint("CK_ScheduleException_ValidHours", "([IsClosed] = 1 AND [StartTime] IS NULL AND [EndTime] IS NULL) OR ([IsClosed] = 0 AND [StartTime] IS NOT NULL AND [EndTime] IS NOT NULL AND [StartTime] < [EndTime])");
+                        });
+                });
+
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Slot", b =>
                 {
                     b.Property<int>("SlotId")
@@ -5347,7 +5400,8 @@ namespace MediCare.Infrastructure.Repository.Migrations
 
                     b.HasKey("SlotId");
 
-                    b.HasIndex("ClinicDoctorId");
+                    b.HasIndex("ClinicDoctorId", "SlotDateTime")
+                        .IsUnique();
 
                     b.ToTable("Slots");
                 });
@@ -5445,6 +5499,60 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.HasIndex("MedicalRecordId");
 
                     b.ToTable("UploadedAttachments");
+                });
+
+            modelBuilder.Entity("MediCare.Core.Entity.Entity.UserNotification", b =>
+                {
+                    b.Property<long>("UserNotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserNotificationId"));
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeduplicationKey")
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("ReadAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("RelatedAppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserNotificationId");
+
+                    b.HasIndex("DeduplicationKey")
+                        .IsUnique()
+                        .HasFilter("[DeduplicationKey] IS NOT NULL");
+
+                    b.HasIndex("RelatedAppointmentId", "Type");
+
+                    b.HasIndex("UserId", "CreatedAtUtc");
+
+                    b.ToTable("UserNotifications");
                 });
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.WorkingHour", b =>
@@ -5782,6 +5890,17 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.Navigation("Prescription");
                 });
 
+            modelBuilder.Entity("MediCare.Core.Entity.Entity.ScheduleException", b =>
+                {
+                    b.HasOne("MediCare.Core.Entity.Entity.ClinicDoctor", "ClinicDoctor")
+                        .WithMany("ScheduleExceptions")
+                        .HasForeignKey("ClinicDoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ClinicDoctor");
+                });
+
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Slot", b =>
                 {
                     b.HasOne("MediCare.Core.Entity.Entity.ClinicDoctor", "ClinicDoctor")
@@ -5796,7 +5915,7 @@ namespace MediCare.Infrastructure.Repository.Migrations
             modelBuilder.Entity("MediCare.Core.Entity.Entity.UploadedAttachment", b =>
                 {
                     b.HasOne("MediCare.Core.Entity.Entity.MedicalRecord", "MedicalRecord")
-                        .WithMany()
+                        .WithMany("UploadedAttachments")
                         .HasForeignKey("MedicalRecordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5899,6 +6018,8 @@ namespace MediCare.Infrastructure.Repository.Migrations
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.ClinicDoctor", b =>
                 {
+                    b.Navigation("ScheduleExceptions");
+
                     b.Navigation("Slots");
 
                     b.Navigation("WorkingHours");
@@ -5914,6 +6035,8 @@ namespace MediCare.Infrastructure.Repository.Migrations
             modelBuilder.Entity("MediCare.Core.Entity.Entity.MedicalRecord", b =>
                 {
                     b.Navigation("Prescriptions");
+
+                    b.Navigation("UploadedAttachments");
                 });
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.Patient", b =>

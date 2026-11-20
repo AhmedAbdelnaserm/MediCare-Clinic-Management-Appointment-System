@@ -1,4 +1,4 @@
-﻿using MediCare.Application.Identity.Dto.ClinicAdminDto;
+using MediCare.Application.Identity.Dto.ClinicAdminDto;
 using MediCare.Common.Dto;
 using MediCare.Common.Enum;
 using MediCare.Common.Interface;
@@ -151,28 +151,19 @@ public class ClinicAdminAppService : IClinicAdminAppService
 
         staff.User.FullName = request.FullName.Trim();
         staff.User.PhoneNumber = request.PhoneNumber;
+        staff.User.Email = normalizedEmail;
+        staff.User.UserName = normalizedEmail;
 
-        var emailResult = await UserManager.SetEmailAsync(staff.User, normalizedEmail);
-        if (!emailResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", emailResult.Errors.Select(x => x.Description)));
-
-        var usernameResult = await UserManager.SetUserNameAsync(staff.User, normalizedEmail);
-        if (!usernameResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", usernameResult.Errors.Select(x => x.Description)));
+        // UserManager and this repository share the scoped DbContext. Updating the
+        // tracked ClinicStaff before UpdateAsync saves both changes together.
+        staff.ClinicId = request.ClinicId;
+        staff.LastModificationTime = DateTime.UtcNow;
+        staff.LastModifierUserId = CurrentUser.UserId;
 
         var userResult = await UserManager.UpdateAsync(staff.User);
         if (!userResult.Succeeded)
             return response.GetErrorResponse(
                 string.Join(" ", userResult.Errors.Select(x => x.Description)));
-
-        staff.ClinicId = request.ClinicId;
-        staff.LastModificationTime = DateTime.UtcNow;
-        staff.LastModifierUserId = CurrentUser.UserId;
-
-        UnitOfWork.ClinicStaffRepository.Update(staff);
-        await UnitOfWork.Commit();
 
         return response.GetSuccessResponse("Clinic admin updated successfully.");
     }
@@ -180,6 +171,9 @@ public class ClinicAdminAppService : IClinicAdminAppService
     public async Task<ResponseDto<EmptyResponseDto>> SetClinicAdminStatus(string userId, bool isActive)
     {
         var response = new ResponseDto<EmptyResponseDto>();
+
+        if (!isActive && string.Equals(CurrentUser.UserId, userId, StringComparison.Ordinal))
+            return response.GetErrorResponse("You cannot deactivate your own account.");
 
         var staff = await UnitOfWork.ClinicStaffRepository.GetByUserId(userId);
 
@@ -194,17 +188,14 @@ public class ClinicAdminAppService : IClinicAdminAppService
             ? null
             : DateTimeOffset.UtcNow.AddYears(100);
 
+        staff.LastModificationTime = DateTime.UtcNow;
+        staff.LastModifierUserId = CurrentUser.UserId;
+
         var result = await UserManager.UpdateAsync(staff.User);
 
         if (!result.Succeeded)
             return response.GetErrorResponse(
                 string.Join(", ", result.Errors.Select(x => x.Description)));
-
-        staff.LastModificationTime = DateTime.UtcNow;
-        staff.LastModifierUserId = CurrentUser.UserId;
-
-        UnitOfWork.ClinicStaffRepository.Update(staff);
-        await UnitOfWork.Commit();
 
         return response.GetSuccessResponse(
             isActive ? "Clinic admin activated successfully."
@@ -213,7 +204,8 @@ public class ClinicAdminAppService : IClinicAdminAppService
 
     private static ClinicAdminDto MapToDto(ClinicStaff staff)
     {
-        var isActive = staff.User.LockoutEnd == null ||
+        var isActive = !staff.User.LockoutEnabled ||
+                       staff.User.LockoutEnd == null ||
                        staff.User.LockoutEnd <= DateTimeOffset.UtcNow;
 
         return new ClinicAdminDto
