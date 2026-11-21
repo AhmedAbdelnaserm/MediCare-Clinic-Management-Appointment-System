@@ -1,0 +1,95 @@
+﻿@model MediCare.Presentation.Web.Frontend.Mvc.ViewModels.Account.RegisterDoctorViewModel
+
+@{
+    ViewData["Title"] = "Doctor Registration";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Doctor Registration</h2>
+
+                    <form asp-action="RegisterDoctor" method="post">
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SpecializationId"
+                                   class="form-label">Specialization</label>
+
+                            <select asp-for="SpecializationId"
+                                    asp-items="Model.Specializations"
+                                    class="form-select">
+                                <option value="">Select Specialization</option>
+                            </select>
+
+                            <span asp-validation-for="SpecializationId"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DoctorDegree"
+                                   class="form-label"></label>
+                            <input asp-for="DoctorDegree"
+                                   class="form-control" />
+                            <span asp-validation-for="DoctorDegree"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword"
+                                   class="form-label"></label>
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control" />
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Create Doctor Account
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Login">Already have an account? Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

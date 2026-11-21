@@ -27,6 +27,25 @@
         <div class="col-md-6 col-lg-4">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
+                    <h5 class="card-title">My Clinic</h5>
+
+                    <p class="card-text text-muted">
+                        View and update your clinic information.
+                    </p>
+
+                    <a asp-area="Admin"
+                       asp-controller="Clinic"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        Manage Clinic
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
                     <h5 class="card-title">Patients</h5>
                     <p class="card-text text-muted">View and manage clinic patients.</p>
                     <span class="text-muted">Coming soon</span>

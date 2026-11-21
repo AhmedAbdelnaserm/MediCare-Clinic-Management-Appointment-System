@@ -57,6 +57,24 @@
                             </label>
                         </div>
 
+                        <div class="text-center mt-3">
+                            <p>
+                                Are you a patient?
+                                <a asp-controller="Account"
+                                   asp-action="RegisterPatient">
+                                    Register as Patient
+                                </a>
+                            </p>
+
+                            <p>
+                                Are you a doctor?
+                                <a asp-controller="Account"
+                                   asp-action="RegisterDoctor">
+                                    Register as Doctor
+                                </a>
+                            </p>
+                        </div>
+
                         <button type="submit"
                                 class="btn btn-primary w-100">
                             Login
