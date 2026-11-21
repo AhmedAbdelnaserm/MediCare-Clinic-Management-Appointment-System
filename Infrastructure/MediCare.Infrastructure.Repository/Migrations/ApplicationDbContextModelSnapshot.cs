@@ -5394,6 +5394,756 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.HasKey("SpecializationId");
 
                     b.ToTable("Specializations");
+
+                    b.HasData(
+                        new
+                        {
+                            SpecializationId = 1,
+                            ArDescription = "",
+                            ArName = "الباطنة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Internal Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 2,
+                            ArDescription = "",
+                            ArName = "القلب",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Cardiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 3,
+                            ArDescription = "",
+                            ArName = "المخ والأعصاب",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Neurology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 4,
+                            ArDescription = "",
+                            ArName = "طب الأطفال",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pediatrics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 5,
+                            ArDescription = "",
+                            ArName = "الأمراض الجلدية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Dermatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 6,
+                            ArDescription = "",
+                            ArName = "جراحة العظام",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Orthopedics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 7,
+                            ArDescription = "",
+                            ArName = "الجراحة العامة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "General Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 8,
+                            ArDescription = "",
+                            ArName = "النساء والتوليد",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Obstetrics and Gynecology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 9,
+                            ArDescription = "",
+                            ArName = "طب وجراحة العيون",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Ophthalmology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 10,
+                            ArDescription = "",
+                            ArName = "الأنف والأذن والحنجرة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "ENT",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 11,
+                            ArDescription = "",
+                            ArName = "المسالك البولية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Urology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 12,
+                            ArDescription = "",
+                            ArName = "أمراض الكلى",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Nephrology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 13,
+                            ArDescription = "",
+                            ArName = "أمراض الصدر",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Chest Diseases",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 14,
+                            ArDescription = "",
+                            ArName = "الجهاز الهضمي والكبد",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Gastroenterology and Hepatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 15,
+                            ArDescription = "",
+                            ArName = "الغدد الصماء والسكر",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Endocrinology and Diabetes",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 16,
+                            ArDescription = "",
+                            ArName = "الطب النفسي",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Psychiatry",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 17,
+                            ArDescription = "",
+                            ArName = "الأورام",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Oncology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 18,
+                            ArDescription = "",
+                            ArName = "أمراض الروماتيزم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Rheumatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 19,
+                            ArDescription = "",
+                            ArName = "أمراض الدم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Hematology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 20,
+                            ArDescription = "",
+                            ArName = "طب الأسرة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Family Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 21,
+                            ArDescription = "",
+                            ArName = "طب الطوارئ",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Emergency Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 22,
+                            ArDescription = "",
+                            ArName = "التخدير",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Anesthesiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 23,
+                            ArDescription = "",
+                            ArName = "طب الحالات الحرجة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Critical Care Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 24,
+                            ArDescription = "",
+                            ArName = "الأشعة التشخيصية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Diagnostic Radiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 25,
+                            ArDescription = "",
+                            ArName = "الباثولوجيا الإكلينيكية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Clinical Pathology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 26,
+                            ArDescription = "",
+                            ArName = "الطب الطبيعي والتأهيل",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Physical Medicine and Rehabilitation",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 27,
+                            ArDescription = "",
+                            ArName = "جراحة المخ والأعصاب",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Neurosurgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 28,
+                            ArDescription = "",
+                            ArName = "جراحة القلب والصدر",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Cardiothoracic Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 29,
+                            ArDescription = "",
+                            ArName = "جراحة الأوعية الدموية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Vascular Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 30,
+                            ArDescription = "",
+                            ArName = "جراحة التجميل",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Plastic Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 31,
+                            ArDescription = "",
+                            ArName = "جراحة الأطفال",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pediatric Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 32,
+                            ArDescription = "",
+                            ArName = "أمراض الذكورة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Andrology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 33,
+                            ArDescription = "",
+                            ArName = "الطب الاستوائي",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Tropical Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 34,
+                            ArDescription = "",
+                            ArName = "طب المسنين",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Geriatrics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 35,
+                            ArDescription = "",
+                            ArName = "طب الأسنان",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Dentistry",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 36,
+                            ArDescription = "",
+                            ArName = "العلاج الطبيعي",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Physiotherapy",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 37,
+                            ArDescription = "",
+                            ArName = "التغذية العلاجية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Nutrition",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 38,
+                            ArDescription = "",
+                            ArName = "القسطرة التداخلية للقلب",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Interventional Cardiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 39,
+                            ArDescription = "",
+                            ArName = "قلب الأطفال",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pediatric Cardiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 40,
+                            ArDescription = "",
+                            ArName = "الفسيولوجيا العصبية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Neurophysiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 41,
+                            ArDescription = "",
+                            ArName = "أمراض الكبد",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Hepatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 42,
+                            ArDescription = "",
+                            ArName = "حديثو الولادة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Neonatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 43,
+                            ArDescription = "",
+                            ArName = "جراحة الأورام",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Surgical Oncology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 44,
+                            ArDescription = "",
+                            ArName = "الأشعة التداخلية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Interventional Radiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 45,
+                            ArDescription = "",
+                            ArName = "العقم وأطفال الأنابيب",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Infertility and IVF",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 46,
+                            ArDescription = "",
+                            ArName = "الجلدية والتجميل",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Cosmetic Dermatology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 47,
+                            ArDescription = "",
+                            ArName = "جراحة العمود الفقري",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Spine Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 48,
+                            ArDescription = "",
+                            ArName = "مسالك بولية الأطفال",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pediatric Urology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 49,
+                            ArDescription = "",
+                            ArName = "جراحات السمنة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Bariatric Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 50,
+                            ArDescription = "",
+                            ArName = "علاج الألم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pain Management",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 51,
+                            ArDescription = "",
+                            ArName = "طب نقل الدم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Blood Transfusion Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 52,
+                            ArDescription = "",
+                            ArName = "الحساسية والمناعة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Allergy and Immunology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 53,
+                            ArDescription = "",
+                            ArName = "الأمراض المعدية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Infectious Diseases",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 54,
+                            ArDescription = "",
+                            ArName = "الوراثة الطبية",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Medical Genetics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 55,
+                            ArDescription = "",
+                            ArName = "الطب المهني",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Occupational Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 56,
+                            ArDescription = "",
+                            ArName = "الطب النووي",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Nuclear Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 57,
+                            ArDescription = "",
+                            ArName = "السمعيات",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Audiology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 58,
+                            ArDescription = "",
+                            ArName = "التخاطب وعلاج النطق",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Speech and Language Therapy",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 59,
+                            ArDescription = "",
+                            ArName = "جراحة الفم والوجه والفكين",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Oral and Maxillofacial Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 60,
+                            ArDescription = "",
+                            ArName = "تقويم الأسنان",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Orthodontics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 61,
+                            ArDescription = "",
+                            ArName = "طب أسنان الأطفال",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Pediatric Dentistry",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 62,
+                            ArDescription = "",
+                            ArName = "علاج جذور الأسنان",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Endodontics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 63,
+                            ArDescription = "",
+                            ArName = "أمراض وجراحة اللثة",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Periodontology",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 64,
+                            ArDescription = "",
+                            ArName = "تركيبات الأسنان",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Prosthodontics",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 65,
+                            ArDescription = "",
+                            ArName = "جراحة اليد",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Hand Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 66,
+                            ArDescription = "",
+                            ArName = "جراحة القولون والمستقيم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Colorectal Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 67,
+                            ArDescription = "",
+                            ArName = "جراحة الثدي",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Breast Surgery",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpecializationId = 68,
+                            ArDescription = "",
+                            ArName = "طب النوم",
+                            CreationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeleteStatusId = 1,
+                            EnDescription = "",
+                            EnName = "Sleep Medicine",
+                            LastModificationTime = new DateTime(2025, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("MediCare.Core.Entity.Entity.UploadedAttachment", b =>

@@ -143,6 +143,77 @@ namespace MediCare.Application.BackEnd.AppService
                 : response.GetErrorResponse(Localization.GeneralError);
         }
 
+
+        public async Task<ResponseDto<ClinicDto>> GetMyClinic()
+        {
+            ResponseDto<ClinicDto> response = new();
+
+            var userId = CurrentUser.UserId;
+
+            if (string.IsNullOrWhiteSpace(userId))
+                return response.GetErrorResponse(Localization.InvalidData);
+
+            var clinicStaff = await UnitOfWork.ClinicStaffRepository
+                .GetByUserId(userId);
+
+            if (clinicStaff == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            var clinic = await UnitOfWork.ClinicRepository
+                .GetClinic(clinicStaff.ClinicId, "Area");
+
+            if (clinic == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            var clinicDto = Mapper.Map<ClinicDto>(clinic);
+
+            return response.GetSuccessResponse(
+                clinicDto,
+                Localization.GeneralSuccess);
+        }
+
+        public async Task<ResponseDto<EmptyResponseDto>> UpdateMyClinic(
+            UpdateClinicRequestDto clinicDto)
+        {
+            ResponseDto<EmptyResponseDto> response = new();
+
+            var userId = CurrentUser.UserId;
+
+            if (string.IsNullOrWhiteSpace(userId))
+                return response.GetErrorResponse(Localization.InvalidData);
+
+            var clinicStaff = await UnitOfWork.ClinicStaffRepository.GetByUserId(userId);
+
+            if (clinicStaff == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            // The ClinicId is obtained from the authenticated user's account.
+            // It is never accepted from the client.
+            int clinicId = clinicStaff.ClinicId;
+
+            var validationResponse = await ValidateUpdateClinicRequestData(clinicId, clinicDto);
+
+            if (validationResponse.Code != ResultStatusEnum.Success)
+                return response.GetErrorResponse(validationResponse.Message);
+
+            var clinic = await UnitOfWork.ClinicRepository.GetClinic(clinicId);
+
+            if (clinic == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            Mapper.Map(clinicDto, clinic);
+
+            clinic.LastModifierUserId = userId;
+            clinic.LastModificationTime = DateTime.UtcNow;
+
+            UnitOfWork.ClinicRepository.Update(clinic);
+
+            return await UnitOfWork.Commit() > default(int)
+                ? response.GetSuccessResponse(Localization.GeneralSuccess)
+                : response.GetErrorResponse(Localization.GeneralError);
+        }
+
+
         private async Task<ResponseDto<EmptyResponseDto>> ValidateCreateClinicRequestData(CreateClinicRequestDto request)
         {
             ResponseDto<EmptyResponseDto> response = new();

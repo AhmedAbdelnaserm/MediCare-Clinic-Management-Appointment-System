@@ -2,6 +2,7 @@ namespace MediCare.Application.BackEnd.Dto.DoctorDto;
 
 public class DoctorResponseDto
 {
+    public int DoctorId { get; set; }
     public string UserId { get; set; }
     public string DoctorName { get; set; } = string.Empty;
     public string DoctorEmail { get; set; } = string.Empty;

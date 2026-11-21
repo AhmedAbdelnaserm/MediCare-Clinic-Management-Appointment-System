@@ -15,6 +15,7 @@ public static class DataSeeding
     {
         modelBuilder.Entity<City>().HasData(GetCities());
         modelBuilder.Entity<Area>().HasData(GetAreas());
+        SpecializationSeeding.Seed(modelBuilder);
     }
 
     private static City[] GetCities()

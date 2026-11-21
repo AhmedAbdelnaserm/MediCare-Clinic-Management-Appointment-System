@@ -52,6 +52,23 @@
         PediatricUrology=48,
         BariatricSurgery=49,
         PainManagement=50,
-        BloodTransfusionMedicine=51
+        BloodTransfusionMedicine=51,
+        AllergyAndImmunology = 52,
+        InfectiousDiseases = 53,
+        MedicalGenetics = 54,
+        OccupationalMedicine = 55,
+        NuclearMedicine = 56,
+        Audiology = 57,
+        SpeechAndLanguageTherapy = 58,
+        OralAndMaxillofacialSurgery = 59,
+        Orthodontics = 60,
+        PediatricDentistry = 61,
+        Endodontics = 62,
+        Periodontology = 63,
+        Prosthodontics = 64,
+        HandSurgery = 65,
+        ColorectalSurgery = 66,
+        BreastSurgery = 67,
+        SleepMedicine = 68
     }
 }

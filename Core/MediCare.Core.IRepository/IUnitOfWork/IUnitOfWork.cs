@@ -17,6 +17,9 @@ namespace MediCare.Core.IRepository.IUnitOfWork
         IDoctorRepository DoctorRepository { get; }
         IClinicRepository ClinicRepository { get; }
         IClinicStaffRepository ClinicStaffRepository { get; }
+        IClinicDoctorRepository ClinicDoctorRepository { get; }
+        IWorkingHourRepository WorkingHourRepository { get; }
+        ISlotRepository SlotRepository { get; }
         #endregion
     }
 }

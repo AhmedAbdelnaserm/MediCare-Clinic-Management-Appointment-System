@@ -50,8 +50,6 @@ namespace MediCare.Application.BackEnd.AppService
             if (response.Code != ResultStatusEnum.Success)
                 return response;
             var doctor = Mapper.Map<Doctor>(doctorRequestDto);
-            doctor.ArDescription = string.Empty;
-            doctor.ArName = string.Empty;
             doctor.CreatorUserId = CurrentUser.UserId
                 ?? throw new InvalidOperationException("Current user is not authenticated.");
             doctor.DeleteStatusId = (int)DeleteStatusEnum.NotDeleted;
@@ -102,7 +100,7 @@ namespace MediCare.Application.BackEnd.AppService
         }
         private async Task<ResponseDto<EmptyResponseDto>> ValidateDoctorCreateRequestData(CreateDoctorRequestDto request)
         {
-            var response = new ResponseDto<EmptyResponseDto>();
+            ResponseDto<EmptyResponseDto> response = new ();
             if (request == null)
                 return response.GetErrorResponse(Localization.InvalidRequest);
             if (request.SpecializationId <= default(int))

@@ -1,0 +1,240 @@
+﻿@using MediCare.Application.BackEnd.Dto.ClinicDoctorDto
+
+@model ClinicDoctorDto
+
+@{
+    ViewData["Title"] = "Edit Doctor Schedule";
+
+    var days = Enum.GetValues<DayOfWeek>();
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Edit Doctor Schedule</h2>
+
+        <a asp-area="Admin"
+           asp-controller="Doctors"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back to Doctors
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-area="Admin"
+                  asp-controller="Doctors"
+                  asp-action="Edit"
+                  asp-route-clinicDoctorId="@Model.ClinicDoctorId"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="ClinicDoctorId" />
+
+                @* Preserve display values if validation fails *@
+                <input type="hidden" asp-for="DoctorName" />
+                <input type="hidden" asp-for="SpecializationName" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Doctor</label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="@Model.DoctorName"
+                           readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Specialization</label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="@Model.SpecializationName"
+                           readonly />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ConsultationDurationMinutes"
+                           class="form-label">
+                        Consultation Duration (Minutes)
+                    </label>
+
+                    <input asp-for="ConsultationDurationMinutes"
+                           type="number"
+                           min="1"
+                           class="form-control"
+                           required />
+
+                    <span asp-validation-for="ConsultationDurationMinutes"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5>Working Hours</h5>
+
+                    <button type="button"
+                            id="addWorkingHour"
+                            class="btn btn-outline-primary btn-sm">
+                        Add Working Hour
+                    </button>
+                </div>
+
+                <div id="workingHoursContainer">
+                    @for (var i = 0; i < Model.WorkingHours.Count; i++)
+                    {
+                        <div class="row g-2 mb-3 working-hour-row">
+                            <div class="col-md-4">
+                                <label class="form-label">Day</label>
+
+                                <select name="WorkingHours[@i].DayOfWeek"
+                                        class="form-select"
+                                        required>
+                                    @foreach (var day in days)
+                                    {
+                                        <option value="@day"
+                                                selected="@(day == Model.WorkingHours[i].DayOfWeek ? "selected" : null)">
+                                            @day
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Start Time</label>
+
+                                <input type="time"
+                                       name="WorkingHours[@i].StartTime"
+                                       value="@Model.WorkingHours[i].StartTime.ToString("HH:mm")"
+                                       class="form-control"
+                                       required />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">End Time</label>
+
+                                <input type="time"
+                                       name="WorkingHours[@i].EndTime"
+                                       value="@Model.WorkingHours[i].EndTime.ToString("HH:mm")"
+                                       class="form-control"
+                                       required />
+                            </div>
+
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button"
+                                        class="btn btn-outline-danger remove-working-hour w-100">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Save Changes
+                    </button>
+
+                    <a asp-area="Admin"
+                       asp-controller="Doctors"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const container = document.getElementById("workingHoursContainer");
+        const addButton = document.getElementById("addWorkingHour");
+
+        const days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+
+        function updateIndexes() {
+            const rows = container.querySelectorAll(".working-hour-row");
+
+            rows.forEach((row, index) => {
+                row.querySelectorAll("select, input").forEach(input => {
+                    const property = input.name.split(".").pop();
+                    input.name = `WorkingHours[${index}].${property}`;
+                });
+            });
+        }
+
+        addButton.addEventListener("click", function() {
+            const index = container.querySelectorAll(".working-hour-row").length;
+
+            const row = document.createElement("div");
+            row.className = "row g-2 mb-3 working-hour-row";
+
+            row.innerHTML = `
+                        <div class="col-md-4">
+                            <label class="form-label">Day</label>
+                            <select name="WorkingHours[${index}].DayOfWeek"
+                                    class="form-select"
+                                    required>
+                                ${days.map(day => `<option value="${day}">${day}</option>`).join("")}
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Start Time</label>
+                            <input type="time"
+                                   name="WorkingHours[${index}].StartTime"
+                                   class="form-control"
+                                   required />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">End Time</label>
+                            <input type="time"
+                                   name="WorkingHours[${index}].EndTime"
+                                   class="form-control"
+                                   required />
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button"
+                                    class="btn btn-outline-danger remove-working-hour w-100">
+                                Remove
+                            </button>
+                        </div>
+                    `;
+
+            container.appendChild(row);
+            updateIndexes();
+        });
+
+        container.addEventListener("click", function(event) {
+            if (event.target.classList.contains("remove-working-hour")) {
+                const rows = container.querySelectorAll(".working-hour-row");
+
+                if (rows.length > 1) {
+                    event.target.closest(".working-hour-row").remove();
+                    updateIndexes();
+                }
+            }
+        });
+    </script>
+}

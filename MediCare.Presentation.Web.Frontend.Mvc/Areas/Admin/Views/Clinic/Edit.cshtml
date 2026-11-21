@@ -1,0 +1,168 @@
+﻿@using MediCare.Common.Dto
+@using MediCare.Presentation.Web.Frontend.Mvc.Areas.Admin.ViewModels
+@model ClinicFormViewModel
+
+@{
+    ViewData["Title"] = "Edit My Clinic";
+
+    var cities = ViewBag.Cities as List<TextValueBindingResponseDto> ?? new();
+    var areas = ViewBag.Areas as List<TextValueBindingResponseDto> ?? new();
+}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h2>Edit My Clinic</h2>
+        <p class="text-muted">Update your clinic information.</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+            <form asp-action="Edit" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EnName" class="form-label">
+                            Clinic Name
+                        </label>
+
+                        <input asp-for="EnName" class="form-control" />
+                        <span asp-validation-for="EnName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">
+                            Phone Number
+                        </label>
+
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label asp-for="EnDescription" class="form-label">
+                            Description
+                        </label>
+
+                        <textarea asp-for="EnDescription"
+                                  class="form-control"
+                                  rows="3"></textarea>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label asp-for="Address" class="form-label">
+                            Address
+                        </label>
+
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="CityId" class="form-label">
+                            City
+                        </label>
+
+                        <select asp-for="CityId"
+                                class="form-select"
+                                id="CityId">
+
+                            <option value="">Select City</option>
+
+                            @foreach (var city in cities)
+                            {
+                                <option value="@city.Id">
+                                    @city.Name
+                                </option>
+                            }
+                        </select>
+
+                        <span asp-validation-for="CityId"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="AreaId" class="form-label">
+                            Area
+                        </label>
+
+                        <select asp-for="AreaId"
+                                class="form-select"
+                                id="AreaId">
+
+                            <option value="">Select Area</option>
+
+                            @foreach (var area in areas)
+                            {
+                                <option value="@area.Id">
+                                    @area.Name
+                                </option>
+                            }
+                        </select>
+
+                        <span asp-validation-for="AreaId"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+
+                    <button type="submit" class="btn btn-primary">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-light">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById("CityId").addEventListener("change", async function() {
+            const cityId = this.value;
+            const areaSelect = document.getElementById("AreaId");
+
+            areaSelect.innerHTML = '<option value="">Select Area</option>';
+
+            if (!cityId)
+                return;
+
+            const response = await fetch(
+                '@Url.Action("GetAreasByCity", "Clinic", new { area = "Admin" })' +
+                '?cityId=' + encodeURIComponent(cityId)
+            );
+
+            if (!response.ok)
+                return;
+
+            const areas = await response.json();
+
+            areas.forEach(area => {
+                const option = document.createElement("option");
+                option.value = area.id;
+                option.textContent = area.name;
+                areaSelect.appendChild(option);
+            });
+        });
+    </script>
+}
