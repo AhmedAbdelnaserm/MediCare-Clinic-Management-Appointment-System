@@ -1,5 +1,4 @@
-﻿
-using MediCare.Common.Enum;
+﻿using MediCare.Common.Enum;
 using MediCare.Core.Entity.Entity;
 using MediCare.Presentation.Web.Frontend.Mvc.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +12,7 @@ public class AccountController : Controller
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(
-        SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+    public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;

@@ -18,7 +18,6 @@
     <Project Path="Core/MediCare.Core.IRepository/MediCare.Core.IRepository.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/">
-    <Project Path="Infrastructure/MediCare.Infrastructure.EFCoreMigrationExecution/MediCare.Infrastructure.EFCoreMigrationExecution.csproj" />
     <Project Path="Infrastructure/MediCare.Infrastructure.Repository/MediCare.Infrastructure.Repository.csproj" />
   </Folder>
   <Folder Name="/Presentation/" />

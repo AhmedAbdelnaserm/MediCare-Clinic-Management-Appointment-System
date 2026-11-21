@@ -1,5 +1,4 @@
-﻿
-using MediCare.Application.BackEnd.Dto.ClinicDto;
+﻿using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Common.Dto;
 
 namespace MediCare.IApplication.BackEnd.IAppService
@@ -13,5 +12,7 @@ namespace MediCare.IApplication.BackEnd.IAppService
         Task<ResponseDto<EmptyResponseDto>> CreateClinic(CreateClinicRequestDto clinicDto);
         Task<ResponseDto<EmptyResponseDto>> UpdateClinic(int clinicId, UpdateClinicRequestDto clinicDto);
         Task<ResponseDto<EmptyResponseDto>> DeleteClinic(int clinicId);
+        Task<ResponseDto<ClinicDto>> GetMyClinic();
+        Task<ResponseDto<EmptyResponseDto>> UpdateMyClinic(UpdateClinicRequestDto clinicDto);
     }
 }

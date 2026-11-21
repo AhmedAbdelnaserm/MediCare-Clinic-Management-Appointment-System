@@ -142,7 +142,75 @@ namespace MediCare.Application.BackEnd.AppService
                 response.GetSuccessResponse(Localization.GeneralSuccess)
                 : response.GetErrorResponse(Localization.GeneralError);
         }
+        public async Task<ResponseDto<ClinicDto>> GetMyClinic()
+        {
+            ResponseDto<ClinicDto> response = new();
 
+            if (string.IsNullOrWhiteSpace(CurrentUser.UserId))
+                return response.GetErrorResponse(Localization.InvalidData);
+
+            var staff = await UnitOfWork.ClinicStaffRepository.GetByUserId(CurrentUser.UserId);
+
+            if (staff == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            var clinic = await UnitOfWork.ClinicRepository
+                .GetClinic(staff.ClinicId, "Area");
+
+            if (clinic == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            var clinicDto = Mapper.Map<ClinicDto>(clinic);
+
+            return response.GetSuccessResponse(clinicDto, Localization.GeneralSuccess);
+        }
+        public async Task<ResponseDto<EmptyResponseDto>> UpdateMyClinic(UpdateClinicRequestDto clinicDto)
+        {
+            ResponseDto<EmptyResponseDto> response = new();
+
+            if (clinicDto == null)
+                return response.GetErrorResponse(Localization.InvalidRequest);
+
+            if (string.IsNullOrWhiteSpace(CurrentUser.UserId))
+                return response.GetErrorResponse(Localization.InvalidData);
+
+            if (string.IsNullOrWhiteSpace(clinicDto.EnName))
+                return response.GetErrorResponse(Localization.ClinicNameRequired);
+
+            if (string.IsNullOrWhiteSpace(clinicDto.Address))
+                return response.GetErrorResponse(Localization.ClinicAddressRequired);
+
+            if (clinicDto.AreaId <= default(int))
+                return response.GetErrorResponse(Localization.AreaRequired);
+
+            var areaExists = await UnitOfWork.AreaRepository.CheckIsAreaExist(clinicDto.AreaId);
+
+            if (!areaExists)
+                return response.GetErrorResponse(Localization.AreaNotFound);
+
+            var staff = await UnitOfWork.ClinicStaffRepository
+                .GetByUserId(CurrentUser.UserId);
+
+            if (staff == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            var clinic = await UnitOfWork.ClinicRepository
+                .GetClinic(staff.ClinicId);
+
+            if (clinic == null)
+                return response.GetErrorResponse(Localization.NoDataFound);
+
+            Mapper.Map(clinicDto, clinic);
+
+            clinic.LastModifierUserId = CurrentUser.UserId;
+            clinic.LastModificationTime = DateTime.UtcNow;
+
+            UnitOfWork.ClinicRepository.Update(clinic);
+
+            return await UnitOfWork.Commit() > default(int)
+                ? response.GetSuccessResponse(Localization.GeneralSuccess)
+                : response.GetErrorResponse(Localization.GeneralError);
+        }
         private async Task<ResponseDto<EmptyResponseDto>> ValidateCreateClinicRequestData(CreateClinicRequestDto request)
         {
             ResponseDto<EmptyResponseDto> response = new();

@@ -54,6 +54,9 @@ namespace MediCare.Infrastructure.Repository.UnitOfWork
         public IDoctorRepository DoctorRepository => new DoctorRepository(AppDbContext);
         public IClinicRepository ClinicRepository => new ClinicRepository(AppDbContext);
         public IClinicStaffRepository ClinicStaffRepository => new ClinicStaffRepository(AppDbContext);
+        public IClinicDoctorRepository ClinicDoctorRepository => new ClinicDoctorRepository(AppDbContext);
+        public IWorkingHourRepository WorkingHourRepository => new WorkingHourRepository(AppDbContext);
+        public ISlotRepository SlotRepository => new SlotRepository(AppDbContext);
         #endregion
     }
 }

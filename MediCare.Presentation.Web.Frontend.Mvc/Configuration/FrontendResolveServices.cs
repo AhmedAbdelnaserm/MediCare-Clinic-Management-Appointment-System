@@ -18,6 +18,7 @@ public static class FrontendResolveServices
         services.AddScoped<IAreaAppService, AreaAppService>();
         services.AddScoped<IClinicAppService, ClinicAppService>();
         services.AddScoped<IClinicAdminAppService, ClinicAdminAppService>();
+        services.AddScoped<IClinicDoctorAppService, ClinicDoctorAppService>();
 
         services.AddAutoMapper(
             cfg => { },

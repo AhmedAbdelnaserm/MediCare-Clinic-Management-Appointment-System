@@ -10,7 +10,7 @@ namespace MediCare.Application.BackEnd.Base
 {
     public class BaseAppService : IBaseAppService
     {
-        protected readonly ICurrentUserService CurrentUser;
+        protected ICurrentUserService CurrentUser;
         protected IUnitOfWork UnitOfWork { get; }
         protected ILogger Logger { get; }
         protected ILocalizationService Localization { get; set; }
@@ -23,14 +23,6 @@ namespace MediCare.Application.BackEnd.Base
             Logger = logger;
             UnitOfWork = unitOfWork;
             CurrentUser = currentUser;
-        }
-
-        public BaseAppService(IMapper mapper, ILocalizationService localization, ILogger<AreaAppService> logger, IUnitOfWork unitOfWork)
-        {
-            Mapper = mapper;
-            Localization = localization;
-            Logger = logger;
-            UnitOfWork = unitOfWork;
         }
     }
 }
