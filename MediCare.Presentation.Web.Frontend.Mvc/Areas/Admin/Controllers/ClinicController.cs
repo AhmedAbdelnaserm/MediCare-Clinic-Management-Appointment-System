@@ -1,5 +1,6 @@
 ﻿using MediCare.Application.BackEnd.Dto.ClinicDto;
 using MediCare.Common.Dto;
+using AutoMapper;
 using MediCare.Common.Enum;
 using MediCare.IApplication.BackEnd.IAppService;
 using MediCare.Presentation.Web.Frontend.Mvc.Areas.Admin.ViewModels;
@@ -15,12 +16,14 @@ public class ClinicController : Controller
     private readonly IClinicAppService ClinicService;
     private readonly IAreaAppService AreaService;
     private readonly ICityAppService CityService;
+    private readonly IMapper Mapper;
 
-    public ClinicController(IClinicAppService clinicService, IAreaAppService areaService, ICityAppService cityService)
+    public ClinicController(IClinicAppService clinicService, IAreaAppService areaService, ICityAppService cityService, IMapper mapper)
     {
         ClinicService = clinicService;
         AreaService = areaService;
         CityService = cityService;
+        Mapper = mapper;
     }
 
     public async Task<IActionResult> Index()
@@ -43,17 +46,7 @@ public class ClinicController : Controller
         if (response.Code != ResultStatusEnum.Success || response.Data == null)
             return NotFound();
 
-        var clinic = response.Data;
-
-        var model = new ClinicFormViewModel
-        {
-            EnName = clinic.EnName,
-            EnDescription = clinic.EnDescription,
-            Address = clinic.Address,
-            PhoneNumber = clinic.PhoneNumber,
-            CityId = clinic.CityId,
-            AreaId = clinic.AreaId
-        };
+        var model = Mapper.Map<ClinicFormViewModel>(response.Data);
 
         await LoadFormData(model.CityId);
 
@@ -64,22 +57,7 @@ public class ClinicController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(ClinicFormViewModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            await LoadFormData(model.CityId);
-            return View(model);
-        }
-
-        var request = new UpdateClinicRequestDto
-        {
-            EnName = model.EnName,
-            EnDescription = model.EnDescription,
-            Address = model.Address,
-            PhoneNumber = model.PhoneNumber,
-            AreaId = model.AreaId
-        };
-
-        var response = await ClinicService.UpdateMyClinic(request);
+        var response = await ClinicService.UpdateMyClinic(Mapper.Map<UpdateClinicRequestDto>(model));
 
         if (response.Code != ResultStatusEnum.Success)
         {
@@ -97,9 +75,6 @@ public class ClinicController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAreasByCity(int cityId)
     {
-        if (cityId <= default(int))
-            return Json(new List<TextValueBindingResponseDto>());
-
         var response = await AreaService.GetAreasByCityId(cityId);
 
         return Json(response.Code == ResultStatusEnum.Success ? response.Data : new List<TextValueBindingResponseDto>());

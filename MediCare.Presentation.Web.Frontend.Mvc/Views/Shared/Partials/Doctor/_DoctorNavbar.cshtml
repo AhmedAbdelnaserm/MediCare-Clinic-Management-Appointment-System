@@ -1,5 +1,44 @@
-﻿
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <span class="navbar-brand">MediCare - Doctor</span>
-    <div class="ms-auto text-white">@User.Identity?.Name</div>
+@using MediCare.Core.Entity.Entity
+@using Microsoft.EntityFrameworkCore
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+@inject MediCare.Infrastructure.Repository.Context.ApplicationDbContext Db
+<link rel="stylesheet" href="~/css/doctor-profile-drawer.css" />
+@{
+    var doctorUser = await UserManager.GetUserAsync(User);
+    var doctor = doctorUser == null ? null : await Db.Doctors.Include(d => d.Specialization).FirstOrDefaultAsync(d => d.UserId == doctorUser.Id);
+    var doctorName = doctorUser?.FullName ?? User.Identity?.Name ?? "Doctor";
+    var specializations = await Db.Specializations.OrderBy(s => s.EnName).ToListAsync();
+}
+<nav class="navbar doctor-navbar">
+     <div class="doctor-nav-tools">
+        <button type="button" class="doctor-profile-trigger" id="doctorProfileOpen" aria-expanded="false" aria-controls="doctorProfileDrawer">
+            <span class="doctor-avatar nav-avatar"><img src="@(doctor?.ProfileImage ?? Url.Content("~/images/avatar.png"))" alt="" /></span>
+            <span class="doctor-nav-name">@doctorName</span><span class="doctor-chevron">⌄</span>
+        </button>
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="m-0">@Html.AntiForgeryToken()<button type="submit" class="doctor-signout">Sign out</button></form>
+    </div>
 </nav>
+
+<div class="doctor-profile-scrim" id="doctorProfileScrim"></div>
+<aside class="doctor-profile-drawer" id="doctorProfileDrawer" aria-hidden="true" aria-labelledby="doctorProfileTitle">
+    <div class="doctor-drawer-head"><div><h2 id="doctorProfileTitle">Your profile</h2></div><button type="button" class="doctor-drawer-close" id="doctorProfileClose" aria-label="Close profile">×</button></div>
+    @if (TempData["ProfileSuccess"] is string success) { <div class="doctor-profile-alert success">@success</div> }
+    @if (TempData["ProfileError"] is string error) { <div class="doctor-profile-alert error">@error</div> }
+    <form action="/Doctor/Profile/Save" method="post" enctype="multipart/form-data" id="doctorProfileForm">
+        @Html.AntiForgeryToken()
+        <div class="doctor-profile-cover"><span class="medical-cross">✚</span></div>
+        <div class="doctor-profile-identity">
+            <label class="doctor-avatar profile-avatar-upload" for="doctorPhotoInput"><img id="doctorPhotoPreview" src="@(doctor?.ProfileImage ?? Url.Content("~/images/avatar.png"))" alt="Profile photo" /><span class="photo-edit-badge">＋</span></label>
+            <input id="doctorPhotoInput" name="ProfileImageFile" type="file" accept="image/jpeg,image/png,image/webp" class="visually-hidden" />
+            <h3>@doctorName</h3><p>@(doctor?.Specialization?.EnName ?? "Medical professional")</p>
+        </div>
+        <div class="doctor-profile-section-heading"><span>Professional details</span><button type="button" id="doctorProfileEditToggle" class="doctor-edit-button"><svg class="doctor-edit-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg><span>Edit</span></button></div>
+        <label class="doctor-profile-field"><span>Full name</span><input name="FullName" value="@doctorName" readonly /></label>
+        <label class="doctor-profile-field"><span>Specialization</span><select name="SpecializationId" disabled><option value="">Choose a specialization</option>@foreach (var item in specializations) { <option value="@item.SpecializationId" selected="@(doctor?.SpecializationId == item.SpecializationId)">@item.EnName</option> }</select></label>
+        <label class="doctor-profile-field"><span>Degree</span><input name="DoctorDegree" value="@doctor?.DoctorDegree" placeholder="Add your degree" readonly /></label>
+        <label class="doctor-profile-field"><span>Professional bio</span><textarea name="EnDescription" rows="4" maxlength="500" placeholder="Tell patients about your experience" readonly>@doctor?.EnDescription</textarea></label>
+        <input type="hidden" name="ProfileImage" value="@doctor?.ProfileImage" />
+        <div class="doctor-profile-actions" id="doctorProfileActions"><button type="submit" class="doctor-save-button">Save profile</button><button type="button" class="doctor-cancel-button" id="doctorProfileCancel">Cancel</button></div>
+    </form>
+</aside>
+<script src="~/js/doctor-profile-drawer.js"></script>

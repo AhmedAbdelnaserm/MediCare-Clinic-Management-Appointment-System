@@ -18,6 +18,20 @@
         string InvalidConsultationFee { get; }
         string EnNameRequired { get; }
         string EnDescriptionRequired { get; }
+        string DoctorProfileNotFound { get; }
+        string SpecializationRequired { get; }
+        string DoctorDescriptionRequired { get; }
+        string InvalidProfileImage { get; }
+        string DoctorProfileUpdated { get; }
+        string DoctorClinicsLoaded { get; }
+        string ScheduleOverlapError { get; }
+        string ClinicAdminNotFound { get; }
+        string ConsultationDurationInvalid { get; }
+        string DoctorAlreadyAssigned { get; }
+        string WorkingHoursRequired { get; }
+        string WorkingHourDayInvalid { get; }
+        string WorkingHourOrderInvalid { get; }
+        string WorkingHoursOverlap { get; }
         #endregion
         #region Clinic
         string ClinicNameRequired { get; }

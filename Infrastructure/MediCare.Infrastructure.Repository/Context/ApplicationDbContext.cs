@@ -20,6 +20,14 @@ namespace MediCare.Infrastructure.Repository.Context
                 typeof(ClinicStaffConfiguration).Assembly
             );
 
+            modelBuilder.Entity<ClinicDoctor>()
+                .Property(clinicDoctor => clinicDoctor.ConsultationFee)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Doctor>()
+                .Property(doctor => doctor.ConsultationFee)
+                .HasColumnType("decimal(18,2)");
+
             DataSeeding.Seed(modelBuilder);
         }
 

@@ -31,8 +31,6 @@
                 @Html.AntiForgeryToken()
 
                 <input type="hidden" asp-for="ClinicDoctorId" />
-
-                @* Preserve display values if validation fails *@
                 <input type="hidden" asp-for="DoctorName" />
                 <input type="hidden" asp-for="SpecializationName" />
 
@@ -56,6 +54,12 @@
                            class="form-control"
                            value="@Model.SpecializationName"
                            readonly />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ConsultationFee" class="form-label">Consultation Fee</label>
+                    <input asp-for="ConsultationFee" type="number" min="0" step="0.01" class="form-control" required />
+                    <span asp-validation-for="ConsultationFee" class="text-danger"></span>
                 </div>
 
                 <div class="mb-4">

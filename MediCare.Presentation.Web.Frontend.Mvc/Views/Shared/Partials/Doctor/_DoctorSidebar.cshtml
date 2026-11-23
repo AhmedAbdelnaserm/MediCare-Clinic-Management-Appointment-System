@@ -1,9 +1,21 @@
-﻿
-<div class="sidebar-content">
-    <h4 class="text-white text-center py-3">Doctor Portal</h4>
-    <ul class="nav flex-column">
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+<div class="sidebar-content doctor-sidebar">
+    <a class="doctor-sidebar-brand" asp-area="Doctor" asp-controller="Dashboard" asp-action="Index">
+        <span class="doctor-sidebar-logo"><img src="~/images/logo.jpeg" alt="MediCare logo" /></span>
+        <span>MediCare<small>DOCTOR PORTAL</small></span>
+    </a>
+    <ul class="nav flex-column doctor-sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" asp-area="Doctor" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            <a class="nav-link @(currentController == "Dashboard" ? "active" : "")" asp-area="Doctor" asp-controller="Dashboard" asp-action="Index">
+                <span class="doctor-side-icon">⌂</span><span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(currentController == "DoctorClinic" ? "active" : "")" asp-area="Doctor" asp-controller="DoctorClinic" asp-action="Index">
+                <span class="doctor-side-icon">✚</span><span>My Clinics</span>
+            </a>
         </li>
         <li class="nav-item"><span class="nav-link text-white">Appointments</span></li>
         <li class="nav-item"><span class="nav-link text-white">Schedule</span></li>
