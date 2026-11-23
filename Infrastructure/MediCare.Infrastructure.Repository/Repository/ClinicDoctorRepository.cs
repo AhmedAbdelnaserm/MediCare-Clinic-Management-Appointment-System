@@ -4,6 +4,9 @@ using MediCare.Core.IRepository.IRepository;
 using MediCare.Infrastructure.Repository.Base;
 using MediCare.Infrastructure.Repository.Context;
 using System.Linq.Expressions;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace MediCare.Infrastructure.Repository.Repository;
 
@@ -58,5 +61,14 @@ public class ClinicDoctorRepository
             string.IsNullOrWhiteSpace(includeProperties)
                 ? DefaultIncludes
                 : includeProperties);
+    }
+    public Task<List<ClinicDoctor>> GetByDoctorId(int doctorId, string includeProperties = "")
+    {
+        return GetWhereAsync(x => x.DoctorId == doctorId && x.IsActive && x.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted,
+            string.IsNullOrWhiteSpace(includeProperties) ? DefaultIncludes : includeProperties);
+    }
+    public IDbContextTransaction BeginScheduleUpdateTransaction()
+    {
+        return AppDbContext.Database.BeginTransaction(IsolationLevel.Serializable);
     }
 }

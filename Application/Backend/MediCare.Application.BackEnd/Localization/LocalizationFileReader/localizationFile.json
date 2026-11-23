@@ -1,4 +1,18 @@
 ﻿[
+  { "Key": "DoctorProfileNotFound", "LocalizedValue": { "en": "Doctor profile was not found.", "ar": "لم يتم العثور على ملف الطبيب." } },
+  { "Key": "SpecializationRequired", "LocalizedValue": { "en": "Select a valid specialization.", "ar": "اختر تخصصًا صحيحًا." } },
+  { "Key": "DoctorDescriptionRequired", "LocalizedValue": { "en": "Professional description is required.", "ar": "الوصف المهني مطلوب." } },
+  { "Key": "InvalidProfileImage", "LocalizedValue": { "en": "Choose a JPG, PNG, or WebP image up to 5 MB.", "ar": "اختر صورة JPG أو PNG أو WebP بحجم لا يتجاوز 5 ميجابايت." } },
+  { "Key": "DoctorProfileUpdated", "LocalizedValue": { "en": "Professional profile saved.", "ar": "تم حفظ الملف المهني." } },
+  { "Key": "DoctorClinicsLoaded", "LocalizedValue": { "en": "Clinic assignments loaded.", "ar": "تم تحميل العيادات المرتبط بها الطبيب." } },
+  { "Key": "ScheduleOverlapError", "LocalizedValue": { "en": "These working hours overlap with this doctor's schedule at another clinic.", "ar": "مواعيد العمل تتعارض مع مواعيد الطبيب في عيادة أخرى." } },
+  { "Key": "ClinicAdminNotFound", "LocalizedValue": { "en": "Clinic admin was not found.", "ar": "لم يتم العثور على مدير العيادة." } },
+  { "Key": "ConsultationDurationInvalid", "LocalizedValue": { "en": "Consultation duration must be greater than zero.", "ar": "مدة الكشف يجب أن تكون أكبر من صفر." } },
+  { "Key": "DoctorAlreadyAssigned", "LocalizedValue": { "en": "This doctor is already assigned to your clinic.", "ar": "هذا الطبيب مرتبط بالفعل بعيادتك." } },
+  { "Key": "WorkingHoursRequired", "LocalizedValue": { "en": "At least one working hour is required.", "ar": "يجب إضافة موعد عمل واحد على الأقل." } },
+  { "Key": "WorkingHourDayInvalid", "LocalizedValue": { "en": "Invalid day of week.", "ar": "يوم الأسبوع غير صالح." } },
+  { "Key": "WorkingHourOrderInvalid", "LocalizedValue": { "en": "Working hour start time must be before end time.", "ar": "يجب أن يكون وقت بدء العمل قبل وقت الانتهاء." } },
+  { "Key": "WorkingHoursOverlap", "LocalizedValue": { "en": "Working hours cannot overlap on the same day.", "ar": "لا يمكن تداخل مواعيد العمل في اليوم نفسه." } },
   {
     "Key": "GeneralError",
     "LocalizedValue": {
