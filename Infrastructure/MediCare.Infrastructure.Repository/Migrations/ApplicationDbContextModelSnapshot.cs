@@ -4992,6 +4992,9 @@ namespace MediCare.Infrastructure.Repository.Migrations
                     b.Property<int>("ConsultationDurationMinutes")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("ConsultationFee")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 

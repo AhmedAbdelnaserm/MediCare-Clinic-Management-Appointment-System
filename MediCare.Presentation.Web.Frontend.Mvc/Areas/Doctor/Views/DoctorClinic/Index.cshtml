@@ -1,0 +1,73 @@
+@model List<MediCare.Application.BackEnd.Dto.DoctorDto.DoctorClinicSummaryDto>
+@{
+    ViewData["Title"] = "My Clinics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/doctor-clinics.css" />
+}
+
+<div class="doctor-clinics-page">
+    <section class="clinics-heading">
+        <div class="clinics-heading-copy">
+            <h1>My <span>Clinics</span></h1>
+            <p>View the clinics where you provide care, along with your consultation details and schedule.</p>
+        </div>
+    </section>
+
+    @if (ViewBag.Error is string error && !string.IsNullOrWhiteSpace(error))
+    {
+        <div class="clinics-alert" role="alert"><span aria-hidden="true">!</span>@error</div>
+    }
+
+    @if (Model.Count == 0)
+    {
+        <section class="clinics-empty-state">
+            <div class="empty-mark"><img src="~/images/logo.jpeg" alt="" /></div>
+            <h2>No clinic assignments yet</h2>
+            <p>When a clinic adds you to its care team, its details and appointment schedule will appear here.</p>
+        </section>
+    }
+    else
+    {
+        <section class="clinics-grid" aria-label="Assigned clinics">
+            @for (var index = 0; index < Model.Count; index++)
+            {
+                var clinic = Model[index];
+                <article class="clinic-card" style="--card-order:@index">
+                    <div class="clinic-title-row">
+                        <span class="clinic-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 9h.01M15 9h.01M9 12h.01M15 12h.01" /></svg></span>
+                        <h2>@clinic.ClinicName</h2>
+                    </div>
+
+                    <div class="clinic-contact-list">
+                        <div class="clinic-contact-item"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>@(string.IsNullOrWhiteSpace(clinic.Address) ? "Address not provided" : clinic.Address)</span></div>
+                        <div class="clinic-contact-item"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19a19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 3a2 2 0 0 1-.6 1.7L7.7 9.7a16 16 0 0 0 6.6 6.6l1.3-1.3a2 2 0 0 1 1.7-.6l3 .5a2 2 0 0 1 1.7 2Z"/></svg></span><span>@(string.IsNullOrWhiteSpace(clinic.PhoneNumber) ? "Phone not provided" : clinic.PhoneNumber)</span></div>
+                    </div>
+
+                    <div class="clinic-metrics">
+                        <div class="clinic-metric"><span>Consultation fee</span><strong>@clinic.ConsultationFee.ToString("N2")</strong></div>
+                        <div class="metric-divider"></div>
+                        <div class="clinic-metric"><span>Appointment</span><strong>@clinic.ConsultationDurationMinutes <small>min</small></strong></div>
+                    </div>
+
+                    <div class="clinic-schedule-heading"><span class="schedule-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>Working hours</h3><span class="schedule-count">@clinic.WorkingHours.Count day(s)</span></div>
+                    @if (clinic.WorkingHours.Count == 0)
+                    {
+                        <div class="schedule-empty">The clinic schedule has not been set yet.</div>
+                    }
+                    else
+                    {
+                        <div class="clinic-hours-list">
+                            @foreach (var hour in clinic.WorkingHours)
+                            {
+                                <div class="clinic-hour"><span class="hour-day">@hour.DayOfWeek</span><span class="hour-time">@hour.StartTime.ToString("HH:mm") <i>–</i> @hour.EndTime.ToString("HH:mm")</span></div>
+                            }
+                        </div>
+                    }
+                    <div class="clinic-card-accent"></div>
+                </article>
+            }
+        </section>
+    }
+</div>

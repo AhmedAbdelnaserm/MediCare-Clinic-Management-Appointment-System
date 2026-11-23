@@ -25,6 +25,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+    <partial name="~/Views/Shared/Partials/_PageLoader.cshtml" />
     <div class="dashboard-wrapper">
 
         <aside class="dashboard-sidebar">
@@ -44,6 +45,7 @@
     </div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

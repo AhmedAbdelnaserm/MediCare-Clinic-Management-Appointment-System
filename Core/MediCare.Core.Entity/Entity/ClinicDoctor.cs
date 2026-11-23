@@ -8,6 +8,7 @@ public class ClinicDoctor : BaseEntity
     public int ClinicId { get; set; }
     public int DoctorId { get; set; }
     public int ConsultationDurationMinutes { get; set; }
+    public decimal ConsultationFee { get; set; }
     public bool IsActive { get; set; } = true;
 
 

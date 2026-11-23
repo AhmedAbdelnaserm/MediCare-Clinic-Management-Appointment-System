@@ -23,6 +23,10 @@ namespace MediCare.Infrastructure.Repository.Repository
             var result = await FirstOrDefaultAsync(d => d.DoctorId == doctorId && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
             return result;
         }
+        public Task<Doctor?> GetDoctorByUserId(string userId, string includeProperties = "")
+        {
+            return FirstOrDefaultAsync(d => d.UserId == userId && d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted,string.IsNullOrWhiteSpace(includeProperties) ? DoctorIncludes : includeProperties);
+        }
         public async Task<List<Doctor>> GetDoctors(string includeProperties = "")
         {
             var result=await GetWhereAsync(d => d.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted, includeProperties == "" ? DoctorIncludes : includeProperties);
@@ -37,5 +41,7 @@ namespace MediCare.Infrastructure.Repository.Repository
         { return AppDbContext.Doctors.AnyAsync(doctor => doctor.DoctorId == doctorId && doctor.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted); }
         public Task<bool> SpecializationExists(int specializationId)
         { return AppDbContext.Specializations.AnyAsync(specialization => specialization.SpecializationId == specializationId); }
+        public Task<List<Specialization>> GetSpecializations()
+        { return AppDbContext.Specializations.AsNoTracking().OrderBy(specialization => specialization.EnName).ToListAsync(); }
     }
 }

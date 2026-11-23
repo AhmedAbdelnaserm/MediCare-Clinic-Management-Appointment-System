@@ -17,6 +17,7 @@ public class ClinicDoctorDto
     public string SpecializationName { get; set; } = string.Empty;
 
     public int ConsultationDurationMinutes { get; set; }
+    public decimal ConsultationFee { get; set; }
 
     public bool IsActive { get; set; }
 

@@ -28,7 +28,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var clinicDoctors = await UnitOfWork.ClinicDoctorRepository.GetByClinicId(staff.ClinicId);
 
@@ -44,7 +44,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var doctors = await UnitOfWork.DoctorRepository.GetDoctors("User,Specialization");
 
@@ -70,7 +70,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var clinicDoctor = await UnitOfWork.ClinicDoctorRepository.GetById(clinicDoctorId);
 
@@ -91,7 +91,10 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             return response.GetErrorResponse(Localization.InvalidDoctorId);
 
         if (request.ConsultationDurationMinutes <= default(int))
-            return response.GetErrorResponse("Consultation duration must be greater than zero.");
+            return response.GetErrorResponse(Localization.ConsultationDurationInvalid);
+
+        if (request.ConsultationFee < 0)
+            return response.GetErrorResponse(Localization.InvalidConsultationFee);
 
         var validationMessage = ValidateWorkingHours(request.WorkingHours);
 
@@ -101,7 +104,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var doctor = await UnitOfWork.DoctorRepository.GetDoctorById(request.DoctorId, "User,Specialization");
 
@@ -111,11 +114,22 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var existing = await UnitOfWork.ClinicDoctorRepository.GetByClinicAndDoctor(staff.ClinicId, request.DoctorId);
 
         if (existing != null && existing.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted && existing.IsActive)
-            return response.GetErrorResponse("This doctor is already assigned to your clinic.");
+            return response.GetErrorResponse(Localization.DoctorAlreadyAssigned);
 
-        await using var transaction = UnitOfWork.ClinicDoctorRepository.BeginTransaction();
+        await using var transaction = UnitOfWork.ClinicDoctorRepository.BeginScheduleUpdateTransaction();
         try
         {
+            var scheduleConflict = await ValidateNoOtherClinicOverlap(
+                doctor.DoctorId,
+                existing?.ClinicDoctorId ?? 0,
+                request.WorkingHours);
+
+            if (scheduleConflict != null)
+            {
+                await transaction.RollbackAsync();
+                return response.GetErrorResponse(scheduleConflict);
+            }
+
             var clinicDoctor = existing ?? new ClinicDoctor
             {
                 ClinicId = staff.ClinicId,
@@ -125,6 +139,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             };
 
             clinicDoctor.ConsultationDurationMinutes = request.ConsultationDurationMinutes;
+            clinicDoctor.ConsultationFee = request.ConsultationFee;
             clinicDoctor.IsActive = true;
             clinicDoctor.DeleteStatusId = (int)DeleteStatusEnum.NotDeleted;
             clinicDoctor.LastModifierUserId = CurrentUser.UserId;
@@ -172,7 +187,10 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             return response.GetErrorResponse(Localization.InvalidRequest);
 
         if (request.ConsultationDurationMinutes <= default(int))
-            return response.GetErrorResponse("Consultation duration must be greater than zero.");
+            return response.GetErrorResponse(Localization.ConsultationDurationInvalid);
+
+        if (request.ConsultationFee < 0)
+            return response.GetErrorResponse(Localization.InvalidConsultationFee);
 
         var validationMessage = ValidateWorkingHours(request.WorkingHours);
 
@@ -182,7 +200,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var clinicDoctor = await UnitOfWork.ClinicDoctorRepository.GetById(clinicDoctorId);
 
@@ -190,11 +208,23 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             return response.GetErrorResponse(Localization.NoDataFound);
 
 
-        await using var transaction = UnitOfWork.ClinicDoctorRepository.BeginTransaction();
+        await using var transaction = UnitOfWork.ClinicDoctorRepository.BeginScheduleUpdateTransaction();
 
         try
         {
+            var scheduleConflict = await ValidateNoOtherClinicOverlap(
+                clinicDoctor.DoctorId,
+                clinicDoctor.ClinicDoctorId,
+                request.WorkingHours);
+
+            if (scheduleConflict != null)
+            {
+                await transaction.RollbackAsync();
+                return response.GetErrorResponse(scheduleConflict);
+            }
+
             clinicDoctor.ConsultationDurationMinutes = request.ConsultationDurationMinutes;
+            clinicDoctor.ConsultationFee = request.ConsultationFee;
             clinicDoctor.LastModifierUserId = CurrentUser.UserId;
             clinicDoctor.LastModificationTime = DateTime.UtcNow;
 
@@ -232,7 +262,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
         var staff = await GetCurrentClinicStaff();
 
         if (staff == null)
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.ClinicAdminNotFound);
 
         var clinicDoctor = await UnitOfWork.ClinicDoctorRepository.GetById(clinicDoctorId);
 
@@ -414,18 +444,18 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             await UnitOfWork.SlotRepository.CreateListAsync(newSlots);
     }
 
-    private static string? ValidateWorkingHours(List<WorkingHourDto>? workingHours)
+    private string? ValidateWorkingHours(List<WorkingHourDto>? workingHours)
     {
         if (workingHours == null || workingHours.Count == 0)
-            return "At least one working hour is required.";
+            return Localization.WorkingHoursRequired;
 
         foreach (var hour in workingHours)
         {
             if (!Enum.IsDefined(typeof(DayOfWeek), hour.DayOfWeek))
-                return "Invalid day of week.";
+                return Localization.WorkingHourDayInvalid;
 
             if (hour.StartTime >= hour.EndTime)
-                return "Working hour start time must be before end time.";
+                return Localization.WorkingHourOrderInvalid;
         }
 
         var groupedHours = workingHours.GroupBy(x => x.DayOfWeek);
@@ -437,8 +467,36 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             for (var i = 1; i < ordered.Count; i++)
             {
                 if (ordered[i].StartTime < ordered[i - 1].EndTime)
-                    return "Working hours cannot overlap on the same day.";
+                    return Localization.WorkingHoursOverlap;
             }
+        }
+        return null;
+    }
+
+    private async Task<string?> ValidateNoOtherClinicOverlap(
+        int doctorId,
+        int currentClinicDoctorId,
+        List<WorkingHourDto> requestedHours)
+    {
+        var otherAssignments = await UnitOfWork.ClinicDoctorRepository.GetByDoctorId(
+            doctorId,
+            "WorkingHours");
+
+        var existingHours = otherAssignments
+            .Where(assignment => assignment.ClinicDoctorId != currentClinicDoctorId)
+            .SelectMany(assignment => assignment.WorkingHours)
+            .Where(hour => hour.DeleteStatusId == (int)DeleteStatusEnum.NotDeleted)
+            .ToList();
+
+        foreach (var requested in requestedHours)
+        {
+            var overlaps = existingHours.Any(existing =>
+                existing.DayOfWeek == requested.DayOfWeek &&
+                requested.StartTime < existing.EndTime &&
+                existing.StartTime < requested.EndTime);
+
+            if (overlaps)
+                return Localization.ScheduleOverlapError;
         }
 
         return null;
@@ -455,6 +513,7 @@ public class ClinicDoctorAppService : BaseAppService, IClinicDoctorAppService
             DoctorPhone = entity.Doctor?.User?.PhoneNumber ?? string.Empty,
             SpecializationName =entity.Doctor?.Specialization?.EnName ?? string.Empty,
             ConsultationDurationMinutes =entity.ConsultationDurationMinutes,
+            ConsultationFee = entity.ConsultationFee,
             IsActive = entity.IsActive,
             WorkingHours = entity.WorkingHours.Where(x =>x.DeleteStatusId ==(int)DeleteStatusEnum.NotDeleted)
                 .OrderBy(x => x.DayOfWeek)

@@ -15,6 +15,7 @@
 </head>
 <body>
 
+    <partial name="~/Views/Shared/Partials/_PageLoader.cshtml" />
     <partial name="~/Views/Shared/Partials/_PublicNavbar.cshtml" />
 
     <main>
@@ -24,6 +25,7 @@
     <partial name="~/Views/Shared/Partials/_Footer.cshtml" />
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
