@@ -50,12 +50,6 @@ public class DoctorsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Add(ClinicDoctorDto model)
     {
-        if (!ModelState.IsValid)
-        {
-            await LoadAvailableDoctors();
-            return View(model);
-        }
-
         var response = await ClinicDoctorService.AddDoctorToClinic(model);
 
         if (response.Code != ResultStatusEnum.Success)
@@ -90,9 +84,6 @@ public class DoctorsController : Controller
         int id,
         ClinicDoctorDto model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
-
         var response = await ClinicDoctorService.UpdateClinicDoctorSchedule(id, model);
 
         if (response.Code != ResultStatusEnum.Success)

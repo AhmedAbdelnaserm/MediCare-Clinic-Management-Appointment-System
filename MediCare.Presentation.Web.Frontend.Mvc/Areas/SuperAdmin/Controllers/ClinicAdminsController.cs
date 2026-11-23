@@ -3,7 +3,7 @@ using MediCare.Common.Dto;
 using MediCare.Common.Enum;
 using MediCare.IApplication.BackEnd.IAppService;
 using MediCare.IApplication.Identity.IAppService;
-using MediCare.Presentation.Web.Frontend.Mvc.Areas.SuperAdmin.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +15,13 @@ public class ClinicAdminsController : Controller
 {
     private readonly IClinicAdminAppService ClinicAdminService;
     private readonly IClinicAppService ClinicService;
+    private readonly IMapper Mapper;
 
-    public ClinicAdminsController(IClinicAdminAppService clinicAdminService, IClinicAppService clinicService)
+    public ClinicAdminsController(IClinicAdminAppService clinicAdminService, IClinicAppService clinicService, IMapper mapper)
     {
         ClinicAdminService = clinicAdminService;
         ClinicService = clinicService;
+        Mapper = mapper;
     }
 
     public async Task<IActionResult> Index()
@@ -38,29 +40,14 @@ public class ClinicAdminsController : Controller
     public async Task<IActionResult> Create()
     {
         await LoadClinics();
-        return View(new ClinicAdminFormViewModel());
+        return View(new CreateClinicAdminRequestDto());
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ClinicAdminFormViewModel model)
+    public async Task<IActionResult> Create(CreateClinicAdminRequestDto model)
     {
-        if (!ModelState.IsValid)
-        {
-            await LoadClinics();
-            return View(model);
-        }
-
-        var request = new CreateClinicAdminRequestDto
-        {
-            FullName = model.FullName,
-            Email = model.Email,
-            Password = model.Password!,
-            PhoneNumber = model.PhoneNumber,
-            ClinicId = model.ClinicId
-        };
-
-        var response = await ClinicAdminService.CreateClinicAdmin(request);
+        var response = await ClinicAdminService.CreateClinicAdmin(model);
 
         if (response.Code != ResultStatusEnum.Success)
         {
@@ -80,15 +67,7 @@ public class ClinicAdminsController : Controller
         if (response.Code != ResultStatusEnum.Success || response.Data == null)
             return NotFound();
 
-        var admin = response.Data;
-
-        var model = new ClinicAdminFormViewModel
-        {
-            FullName = admin.FullName,
-            Email = admin.Email,
-            PhoneNumber = admin.PhoneNumber,
-            ClinicId = admin.ClinicId
-        };
+        var model = Mapper.Map<UpdateClinicAdminRequestDto>(response.Data);
 
         ViewBag.UserId = id;
         await LoadClinics();
@@ -98,26 +77,9 @@ public class ClinicAdminsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string id, ClinicAdminFormViewModel model)
+    public async Task<IActionResult> Edit(string id, UpdateClinicAdminRequestDto model)
     {
-        ModelState.Remove(nameof(model.Password));
-
-        if (!ModelState.IsValid)
-        {
-            ViewBag.UserId = id;
-            await LoadClinics();
-            return View(model);
-        }
-
-        var request = new UpdateClinicAdminRequestDto
-        {
-            FullName = model.FullName,
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
-            ClinicId = model.ClinicId
-        };
-
-        var response = await ClinicAdminService.UpdateClinicAdmin(id, request);
+        var response = await ClinicAdminService.UpdateClinicAdmin(id, model);
 
         if (response.Code != ResultStatusEnum.Success)
         {

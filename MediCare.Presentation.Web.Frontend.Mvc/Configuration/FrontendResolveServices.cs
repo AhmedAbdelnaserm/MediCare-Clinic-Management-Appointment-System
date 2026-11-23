@@ -2,6 +2,7 @@
 using MediCare.Application.BackEnd.Localization;
 using MediCare.Application.Identity.AppService;
 using MediCare.Common.Interface;
+using MediCare.Application.Identity.Localization;
 using MediCare.IApplication.BackEnd.IAppService;
 using MediCare.Presentation.Web.Frontend.Mvc.Services;
 using MediCare.IApplication.Identity.IAppService;
@@ -27,9 +28,10 @@ public static class FrontendResolveServices
         services.AddAutoMapper(
             cfg => { },
             typeof(CityAppService).Assembly,
-            typeof(DoctorProfileViewMapping).Assembly
+            typeof(DoctorProfileViewMapping).Assembly,
+            typeof(FrontendResolveServices).Assembly
         );
-
+        services.AddScoped<ILocalizationService,LocalizationService>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 

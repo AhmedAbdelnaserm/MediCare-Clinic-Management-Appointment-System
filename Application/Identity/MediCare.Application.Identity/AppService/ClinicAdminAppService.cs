@@ -1,4 +1,6 @@
-﻿using MediCare.Application.Identity.Dto.ClinicAdminDto;
+using MediCare.Application.Identity.Dto.ClinicAdminDto;
+using MediCare.Application.Identity.Localization;
+using System.ComponentModel.DataAnnotations;
 using MediCare.Common.Dto;
 using MediCare.Common.Enum;
 using MediCare.Common.Interface;
@@ -16,14 +18,17 @@ public class ClinicAdminAppService : IClinicAdminAppService
     private readonly IUnitOfWork UnitOfWork;
     private readonly ILogger<ClinicAdminAppService> Logger;
     private readonly ICurrentUserService CurrentUser;
+    private readonly ILocalizationService Localization;
 
     public ClinicAdminAppService(UserManager<ApplicationUser> userManager,
-        IUnitOfWork unitOfWork, ILogger<ClinicAdminAppService> logger, ICurrentUserService currentUser)
+        IUnitOfWork unitOfWork, ILogger<ClinicAdminAppService> logger, ICurrentUserService currentUser,
+        ILocalizationService localization)
     {
         UserManager = userManager;
         UnitOfWork = unitOfWork;
         Logger = logger;
         CurrentUser = currentUser;
+        Localization = localization;
     }
 
     public async Task<ResponseDto<List<ClinicAdminDto>>> GetClinicAdmins()
@@ -53,7 +58,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
 
         if (staff == null ||
             !await UserManager.IsInRoleAsync(staff.User, nameof(UserRolesEnum.ClinicAdmin)))
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.NoDataFound);
 
         response.SetSuccessResponse(MapToDto(staff));
         return response;
@@ -64,16 +69,20 @@ public class ClinicAdminAppService : IClinicAdminAppService
     {
         var response = new ResponseDto<EmptyResponseDto>();
 
+        var validationErrors = ValidateRequest(request);
+        if (validationErrors.Count > 0)
+            return response.GetErrorResponse(Localization.InvalidRequest);
+
         var clinic = await UnitOfWork.ClinicRepository
             .FirstOrDefaultAsync(x => x.ClinicId == request.ClinicId);
 
         if (clinic == null)
-            return response.GetErrorResponse("Selected clinic was not found.");
+            return response.GetErrorResponse(Localization.NoDataFound);
 
         var existingUser = await UserManager.FindByEmailAsync(request.Email);
 
         if (existingUser != null)
-            return response.GetErrorResponse("Email is already registered.");
+            return response.GetErrorResponse(Localization.EmailOrUserNameAlreadyExist);
 
         var user = new ApplicationUser
         {
@@ -87,8 +96,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         var createResult = await UserManager.CreateAsync(user, request.Password);
 
         if (!createResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", createResult.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
 
         var roleResult = await UserManager.AddToRoleAsync(
             user, nameof(UserRolesEnum.ClinicAdmin));
@@ -97,8 +105,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         {
             await UserManager.DeleteAsync(user);
 
-            return response.GetErrorResponse(
-                string.Join(" ", roleResult.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
         }
 
         var clinicStaff = new ClinicStaff
@@ -119,10 +126,10 @@ public class ClinicAdminAppService : IClinicAdminAppService
             Logger.LogError(ex, "Failed to link ClinicAdmin to clinic.");
             await UserManager.DeleteAsync(user);
 
-            return response.GetErrorResponse("Could not create clinic admin.");
+            return response.GetErrorResponse(Localization.GeneralError);
         }
 
-        return response.GetSuccessResponse("Clinic admin created successfully.");
+        return response.GetSuccessResponse(Localization.GeneralSuccess);
     }
 
     public async Task<ResponseDto<EmptyResponseDto>> UpdateClinicAdmin(
@@ -131,41 +138,42 @@ public class ClinicAdminAppService : IClinicAdminAppService
     {
         var response = new ResponseDto<EmptyResponseDto>();
 
+        var validationErrors = ValidateRequest(request);
+        if (validationErrors.Count > 0)
+            return response.GetErrorResponse(Localization.InvalidRequest);
+
         var staff = await UnitOfWork.ClinicStaffRepository.GetByUserId(userId);
 
         if (staff == null ||
             !await UserManager.IsInRoleAsync(staff.User, nameof(UserRolesEnum.ClinicAdmin)))
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.NoDataFound);
 
         var clinic = await UnitOfWork.ClinicRepository
             .FirstOrDefaultAsync(x => x.ClinicId == request.ClinicId);
 
         if (clinic == null)
-            return response.GetErrorResponse("Selected clinic was not found.");
+            return response.GetErrorResponse(Localization.NoDataFound);
 
         var normalizedEmail = request.Email.Trim();
         var existingUser = await UserManager.FindByEmailAsync(normalizedEmail);
 
         if (existingUser != null && existingUser.Id != userId)
-            return response.GetErrorResponse("Email is already used by another account.");
+            return response.GetErrorResponse(Localization.EmailOrUserNameAlreadyExist);
 
         staff.User.FullName = request.FullName.Trim();
         staff.User.PhoneNumber = request.PhoneNumber;
 
         var emailResult = await UserManager.SetEmailAsync(staff.User, normalizedEmail);
         if (!emailResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", emailResult.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
 
         var usernameResult = await UserManager.SetUserNameAsync(staff.User, normalizedEmail);
         if (!usernameResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", usernameResult.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
 
         var userResult = await UserManager.UpdateAsync(staff.User);
         if (!userResult.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(" ", userResult.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
 
         staff.ClinicId = request.ClinicId;
         staff.LastModificationTime = DateTime.UtcNow;
@@ -174,7 +182,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         UnitOfWork.ClinicStaffRepository.Update(staff);
         await UnitOfWork.Commit();
 
-        return response.GetSuccessResponse("Clinic admin updated successfully.");
+        return response.GetSuccessResponse(Localization.GeneralSuccess);
     }
 
     public async Task<ResponseDto<EmptyResponseDto>> SetClinicAdminStatus(string userId, bool isActive)
@@ -186,7 +194,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         if (staff == null ||
             !await UserManager.IsInRoleAsync(
                 staff.User, nameof(UserRolesEnum.ClinicAdmin)))
-            return response.GetErrorResponse("Clinic admin was not found.");
+            return response.GetErrorResponse(Localization.NoDataFound);
 
         staff.User.LockoutEnabled = true;
 
@@ -197,8 +205,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         var result = await UserManager.UpdateAsync(staff.User);
 
         if (!result.Succeeded)
-            return response.GetErrorResponse(
-                string.Join(", ", result.Errors.Select(x => x.Description)));
+            return response.GetErrorResponse(Localization.GeneralError);
 
         staff.LastModificationTime = DateTime.UtcNow;
         staff.LastModifierUserId = CurrentUser.UserId;
@@ -206,9 +213,7 @@ public class ClinicAdminAppService : IClinicAdminAppService
         UnitOfWork.ClinicStaffRepository.Update(staff);
         await UnitOfWork.Commit();
 
-        return response.GetSuccessResponse(
-            isActive ? "Clinic admin activated successfully."
-                     : "Clinic admin deactivated successfully.");
+        return response.GetSuccessResponse(Localization.GeneralSuccess);
     }
 
     private static ClinicAdminDto MapToDto(ClinicStaff staff)
@@ -226,5 +231,17 @@ public class ClinicAdminAppService : IClinicAdminAppService
             ClinicName = staff.Clinic.EnName,
             IsActive = isActive
         };
+    }
+    private List<string> ValidateRequest(object? request)
+    {
+        if (request == null)
+            return [Localization.InvalidRequest];
+
+        var validationResults = new List<ValidationResult>();
+        Validator.TryValidateObject(request, new ValidationContext(request), validationResults, validateAllProperties: true);
+
+        return validationResults
+            .Select(result => result.ErrorMessage ?? Localization.InvalidRequest)
+            .ToList();
     }
 }
